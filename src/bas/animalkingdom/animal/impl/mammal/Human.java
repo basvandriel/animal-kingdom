@@ -1,9 +1,6 @@
-package bas.animalkingdom.animal.impl.mammal.human;
+package bas.animalkingdom.animal.impl.mammal;
 
 import bas.animalkingdom.animal.gender.Gender;
-import bas.animalkingdom.animal.impl.mammal.Mammal;
-
-import java.io.StringReader;
 
 class Human extends Mammal {
 
@@ -15,17 +12,17 @@ class Human extends Mammal {
     /**
      * The last name of the {@link Human}
      */
-    private String lastName;
+    public String lastName;
+
+    /**
+     * TODO: What should this variable be?
+     */
+    public String insertion;
 
     /**
      * The partner (married) of this {@link Human}
      */
     private Human partner;
-
-    /**
-     * TODO: What should this variable be?
-     */
-    private String insertion;
 
     /**
      * @param gender Gender
