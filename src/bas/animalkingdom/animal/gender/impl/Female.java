@@ -1,10 +1,7 @@
 package bas.animalkingdom.animal.gender.impl;
 
-import bas.animalkingdom.egg.Egg;
+import bas.animalkingdom.animal.Egg;
 
-/**
- * Created by Bas on 20-9-2016.
- */
 public class Female {
 
     /**

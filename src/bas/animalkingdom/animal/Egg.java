@@ -1,4 +1,4 @@
-package bas.animalkingdom.egg;
+package bas.animalkingdom.animal;
 
 /**
  * Created by Bas on 20-9-2016.
