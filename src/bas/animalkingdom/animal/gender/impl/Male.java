@@ -1,4 +1,4 @@
-package bas.animalkingdom.animal.gender.male;
+package bas.animalkingdom.animal.gender.impl;
 
 import bas.animalkingdom.animal.gender.Gender;
 

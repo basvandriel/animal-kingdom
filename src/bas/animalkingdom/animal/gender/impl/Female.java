@@ -1,4 +1,4 @@
-package bas.animalkingdom.animal.gender.female;
+package bas.animalkingdom.animal.gender.impl;
 
 import bas.animalkingdom.egg.Egg;
 
@@ -7,6 +7,10 @@ import bas.animalkingdom.egg.Egg;
  */
 public class Female {
 
+    /**
+     *
+     * @return Produces an {@link Egg}
+     */
     public Egg produceEgg() {
         return new Egg();
     }
