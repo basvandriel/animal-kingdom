@@ -22,8 +22,13 @@ public class Zoo {
      */
     private ArrayList<Cage> cages;
 
+    public Zoo(String name, ArrayList<Cage> cages) {
+        this.name = name;
+        this.cages = cages;
+    }
+
     public Zoo getInstance(String zoo) {
-        return new Zoo();
+        return this;
     }
 
     public Zoo getInstance() {
