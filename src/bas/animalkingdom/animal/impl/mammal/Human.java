@@ -2,6 +2,8 @@ package bas.animalkingdom.animal.impl.mammal;
 
 import bas.animalkingdom.animal.gender.Gender;
 
+import java.util.ArrayList;
+
 class Human extends Mammal {
 
     /**
@@ -31,15 +33,57 @@ class Human extends Mammal {
         super(gender);
     }
 
+
     /**
-     * @param human
-     * @return boolean
+     *
      */
-    public boolean isMarriedToHuman(Human human) {
-        return this.getPartner() == human.getPartner();
+    public void makeLove() {
+
     }
 
-    public Human getPartner() {
-        return this.partner;
+    /**
+     *
+     */
+    public void makeLove(Human partner) {
+    }
+
+    /**
+     *
+     */
+    private void marriageLove() {
+
+    }
+
+    /**
+     *
+     */
+    private void adulteryLove(Human lover) {
+
+    }
+
+    /**
+     *
+     */
+    public boolean mary(Human partner) {
+        return false;
+    }
+
+    /**
+     *
+     */
+    public boolean isMarried() {
+        return false;
+    }
+
+    /**
+     *
+     */
+    public void divorce() {
+
+    }
+
+    @Override
+    public void suckle(ArrayList<Mammal> babies) {
+
     }
 }

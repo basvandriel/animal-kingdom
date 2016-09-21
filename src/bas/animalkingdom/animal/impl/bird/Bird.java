@@ -4,7 +4,7 @@ import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.gender.Gender;
 
 
-public class Bird extends Animal implements IBird{
+public abstract class Bird extends Animal implements IBird {
 
     public Bird(Gender gender) {
         super(gender);

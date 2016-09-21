@@ -1,6 +1,9 @@
 package bas.animalkingdom.animal;
 
 import bas.animalkingdom.animal.gender.Gender;
+import com.sun.scenario.animation.shared.AnimationAccessor;
+
+import java.util.ArrayList;
 
 public abstract class Animal {
 
@@ -31,9 +34,38 @@ public abstract class Animal {
 
     /**
      *
+     */
+    protected int maxNumberOfEggs;
+
+    /**
      * @param gender {@link Gender} adf
      */
     public Animal(Gender gender) {
         this.gender = gender;
     }
+
+    public String communicate() {
+        return "";
+    }
+
+    public void propagate(Animal partner) {
+
+    }
+
+    public boolean isPregnant() {
+        return false;
+    }
+
+    public ArrayList<Egg> giveBirth() {
+
+
+        ArrayList<Egg> eggs = new ArrayList<>();
+        eggs.add(new Egg());
+        return eggs;
+    }
+
+    public boolean isFemale() {
+        return false;
+    }
+
 }
