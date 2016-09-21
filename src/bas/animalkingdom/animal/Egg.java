@@ -5,4 +5,8 @@ package bas.animalkingdom.animal;
  */
 public class Egg {
 
+    /**
+     * The possible s{@link Animal} contained in this egg
+     */
+    private Animal embryo;
 }
