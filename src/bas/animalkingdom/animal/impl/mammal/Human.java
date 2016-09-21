@@ -15,7 +15,7 @@ class Human extends Mammal {
     public String lastName;
 
     /**
-     * TODO: What should this variable be?
+     * The middle name of the {@link Human}
      */
     public String insertion;
 
@@ -32,9 +32,7 @@ class Human extends Mammal {
     }
 
     /**
-     *
      * @param human
-     *
      * @return boolean
      */
     public boolean isMarriedToHuman(Human human) {
