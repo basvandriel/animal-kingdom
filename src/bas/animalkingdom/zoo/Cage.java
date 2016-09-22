@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Cage {
 
-    private Animal[] cagedAnimals;
+    private ArrayList<Animal> cagedAnimals;
 
     public Animal selectAnimal() {
         return new Crocodile(new Male());
@@ -28,8 +28,7 @@ public class Cage {
     }
 
     public ArrayList<Animal> getCagedAnimals() {
-        ArrayList<Animal> animals = new ArrayList<>();
-        return animals;
+        return this.cagedAnimals;
     }
 
     public void addReptileEggs(ArrayList<Egg> reptileEggs) {

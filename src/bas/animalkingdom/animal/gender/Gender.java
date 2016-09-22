@@ -32,7 +32,7 @@ public abstract class Gender {
     }
 
     public void setGenderOwner(Animal owner) {
-
+        this.genderOwner = owner;
     }
 
 }
