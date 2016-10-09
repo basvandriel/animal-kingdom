@@ -15,6 +15,11 @@ public class Parrot extends Bird {
     }
 
     @Override
+    public String communicate() {
+        return null;
+    }
+
+    @Override
     public ArrayList<Egg> layEggs() {
         return null;
     }

@@ -44,9 +44,11 @@ public abstract class Animal {
         this.gender = gender;
     }
 
-    public String communicate() {
-        return "";
-    }
+    /**
+     *
+     * @return
+     */
+    public abstract String communicate();
 
     public void propagate(Animal partner) {
 

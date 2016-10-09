@@ -14,6 +14,11 @@ public class Crocodile extends Reptile {
     }
 
     @Override
+    public String communicate() {
+        return null;
+    }
+
+    @Override
     public String crawl() {
         return null;
     }

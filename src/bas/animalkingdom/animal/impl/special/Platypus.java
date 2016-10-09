@@ -1,6 +1,8 @@
 package bas.animalkingdom.animal.impl.special;
 
+import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
+import bas.animalkingdom.animal.gender.Gender;
 import bas.animalkingdom.animal.impl.bird.IBird;
 import bas.animalkingdom.animal.impl.mammal.IMammal;
 import bas.animalkingdom.animal.impl.mammal.Mammal;
@@ -11,7 +13,14 @@ import java.util.ArrayList;
 /**
  * Created by Bas on 20-9-2016.
  */
-public class Platypus implements IBird, IMammal, IReptile {
+public class Platypus extends Animal implements IBird, IMammal, IReptile {
+    /**
+     * @param gender {@link Gender} adf
+     */
+    public Platypus(Gender gender) {
+        super(gender);
+    }
+
     @Override
     public void suckle(ArrayList<Mammal> babies) {
 
@@ -35,5 +44,10 @@ public class Platypus implements IBird, IMammal, IReptile {
     @Override
     public void hatchEggs(ArrayList<Egg> layedEggs) {
 
+    }
+
+    @Override
+    public String communicate() {
+        return null;
     }
 }

@@ -15,6 +15,11 @@ public class Mouse extends Mammal {
     }
 
     @Override
+    public String communicate() {
+        return null;
+    }
+
+    @Override
     public void suckle(ArrayList<Mammal> babies) {
 
     }

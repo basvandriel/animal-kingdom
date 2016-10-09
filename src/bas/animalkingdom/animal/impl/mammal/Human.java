@@ -33,6 +33,11 @@ class Human extends Mammal {
         super(gender);
     }
 
+    @Override
+    public String communicate() {
+        return null;
+    }
+
 
     /**
      *

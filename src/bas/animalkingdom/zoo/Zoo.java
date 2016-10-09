@@ -32,7 +32,7 @@ public class Zoo {
     }
 
     public Zoo getInstance() {
-        return new Zoo();
+        return this;
     }
 
     public boolean addCage(Cage cage) {

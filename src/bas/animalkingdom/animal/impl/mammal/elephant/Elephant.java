@@ -21,4 +21,9 @@ public class Elephant extends Mammal {
     public void suckle(ArrayList<Mammal> babies) {
 
     }
+
+    @Override
+    public String communicate() {
+        return null;
+    }
 }
