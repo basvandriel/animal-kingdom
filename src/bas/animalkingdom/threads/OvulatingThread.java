@@ -1,51 +1,49 @@
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2016 Bas van Driel
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- * documentation files (the "Software"), to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
- * to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of
- * the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
- * THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- */
 package bas.animalkingdom.threads;
 
 import bas.animalkingdom.animal.gender.impl.Female;
 
 /**
- * TODO Write a description for the OvulatingThread class
- *
- * @author Bas van Driel <contact@basvandriel.nl>
- * @version 1.0
- * @license MIT
+ * A {@link OvulatingThread}.
  */
 public class OvulatingThread extends Thread {
 
     /**
-     *
+     * The initial delay for the {@link OvulatingThread}.
      */
     private int initialDelay;
 
     /**
-     *
+     * The {@link Female} for the {@link OvulatingThread}.
      */
     private Female female;
 
+
     /**
+     * Creates a new {@link OvulatingThread}.
      *
-     * @param female
+     * @param initialDelay The initial delay for the {@link OvulatingThread}.
+     * @param female       The {@link Female} for the {@link OvulatingThread}.
      */
-    public OvulatingThread(Female female) {
+    public OvulatingThread(int initialDelay, Female female) {
+        this.initialDelay = initialDelay;
         this.female = female;
     }
 
+    /**
+     * Retrieves the initial delay for the {@link OvulatingThread}.
+     *
+     * @return the initial delay for the {@link OvulatingThread}.
+     */
+    public int getInitialDelay() {
+        return initialDelay;
+    }
+
+    /**
+     * Retrieves the {@link Female} for the {@link OvulatingThread}.
+     *
+     * @return The {@link Female} for the {@link OvulatingThread}.
+     */
+    public Female getFemale() {
+        return female;
+    }
 }
