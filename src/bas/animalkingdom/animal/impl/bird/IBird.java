@@ -1,24 +1,27 @@
 package bas.animalkingdom.animal.impl.bird;
 
+import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.IEggLayer;
 
 import java.util.ArrayList;
 
 /**
- * Created by Bas on 20-9-2016.
+ * An {@link IBird} interface for an {@link Animal} who is a {@link Bird}.
  */
 public interface IBird extends IEggLayer {
 
     /**
+     * Resolves the flying of the {@link IBird}
      *
-     * @return fly
+     * @return The flying of the {@link IBird}
      */
     public String fly();
 
     /**
+     * Hatches the laid eggs
      *
-     * @param layedEggs The layed eggs
+     * @param layedEggs The laid eggs
      */
     public void hatchEggs(ArrayList<Egg> layedEggs);
 }
