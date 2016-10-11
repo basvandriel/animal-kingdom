@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public interface IMammal {
 
     /**
-     * Suckles the The {@link Mammal} {@link Animal} babies to suckle
+     * Suckles the {@link Mammal} {@link Animal} babies
      *
      * @param babies The {@link Mammal} {@link Animal} babies
      */

@@ -40,7 +40,7 @@ public abstract class Mammal extends Animal implements IMammal {
      */
     public ArrayList<IMammal> getBabies() {
         ArrayList<IMammal> babies = new ArrayList<>();
-        babies.add(new Human(new Male()));
+        //babies.add(new Human(new Male()));
         return babies;
     }
 }
