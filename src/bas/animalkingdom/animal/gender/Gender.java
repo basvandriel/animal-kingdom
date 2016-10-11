@@ -6,6 +6,9 @@ import bas.animalkingdom.animal.Egg;
 
 import java.util.ArrayList;
 
+/**
+ * A {@link Gender}
+ */
 public abstract class Gender {
 
     /**
@@ -13,26 +16,50 @@ public abstract class Gender {
      */
     private Animal genderOwner;
 
-    public boolean isPregnant() {
-        return false;
-    }
+    /**
+     * Checks if the {@link Animal} is pregnant or not.
+     *
+     * @return If the {@link Animal} is pregnant or not.
+     */
+    public abstract boolean isPregnant();
 
-    public void propagate(Animal parent1, Animal parent2) {
+    /**
+     * Propagates with 2 {@link Animal}s.
+     *
+     * @param parent1 The first {@link Animal} to propagate with.
+     * @param parent2 The second {@link Animal} to propagate with.
+     */
+    public abstract void propagate(Animal parent1, Animal parent2);
 
-    }
+    /**
+     * The birth of the {@link Animal}.
+     *
+     * @return The {@link Egg}s from the birth of the {@link Animal}.
+     */
+    public abstract ArrayList<Egg> giveBirth();
 
-    public ArrayList<Egg> giveBirth() {
-        ArrayList<Egg> eggs = new ArrayList<>();
-        eggs.add(new Egg());
-        return eggs;
-    }
+    /**
+     * Checks if the {@link Gender} is a female.
+     *
+     * @return If the {@link Gender} is a female.
+     */
+    public abstract boolean isFemale();
 
-    public boolean isFemale() {
-        return false;
-    }
-
+    /**
+     * Sets the {@link Animal} belonging to this {@link Gender}
+     *
+     * @param owner The {@link Animal} belonging to this {@link Gender}
+     */
     public void setGenderOwner(Animal owner) {
         this.genderOwner = owner;
     }
 
+    /**
+     * Retrieves the {@link Animal} belonging to this {@link Gender}.
+     *
+     * @return The {@link Animal} belonging to this {@link Gender}.
+     */
+    public Animal getGenderOwner() {
+        return genderOwner;
+    }
 }
