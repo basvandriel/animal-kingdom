@@ -32,9 +32,9 @@ public abstract class Gender {
     public abstract void propagate(Animal parent1, Animal parent2);
 
     /**
-     * The birth of the {@link Animal}.
+     * The birth of the {@link Gender}.
      *
-     * @return The {@link Egg}s from the birth of the {@link Animal}.
+     * @return The {@link Egg}s from the birth of the {@link Gender}.
      */
     public abstract ArrayList<Egg> giveBirth();
 
