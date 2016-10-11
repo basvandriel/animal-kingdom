@@ -11,14 +11,22 @@ import bas.animalkingdom.animal.impl.reptile.IReptile;
 import java.util.ArrayList;
 
 /**
- * Created by Bas on 20-9-2016.
+ * A special {@link Platypus} {@link Animal}.
  */
 public class Platypus extends Animal implements IBird, IMammal, IReptile {
+
     /**
-     * @param gender {@link Gender} adf
+     * Creates a new {@link Platypus} {@link Animal}.
+     *
+     * @param gender          The {@link Gender} of the {@link Platypus} {@link Animal}.
+     * @param bodyCovering    The body covering of the {@link Platypus} {@link Animal}.
+     * @param name            The name of the {@link Platypus} {@link Animal}.
+     * @param color           The color of the {@link Platypus} {@link Animal}.
+     * @param weight          The weight of the {@link Platypus} {@link Animal}.
+     * @param maxNumberOfEggs The max number of eggs of the {@link Platypus} {@link Animal}.
      */
-    public Platypus(Gender gender) {
-        super(gender);
+    public Platypus(Gender gender, String bodyCovering, String name, String color, int weight, int maxNumberOfEggs) {
+        super(gender, bodyCovering, name, color, weight, maxNumberOfEggs);
     }
 
     @Override
@@ -31,23 +39,44 @@ public class Platypus extends Animal implements IBird, IMammal, IReptile {
         return null;
     }
 
-    @Override
-    public ArrayList<Egg> layEggs() {
-        return null;
-    }
 
-    @Override
-    public String fly() {
-        return null;
-    }
-
+    /**
+     * Hatches the laid eggs
+     *
+     * @param layedEggs The laid eggs
+     */
     @Override
     public void hatchEggs(ArrayList<Egg> layedEggs) {
 
     }
 
+    /**
+     * Resolves the string how the {@link Platypus} communicates
+     *
+     * @return The string how the {@link Platypus} communicates
+     */
     @Override
     public String communicate() {
+        return null;
+    }
+
+    /**
+     * Lay eggs
+     *
+     * @return eggs The eggs that has been laid.
+     */
+    @Override
+    public ArrayList<Egg> layEggs() {
+        return null;
+    }
+
+    /**
+     * Resolves the flying of the {@link Platypus}
+     *
+     * @return The flying of the {@link Platypus}
+     */
+    @Override
+    public String fly() {
         return null;
     }
 }
