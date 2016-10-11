@@ -6,6 +6,9 @@ import bas.animalkingdom.animal.gender.Gender;
 
 import java.util.ArrayList;
 
+/**
+ * A {@link Female} {@link Gender}
+ */
 public class Female extends Gender {
 
     /**
