@@ -29,11 +29,21 @@ public class Platypus extends Animal implements IBird, IMammal, IReptile {
         super(gender, bodyCovering, name, color, weight, maxNumberOfEggs);
     }
 
+    /**
+     * Suckles the The {@link Mammal} {@link Animal} babies to suckle
+     *
+     * @param babies The {@link Mammal} {@link Animal} babies
+     */
     @Override
     public void suckle(ArrayList<Mammal> babies) {
 
     }
 
+    /**
+     * Resolves the crawling of the {@link Platypus} {@link IReptile}
+     *
+     * @return The crawling of the {@link Platypus} {@link IReptile}
+     */
     @Override
     public String crawl() {
         return null;
