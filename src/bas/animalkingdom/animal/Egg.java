@@ -1,24 +1,40 @@
 package bas.animalkingdom.animal;
 
 /**
- * Created by Bas on 20-9-2016.
+ * An {@link Egg}
  */
 public class Egg {
 
     /**
-     * The possible s{@link Animal} contained in this egg
+     * The possible embryo (possible {@link Animal}) contained in this egg
      */
     private Animal embryo;
 
+    /**
+     * Checks if the {@link Egg} is inseminated or not
+     *
+     * @return If the {@link Egg} is inseminated or not
+     */
     public boolean isInseminated() {
         return false;
     }
 
+    /**
+     * Inseminates this {@link Egg} by 2 {@link Animal}s.
+     *
+     * @param parent1 The first {@link Animal} parent.
+     * @param parent2 The second {@link Animal} parent.
+     */
     public void inseminate(Animal parent1, Animal parent2) {
 
     }
 
-    public void getEmbryo() {
-
+    /**
+     * Retrieves the possible embryo (possible {@link Animal}) contained in this egg.
+     *
+     * @return The possible embryo (possible {@link Animal}) contained in this egg.
+     */
+    public Animal getEmbryo() {
+        return this.embryo;
     }
 }
