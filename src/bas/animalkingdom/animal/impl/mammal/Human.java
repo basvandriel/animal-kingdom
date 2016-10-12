@@ -11,7 +11,7 @@ import java.util.ArrayList;
 class Human extends Mammal {
 
     /**
-     * A identiefier if the {@link Human} uses birth control
+     * If the {@link Human} uses birth control
      */
     private boolean usesBirthControl;
 
@@ -56,48 +56,56 @@ class Human extends Mammal {
 
 
     /**
-     *
+     * Makes love
      */
     public void makeLove() {
 
     }
 
     /**
+     * Makes love to another {@link Human} partner
      *
+     * @param partner The {@link Human} partner to make love to
      */
     public void makeLove(Human partner) {
     }
 
     /**
-     *
+     * Married love
      */
     private void marriageLove() {
 
     }
 
     /**
+     * Makes adultery love to another {@link Human} partner (lover)
      *
+     * @param lover The {@link Human} partner (lover) to make love to
      */
     private void adulteryLove(Human lover) {
 
     }
 
     /**
+     * Marries to another {@link Human}
      *
+     * @param partner The {@link Human} to marry to
      */
     public boolean mary(Human partner) {
         return false;
     }
 
     /**
+     * Checks if the {@link Human} is married
      *
+     * @return if the {@link Human} is married
      */
     public boolean isMarried() {
         return false;
     }
 
     /**
-     *
+     * Divorces the marriage
      */
     public void divorce() {
 
@@ -111,5 +119,77 @@ class Human extends Mammal {
     @Override
     public void suckle(ArrayList<Mammal> babies) {
 
+    }
+
+    /**
+     * Sets if the {@link Human} uses birth control
+     *
+     * @param usesBirthControl If the {@link Human} uses birth control
+     */
+    public void setUsesBirthControl(boolean usesBirthControl) {
+        this.usesBirthControl = usesBirthControl;
+    }
+
+    /**
+     * Sets the last name of the {@link Human}
+     *
+     * @param lastName The last name of the {@link Human}
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    /**
+     * Sets the middle name of the {@link Human}
+     *
+     * @param insertion The middle name of the {@link Human}
+     */
+    public void setInsertion(String insertion) {
+        this.insertion = insertion;
+    }
+
+    /**
+     * Sets the partner (married) of this {@link Human}
+     *
+     * @param partner The partner (married) of this {@link Human}
+     */
+    public void setPartner(Human partner) {
+        this.partner = partner;
+    }
+
+    /**
+     * Retrieves if the {@link Human} uses birth control
+     *
+     * @return if the {@link Human} uses birth control
+     */
+    public boolean isUsesBirthControl() {
+        return usesBirthControl;
+    }
+
+    /**
+     * Retrieves the last name of the {@link Human}
+     *
+     * @return The last name of the {@link Human}
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * Retrieves the middle name of the {@link Human}
+     *
+     * @return The middle name of the {@link Human}
+     */
+    public String getInsertion() {
+        return insertion;
+    }
+
+    /**
+     * Retrieves the partner (married) of this {@link Human}
+     *
+     * @return The partner (married) of this {@link Human}
+     */
+    public Human getPartner() {
+        return partner;
     }
 }
