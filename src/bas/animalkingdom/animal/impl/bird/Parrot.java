@@ -33,7 +33,7 @@ public class Parrot extends Bird {
      */
     @Override
     public String communicate() {
-        return null;
+        return "Parrot sounddddd";
     }
 
     /**

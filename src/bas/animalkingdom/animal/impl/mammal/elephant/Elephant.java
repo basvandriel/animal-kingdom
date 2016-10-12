@@ -40,6 +40,7 @@ public class Elephant extends Mammal {
     public void suckle(ArrayList<Mammal> babies) {
 
     }
+
     /**
      * Resolves the string how the {@link Elephant} communicates
      *
@@ -47,7 +48,7 @@ public class Elephant extends Mammal {
      */
     @Override
     public String communicate() {
-        return null;
+        return "*loud air-horn sound*";
     }
 
     /**

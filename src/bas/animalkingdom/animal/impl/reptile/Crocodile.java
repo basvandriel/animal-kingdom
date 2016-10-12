@@ -32,7 +32,7 @@ public class Crocodile extends Reptile {
      */
     @Override
     public String communicate() {
-        return null;
+        return "GRRRRR CROCODILEELEELE";
     }
 
     /**

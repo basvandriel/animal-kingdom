@@ -22,4 +22,14 @@ public class GrayMouse extends Mouse {
     public GrayMouse(Gender gender, String bodyCovering, String name, String color, int weight, int maxNumberOfEggs) {
         super(gender, bodyCovering, name, color, weight, maxNumberOfEggs);
     }
+
+    /**
+     * Resolves the string how the {@link GrayMouse} communicates
+     *
+     * @return The string how the {@link GrayMouse} communicates
+     */
+    @Override
+    public String communicate() {
+        return "*gray mouse sound*";
+    }
 }

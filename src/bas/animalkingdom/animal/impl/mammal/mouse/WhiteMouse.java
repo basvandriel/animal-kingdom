@@ -22,4 +22,14 @@ public class WhiteMouse extends Mouse {
     public WhiteMouse(Gender gender, String bodyCovering, String name, String color, int weight, int maxNumberOfEggs) {
         super(gender, bodyCovering, name, color, weight, maxNumberOfEggs);
     }
+
+    /**
+     * Resolves the string how the {@link WhiteMouse} communicates
+     *
+     * @return The string how the {@link WhiteMouse} communicates
+     */
+    @Override
+    public String communicate() {
+        return "*white mouse sound*";
+    }
 }

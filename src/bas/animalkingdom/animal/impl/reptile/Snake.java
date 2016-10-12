@@ -31,7 +31,7 @@ public class Snake extends Reptile {
      */
     @Override
     public String communicate() {
-        return null;
+        return "SSSSSSSSSSSSSSSSSSSSSSSSSNAKE";
     }
 
     /**

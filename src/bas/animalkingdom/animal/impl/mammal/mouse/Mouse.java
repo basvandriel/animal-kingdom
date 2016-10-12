@@ -32,7 +32,7 @@ public class Mouse extends Mammal {
      */
     @Override
     public String communicate() {
-        return null;
+        return "*mouse sound*";
     }
 
     /**

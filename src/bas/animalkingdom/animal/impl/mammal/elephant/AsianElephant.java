@@ -24,4 +24,14 @@ public class AsianElephant extends Elephant {
     public AsianElephant(Gender gender, String bodyCovering, String name, String color, int weight, int maxNumberOfEggs, int earSize) {
         super(gender, bodyCovering, name, color, weight, maxNumberOfEggs, earSize);
     }
+
+    /**
+     * Resolves the string how the {@link AsianElephant} communicates
+     *
+     * @return The string how the {@link AsianElephant} communicates
+     */
+    @Override
+    public String communicate() {
+        return "*asian loud air-horn sound*";
+    }
 }

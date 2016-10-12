@@ -67,7 +67,7 @@ public class Platypus extends Animal implements IBird, IMammal, IReptile {
      */
     @Override
     public String communicate() {
-        return null;
+        return "PRRRRRRRRRR platypus";
     }
 
     /**

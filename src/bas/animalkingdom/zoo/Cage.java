@@ -2,10 +2,6 @@ package bas.animalkingdom.zoo;
 
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
-import bas.animalkingdom.animal.gender.impl.Male;
-import bas.animalkingdom.animal.impl.mammal.Mammal;
-import bas.animalkingdom.animal.impl.reptile.Crocodile;
-import com.sun.scenario.animation.shared.AnimationAccessor;
 
 import java.util.ArrayList;
 
@@ -26,7 +22,7 @@ public class Cage {
      * @return A {@link Animal} in this {@link Cage}.
      */
     public Animal selectAnimal() {
-        return new Crocodile(new Male());
+        return this.cagedAnimals.get(this.cagedAnimals.size() - 1);
     }
 
     /**

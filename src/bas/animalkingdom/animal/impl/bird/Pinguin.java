@@ -31,7 +31,7 @@ public class Pinguin extends Bird {
      */
     @Override
     public String communicate() {
-        return null;
+        return "What does a pinguin even say?";
     }
 
     /**
