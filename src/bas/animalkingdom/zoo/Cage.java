@@ -12,9 +12,19 @@ import java.util.ArrayList;
 public class Cage {
 
     /**
+     * The type of animals for this {@link Cage}
+     */
+    private Class<? extends Animal> type;
+
+    /**
      * The caged {@link Animal}s in this {@link Cage}.
      */
     private ArrayList<Animal> cagedAnimals;
+
+    public Cage(Class<? extends Animal> type) {
+        this.type = type;
+        this.cagedAnimals = new ArrayList<>();
+    }
 
     /**
      * Selects a {@link Animal} in this {@link Cage}.

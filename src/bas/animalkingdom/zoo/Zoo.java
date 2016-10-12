@@ -2,6 +2,7 @@ package bas.animalkingdom.zoo;
 
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
+import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -11,6 +12,11 @@ import java.util.TreeSet;
  * A {@link Zoo}
  */
 public class Zoo {
+
+    /**
+     *
+     */
+    private static Zoo instance = null;
 
     /**
      * The name of the {@link Zoo}.
@@ -26,11 +32,17 @@ public class Zoo {
      * Creates a new {@link Zoo}.
      *
      * @param name  The name of the {@link Zoo}.
-     * @param cages The {@link Cage}'s in this {@link Zoo}.
      */
-    public Zoo(String name, ArrayList<Cage> cages) {
+    private Zoo(String name) {
         this.name = name;
-        this.cages = cages;
+    }
+
+    /**
+     * Creates a new {@link Zoo}.
+     *
+     */
+    private Zoo() {
+
     }
 
     /**
@@ -58,8 +70,11 @@ public class Zoo {
      *
      * @return A specific {@link Zoo}.
      */
-    public Zoo getInstance(String zoo) {
-        return this;
+    public static Zoo getInstance(String zoo) {
+        if(instance == null) {
+            instance = new Zoo(zoo);
+        }
+        return instance;
     }
 
     /**
@@ -67,8 +82,11 @@ public class Zoo {
      *
      * @return The current {@link Zoo}.
      */
-    public Zoo getInstance() {
-        return this;
+    public static Zoo getInstance() {
+        if(instance == null) {
+            instance = new Zoo();
+        }
+        return instance;
     }
 
     /**
@@ -101,7 +119,8 @@ public class Zoo {
      * @return The {@link Cage} of a specific {@link Animal}.
      */
     public Cage getCageOfAnimal(Animal anAnimal) {
-        return new Cage();
+        Cage cage = this.cages.get(0);
+        return cage;
     }
 
     /**
@@ -113,7 +132,7 @@ public class Zoo {
      */
     public TreeSet<Cage> getCagesBySpeciesOfAnimal(Animal anAnimal) {
         TreeSet<Cage> cages = new TreeSet<>();
-        cages.add(new Cage());
+        //cages.add(new Cage());
 
         return cages;
     }
@@ -127,7 +146,7 @@ public class Zoo {
      */
     public TreeSet<Cage> getCageBySpecies(Class<? extends Animal> species) {
         TreeSet<Cage> cages = new TreeSet<>();
-        cages.add(new Cage());
+        cages.add(new Cage(AfricanElephant.class));
 
         return cages;
     }
@@ -140,7 +159,8 @@ public class Zoo {
      * @return The {@link Cage} of specific {@link Animal} race.
      */
     public Cage getCageByRace(Class<? extends Animal> race) {
-        return new Cage();
+        Cage cage = this.cages.get(0);
+        return cage;
     }
 
     /**
