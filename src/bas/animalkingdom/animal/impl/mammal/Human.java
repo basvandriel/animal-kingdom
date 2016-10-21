@@ -2,13 +2,15 @@ package bas.animalkingdom.animal.impl.mammal;
 
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.gender.Gender;
+import bas.animalkingdom.animal.gender.impl.Female;
+import javafx.scene.media.Media;
 
 import java.util.ArrayList;
 
 /**
  * A {@link Human} {@link Mammal} {@link Animal}
  */
-class Human extends Mammal {
+public class Human extends Mammal {
 
     /**
      * If the {@link Human} uses birth control
@@ -18,12 +20,12 @@ class Human extends Mammal {
     /**
      * The last name of the {@link Human}
      */
-    public String lastName;
+    private String lastName;
 
     /**
      * The middle name of the {@link Human}
      */
-    public String insertion;
+    private String insertion;
 
     /**
      * The partner (married) of this {@link Human}
@@ -51,7 +53,7 @@ class Human extends Mammal {
      */
     @Override
     public String communicate() {
-        return null;
+        return "Hey im a human";
     }
 
 

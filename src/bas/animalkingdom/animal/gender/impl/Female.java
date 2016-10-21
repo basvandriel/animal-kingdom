@@ -77,7 +77,7 @@ public class Female extends Gender {
      */
     @Override
     public boolean isFemale() {
-        return false;
+        return true;
     }
 
     /**

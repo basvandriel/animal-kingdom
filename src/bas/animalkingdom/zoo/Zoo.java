@@ -4,7 +4,6 @@ import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
@@ -31,7 +30,7 @@ public class Zoo {
     /**
      * Creates a new {@link Zoo}.
      *
-     * @param name  The name of the {@link Zoo}.
+     * @param name The name of the {@link Zoo}.
      */
     private Zoo(String name) {
         this.name = name;
@@ -39,7 +38,6 @@ public class Zoo {
 
     /**
      * Creates a new {@link Zoo}.
-     *
      */
     private Zoo() {
 
@@ -71,7 +69,7 @@ public class Zoo {
      * @return A specific {@link Zoo}.
      */
     public static Zoo getInstance(String zoo) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Zoo(zoo);
         }
         return instance;
@@ -83,7 +81,7 @@ public class Zoo {
      * @return The current {@link Zoo}.
      */
     public static Zoo getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Zoo();
         }
         return instance;
@@ -97,7 +95,10 @@ public class Zoo {
      * @return If the {@link Cage} has been added to the {@link Zoo}
      */
     public boolean addCage(Cage cage) {
-        return false;
+        System.out.println("Adding a cage");
+        System.out.println();
+//        this.cages.add(cage);
+        return true;
     }
 
     /**
@@ -108,7 +109,17 @@ public class Zoo {
      * @return If the {@link Animal} has been added to the {@link Zoo}
      */
     public boolean addAnimal(Animal animal) {
-        return false;
+/*        Cage cage = this.getCageOfAnimal(animal);
+        if (cage == null) {
+            Cage newCage = new Cage(animal.getClass());
+            newCage.addAnimal(animal);
+            this.cages.add(newCage);
+            return false;
+        }
+
+        cage.addAnimal(animal);
+        return true;*/
+return false;
     }
 
     /**
@@ -119,8 +130,7 @@ public class Zoo {
      * @return The {@link Cage} of a specific {@link Animal}.
      */
     public Cage getCageOfAnimal(Animal anAnimal) {
-        Cage cage = this.cages.get(0);
-        return cage;
+        return this.getCageByRace(anAnimal.getClass());
     }
 
     /**
@@ -159,8 +169,15 @@ public class Zoo {
      * @return The {@link Cage} of specific {@link Animal} race.
      */
     public Cage getCageByRace(Class<? extends Animal> race) {
-        Cage cage = this.cages.get(0);
-        return cage;
+        for (Cage cage : this.cages) {
+            Class<? extends Animal> cageRace = cage.getCageRace();
+            String simpleClassName = cageRace.getSimpleName();
+            if (!simpleClassName.equals(race.getSimpleName())) {
+                continue;
+            }
+            return cage;
+        }
+        return null;
     }
 
     /**
@@ -193,8 +210,15 @@ public class Zoo {
      * @return All the {@link Animal}s.
      */
     public ArrayList<Animal> getAllAnimals() {
-        ArrayList<Animal> animals = new ArrayList<>();
-        return animals;
+        ArrayList<Animal> allAnimals = new ArrayList<>();
+        for (Cage cage : this.cages) {
+            ArrayList<Animal> cagedAnimals = cage.getCagedAnimals();
+            if (cagedAnimals.size() <= 0) {
+                continue;
+            }
+            allAnimals.addAll(cagedAnimals);
+        }
+        return allAnimals;
     }
 
     /**

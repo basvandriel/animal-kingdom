@@ -1,6 +1,7 @@
 package bas.animalkingdom.animal;
 
 import bas.animalkingdom.animal.gender.Gender;
+import bas.animalkingdom.zoo.Zoo;
 import com.sun.scenario.animation.shared.AnimationAccessor;
 
 import java.util.ArrayList;
@@ -55,6 +56,8 @@ public abstract class Animal {
         this.color = color;
         this.weight = weight;
         this.maxNumberOfEggs = maxNumberOfEggs;
+
+        Zoo.getInstance("ICO41A").addAnimal(this);
     }
 
     /**
@@ -88,10 +91,10 @@ public abstract class Animal {
      * @return The {@link Egg}s from the birth of the {@link Animal}.
      */
     public ArrayList<Egg> giveBirth() {
-
-
         ArrayList<Egg> eggs = new ArrayList<>();
         eggs.add(new Egg());
+
+
         return eggs;
     }
 

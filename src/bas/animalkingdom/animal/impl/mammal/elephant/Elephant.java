@@ -26,9 +26,8 @@ public class Elephant extends Mammal {
      * @param weight          The weight of the {@link Elephant} {@link Mammal} {@link Animal}.
      * @param maxNumberOfEggs The max number of eggs of the {@link Elephant} {@link Mammal} {@link Animal}.
      */
-    public Elephant(Gender gender, String bodyCovering, String name, String color, int weight, int maxNumberOfEggs, int earSize) {
+    public Elephant(Gender gender, String bodyCovering, String name, String color, int weight, int maxNumberOfEggs) {
         super(gender, bodyCovering, name, color, weight, maxNumberOfEggs);
-        this.earSize = earSize;
     }
 
     /**

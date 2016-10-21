@@ -12,18 +12,23 @@ import java.util.ArrayList;
 public class Cage {
 
     /**
-     * The type of animals for this {@link Cage}
+     * The {@link Animal} race for this {@link Cage}
      */
-    private Class<? extends Animal> type;
+    private Class<? extends Animal> race;
 
     /**
      * The caged {@link Animal}s in this {@link Cage}.
      */
     private ArrayList<Animal> cagedAnimals;
 
-    public Cage(Class<? extends Animal> type) {
-        this.type = type;
+    /**
+     * @param race The {@link Animal} race
+     */
+    public Cage(Class<? extends Animal> race) {
+        this.race = race;
         this.cagedAnimals = new ArrayList<>();
+
+        Zoo.getInstance("ICO41A").addCage(this);
     }
 
     /**
@@ -36,17 +41,16 @@ public class Cage {
     }
 
     /**
-     * The type of this {@link Cage}.
+     * The {@link Animal} race of this {@link Cage}.
      */
-    public void getCageType() {
-
+    public Class<? extends Animal> getCageRace() {
+        return this.race;
     }
 
     /**
      * Adds a {@link Animal} in to {@link Cage}.
      *
      * @param anAnimal The {@link Animal} to add in this {@link Cage}.
-     *
      * @return If the {@link Animal} in this {@link Cage} could be added.
      */
     public boolean addAnimal(Animal anAnimal) {

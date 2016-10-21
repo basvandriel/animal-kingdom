@@ -21,8 +21,8 @@ public class AsianElephant extends Elephant {
      * @param weight          The weight of the {@link AsianElephant}.
      * @param maxNumberOfEggs The max number of eggs of the {@link AsianElephant}.
      */
-    public AsianElephant(Gender gender, String bodyCovering, String name, String color, int weight, int maxNumberOfEggs, int earSize) {
-        super(gender, bodyCovering, name, color, weight, maxNumberOfEggs, earSize);
+    public AsianElephant(Gender gender, String bodyCovering, String name, String color, int weight, int maxNumberOfEggs) {
+        super(gender, bodyCovering, name, color, weight, maxNumberOfEggs);
     }
 
     /**
