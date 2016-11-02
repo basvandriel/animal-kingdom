@@ -44,15 +44,6 @@ public class Pinguin extends Bird {
         return null;
     }
 
-    /**
-     * Resolves the flying of the {@link Pinguin}
-     *
-     * @return The flying of the {@link Pinguin}
-     */
-    @Override
-    public String fly() {
-        return null;
-    }
 
     /**
      * Hatches the laid eggs

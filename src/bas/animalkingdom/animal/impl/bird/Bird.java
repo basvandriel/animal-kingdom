@@ -21,4 +21,13 @@ public abstract class Bird extends Animal implements IBird {
     public Bird(Gender gender, String bodyCovering, String name, String color, int weight, int maxNumberOfEggs) {
         super(gender, bodyCovering, name, color, weight, maxNumberOfEggs);
     }
+
+    /**
+     * Resolves the flying sound of the {@link Bird}
+     *
+     * @return The flying sound of the {@link Bird}
+     */
+    public String fly() {
+        return "Flying like a " + getClass().getSimpleName();
+    }
 }

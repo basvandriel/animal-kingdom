@@ -36,16 +36,6 @@ public class Crocodile extends Reptile {
     }
 
     /**
-     * Resolves the crawling of the {@link Crocodile} {@link IReptile}
-     *
-     * @return The crawling of the {@link Crocodile} {@link IReptile}
-     */
-    @Override
-    public String crawl() {
-        return null;
-    }
-
-    /**
      * Lay eggs
      *
      * @return eggs The eggs that has been laid.

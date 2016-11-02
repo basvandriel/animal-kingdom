@@ -1,5 +1,6 @@
 package bas.animalkingdom;
 
+import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.gender.Gender;
 import bas.animalkingdom.animal.gender.impl.Female;
@@ -8,6 +9,7 @@ import bas.animalkingdom.animal.impl.bird.Bird;
 import bas.animalkingdom.animal.impl.bird.Parrot;
 import bas.animalkingdom.animal.impl.bird.Pinguin;
 import bas.animalkingdom.animal.impl.mammal.Human;
+import bas.animalkingdom.animal.impl.mammal.Mammal;
 import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
 import bas.animalkingdom.animal.impl.mammal.elephant.AsianElephant;
 import bas.animalkingdom.animal.impl.mammal.elephant.Elephant;
@@ -23,7 +25,11 @@ import bas.animalkingdom.threads.ReptileEggHatcherThread;
 import bas.animalkingdom.threads.SuckleDispatcherThread;
 import bas.animalkingdom.zoo.Cage;
 import bas.animalkingdom.zoo.Zoo;
+import jdk.nashorn.internal.runtime.Context;
 import sun.net.www.http.Hurryable;
+
+import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  *
@@ -31,7 +37,50 @@ import sun.net.www.http.Hurryable;
 public class Starter {
 
     public static void main(String[] args) {
-        Egg egg = new Egg();
+/*        GrayMouse grayMouse = new GrayMouse(new Male(), "BodyCovering1", "Jumbo the gray mouse", "Gray red", 1200, 5);
+        GrayMouse grayMouse2 = new GrayMouse(new Male(), "BodyCovering1", "Hask the gray mouse", "Gray red", 1200, 5);
+        Human human = new Human(new Male(), "BodyCovering1", "Human the Normal Human", "Gray red", 1200, 5);
+
+        Mouse mouse = new Mouse(new Male(), "BodyCovering1", "Normal the Normal mouse", "Gray red", 1200, 5);
+        GrayMouse grayMouse1 = new GrayMouse(new Male(), "BodyCovering1", "Nigerion the gray mouse", "Gray red", 1200, 5);
+
+        ArrayList<Animal> animalsByRace = Zoo.getInstance("ICO41A").getAllAnimalsByRace(GrayMouse.class);
+        TreeSet<Cage> cagesBySpecies = Zoo.getInstance("ICO41A").getCagesBySpecies(Mammal.class);
+        ArrayList<Animal> allAnimalsBySpecies = Zoo.getInstance("ICO41A").getAllAnimalsBySpecies(Mammal.class);*/
+
+        Parrot parrot1 = new Parrot(new Male(), "BodyCovering1", "Jumbo the parrot1", "Gray red", 1200, 5);
+        String parrotFly = parrot1.fly();
+        System.out.println(parrotFly);
+
+        Pinguin pinguin1 = new Pinguin(new Male(), "BodyCovering1", "Jumbo the pinguin1", "Gray red", 1200, 5);
+        String pinguinFly = pinguin1.fly();
+        System.out.println(pinguinFly);
+
+        Crocodile crocodile = new Crocodile(new Male(), "BodyCovering1", "Jumbo the crocodile", "Gray red", 1200, 5);
+        String crocoCrawl = crocodile.crawl();
+        System.out.println(crocoCrawl);
+
+        Snake snake = new Snake(new Male(), "BodyCovering1", "Jumbo the snake", "Gray red", 1200, 5);
+        String snakeCrawl = snake.crawl();
+        System.out.println(snakeCrawl);
+
+        Human theMale = new Human(new Male(), "BodyCovering1", "Human the Normal Male", "Gray red", 1200, 5);
+        Human theFemale = new Human(new Female(), "BodyCovering1", "Human the Normal Female", "Gray red", 1200, 5);
+
+        boolean hasMarried = theMale.mary(theFemale);
+
+        Human theSecondFemale = new Human(new Female(), "akljdfadf", "Human the Normal Female Two", "Gray red", 1234, 5);
+        boolean hasSecondMer = theFemale.mary(theMale);
+
+        theMale.divorce();
+
+        boolean themaleismarried = theMale.isMarried();
+        boolean thefemaleismarried = theFemale.isMarried();
+
+        System.out.println("now we here");
+/*        Egg egg = new Egg();
+
+
 
         //Genders
         Gender male = new Male();
@@ -102,7 +151,7 @@ public class Starter {
         //Threads
         OvulatingThread ovulatingThread = new OvulatingThread(100, female);
         ReptileEggHatcherThread reptileEggHatcherThread = new ReptileEggHatcherThread(cage);
-        SuckleDispatcherThread suckleDispatcherThread = new SuckleDispatcherThread(human);
+        SuckleDispatcherThread suckleDispatcherThread = new SuckleDispatcherThread(human);*/
     }
 
 }

@@ -21,4 +21,15 @@ public abstract class Reptile extends Animal implements IReptile {
     public Reptile(Gender gender, String bodyCovering, String name, String color, int weight, int maxNumberOfEggs) {
         super(gender, bodyCovering, name, color, weight, maxNumberOfEggs);
     }
+
+    /**
+     * Resolves the crawling of the {@link Reptile}
+     *
+     * @return The crawling of the {@link Reptile}
+     */
+    @Override
+    public String crawl() {
+        return "Crawling like a " + getClass().getSimpleName();
+    }
+
 }

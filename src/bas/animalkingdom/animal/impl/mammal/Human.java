@@ -94,7 +94,19 @@ public class Human extends Mammal {
      * @param partner The {@link Human} to marry to
      */
     public boolean mary(Human partner) {
-        return false;
+        if (partner == null) {
+            return false;
+        }
+        boolean currentHumanIsMarried = this.isMarried();
+        boolean partnerIsMarried = partner.isMarried();
+
+        if (currentHumanIsMarried || partnerIsMarried) {
+            return false;
+        }
+
+        this.partner = partner;
+        partner.partner = this;
+        return true;
     }
 
     /**
@@ -103,14 +115,18 @@ public class Human extends Mammal {
      * @return if the {@link Human} is married
      */
     public boolean isMarried() {
-        return false;
+        return !(this.partner == null);
     }
 
     /**
      * Divorces the marriage
      */
     public void divorce() {
-
+        if(!this.isMarried()) {
+            return;
+        }
+        this.partner.partner = null;
+        this.partner = null;
     }
 
     /**

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  *
  */
-public class Cage {
+public class Cage implements Comparable<Cage> {
 
     /**
      * The {@link Animal} race for this {@link Cage}
@@ -51,10 +51,14 @@ public class Cage {
      * Adds a {@link Animal} in to {@link Cage}.
      *
      * @param anAnimal The {@link Animal} to add in this {@link Cage}.
+     *
      * @return If the {@link Animal} in this {@link Cage} could be added.
      */
     public boolean addAnimal(Animal anAnimal) {
-        return false;
+        if (anAnimal.getClass().isInstance(this.getCageRace())) {
+            return false;
+        }
+        return this.cagedAnimals.add(anAnimal);
     }
 
     /**
@@ -73,5 +77,16 @@ public class Cage {
      */
     public void addReptileEggs(ArrayList<Egg> reptileEggs) {
 
+    }
+
+    @Override
+    public int compareTo(Cage cage) {
+        String comparableCageType = cage.getCageRace().getSimpleName();
+
+        String currentCageType = this.getCageRace().getSimpleName();
+        if (comparableCageType.equals(currentCageType)) {
+            return 0;
+        }
+        return currentCageType.compareTo(comparableCageType);
     }
 }

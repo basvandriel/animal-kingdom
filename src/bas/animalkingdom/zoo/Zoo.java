@@ -2,8 +2,11 @@ package bas.animalkingdom.zoo;
 
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
-import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
+import bas.animalkingdom.animal.impl.bird.Bird;
+import bas.animalkingdom.animal.impl.mammal.Mammal;
+import bas.animalkingdom.animal.impl.reptile.Reptile;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
@@ -34,13 +37,14 @@ public class Zoo {
      */
     private Zoo(String name) {
         this.name = name;
+        this.cages = new ArrayList<>();
     }
 
     /**
      * Creates a new {@link Zoo}.
      */
     private Zoo() {
-
+        this.cages = new ArrayList<>();
     }
 
     /**
@@ -95,10 +99,10 @@ public class Zoo {
      * @return If the {@link Cage} has been added to the {@link Zoo}
      */
     public boolean addCage(Cage cage) {
-        System.out.println("Adding a cage");
-        System.out.println();
-//        this.cages.add(cage);
-        return true;
+        if (cage == null) {
+            return false;
+        }
+        return this.cages.add(cage);
     }
 
     /**
@@ -109,17 +113,12 @@ public class Zoo {
      * @return If the {@link Animal} has been added to the {@link Zoo}
      */
     public boolean addAnimal(Animal animal) {
-/*        Cage cage = this.getCageOfAnimal(animal);
+        Cage cage = this.getCageOfAnimal(animal);
         if (cage == null) {
-            Cage newCage = new Cage(animal.getClass());
-            newCage.addAnimal(animal);
-            this.cages.add(newCage);
-            return false;
+            cage = new Cage(animal.getClass());
+            return cage.addAnimal(animal);
         }
-
-        cage.addAnimal(animal);
-        return true;*/
-return false;
+        return cage.addAnimal(animal);
     }
 
     /**
@@ -154,17 +153,36 @@ return false;
      *
      * @return The {@link Cage}s of specific {@link Animal} species
      */
-    public TreeSet<Cage> getCageBySpecies(Class<? extends Animal> species) {
+    public TreeSet<Cage> getCagesBySpecies(Class<? extends Animal> species) {
         TreeSet<Cage> cages = new TreeSet<>();
-        cages.add(new Cage(AfricanElephant.class));
 
+        //The available species
+        ArrayList<Class<? extends Animal>> allSpecies = new ArrayList<>();
+        allSpecies.add(Animal.class);
+        allSpecies.add(Mammal.class);
+        allSpecies.add(Reptile.class);
+        allSpecies.add(Bird.class);
+
+        //Check if te species class reference is not abstract or doesn't contain any of the available species
+        if (!Modifier.isAbstract(species.getModifiers()) || !allSpecies.contains(species)) {
+            return cages;
+        }
+
+        for (Cage cage : this.cages) {
+            Class<? extends Animal> cageRace = cage.getCageRace();
+            if (!species.isAssignableFrom(cageRace)) {
+                continue;
+            }
+            System.out.println("just added the " + cageRace);
+            cages.add(cage);
+        }
         return cages;
     }
 
     /**
      * Retrieves the {@link Cage} of specific {@link Animal} race.
      *
-     * @param race The {@link Animal} raace to retrieve the cage for.
+     * @param race The {@link Animal} race to retrieve the cage for.
      *
      * @return The {@link Cage} of specific {@link Animal} race.
      */
@@ -188,8 +206,11 @@ return false;
      * @return The {@link Animal}s of a specific {@link Animal} race.
      */
     public ArrayList<Animal> getAllAnimalsByRace(Class<? extends Animal> race) {
-        ArrayList<Animal> animals = new ArrayList<>();
-        return animals;
+        if (Modifier.isAbstract(race.getModifiers())) {
+            return null;
+        }
+        Cage cageForRace = this.getCageByRace(race);
+        return cageForRace.getCagedAnimals();
     }
 
     /**
@@ -200,8 +221,21 @@ return false;
      * @return The {@link Animal}s of a specific {@link Animal} species.
      */
     public ArrayList<Animal> getAllAnimalsBySpecies(Class<? extends Animal> species) {
-        ArrayList<Animal> animals = new ArrayList<>();
-        return animals;
+        ArrayList<Animal> animalsBySpecies = new ArrayList<>();
+
+        if (!Modifier.isAbstract(species.getModifiers())) {
+            return animalsBySpecies;
+        }
+
+        TreeSet<Cage> cagesBySpecies = this.getCagesBySpecies(species);
+        for (Cage cageBySpecies : cagesBySpecies) {
+            ArrayList<Animal> cagedAnimals = cageBySpecies.getCagedAnimals();
+            if (cagedAnimals.size() <= 0) {
+                continue;
+            }
+            animalsBySpecies.addAll(cagedAnimals);
+        }
+        return animalsBySpecies;
     }
 
     /**
@@ -210,15 +244,7 @@ return false;
      * @return All the {@link Animal}s.
      */
     public ArrayList<Animal> getAllAnimals() {
-        ArrayList<Animal> allAnimals = new ArrayList<>();
-        for (Cage cage : this.cages) {
-            ArrayList<Animal> cagedAnimals = cage.getCagedAnimals();
-            if (cagedAnimals.size() <= 0) {
-                continue;
-            }
-            allAnimals.addAll(cagedAnimals);
-        }
-        return allAnimals;
+        return this.getAllAnimalsBySpecies(Animal.class);
     }
 
     /**

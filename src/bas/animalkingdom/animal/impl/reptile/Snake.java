@@ -35,16 +35,6 @@ public class Snake extends Reptile {
     }
 
     /**
-     * Resolves the crawling of the {@link Snake} {@link IReptile}
-     *
-     * @return The crawling of the {@link Snake} {@link IReptile}
-     */
-    @Override
-    public String crawl() {
-        return null;
-    }
-
-    /**
      * Lay eggs
      *
      * @return eggs The eggs that has been laid.

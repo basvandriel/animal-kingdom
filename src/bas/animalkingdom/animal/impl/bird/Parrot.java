@@ -47,16 +47,6 @@ public class Parrot extends Bird {
     }
 
     /**
-     * Resolves the flying of the {@link Parrot}
-     *
-     * @return The flying of the {@link Parrot}
-     */
-    @Override
-    public String fly() {
-        return null;
-    }
-
-    /**
      * Hatches the laid eggs
      *
      * @param layedEggs The laid eggs

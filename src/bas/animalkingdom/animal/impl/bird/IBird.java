@@ -12,9 +12,9 @@ import java.util.ArrayList;
 public interface IBird extends IEggLayer {
 
     /**
-     * Resolves the flying of the {@link IBird}
+     * Resolves the flying sound of the {@link IBird}
      *
-     * @return The flying of the {@link IBird}
+     * @return The flying sound of the {@link IBird}
      */
     public String fly();
 
