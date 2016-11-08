@@ -1,7 +1,11 @@
 package bas.animalkingdom.animal.impl.reptile;
 
 import bas.animalkingdom.animal.Animal;
+import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.gender.Gender;
+import bas.animalkingdom.zoo.Zoo;
+
+import java.util.ArrayList;
 
 /**
  * A {@link Reptile} {@link Animal}
@@ -30,6 +34,21 @@ public abstract class Reptile extends Animal implements IReptile {
     @Override
     public String crawl() {
         return "Crawling like a " + getClass().getSimpleName();
+    }
+
+    /**
+     * Lay eggs
+     *
+     * @return eggs The eggs that has been laid.
+     */
+    @Override
+    public ArrayList<Egg> layEggs() {
+        ArrayList<Egg> birthEggs = this.giveBirth();
+        if(birthEggs == null) {
+            return null;
+        }
+        Zoo.getInstance("ICO41A").addEggsOfReptiles(birthEggs);
+        return birthEggs;
     }
 
 }

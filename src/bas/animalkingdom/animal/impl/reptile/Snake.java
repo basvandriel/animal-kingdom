@@ -33,14 +33,4 @@ public class Snake extends Reptile {
     public String communicate() {
         return "SSSSSSSSSSSSSSSSSSSSSSSSSNAKE";
     }
-
-    /**
-     * Lay eggs
-     *
-     * @return eggs The eggs that has been laid.
-     */
-    @Override
-    public ArrayList<Egg> layEggs() {
-        return null;
-    }
 }

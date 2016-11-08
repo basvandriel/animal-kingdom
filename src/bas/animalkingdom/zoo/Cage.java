@@ -3,7 +3,9 @@ package bas.animalkingdom.zoo;
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -32,12 +34,13 @@ public class Cage implements Comparable<Cage> {
     }
 
     /**
-     * Selects a {@link Animal} in this {@link Cage}.
+     * Selects a random {@link Animal} in this {@link Cage}.
      *
-     * @return A {@link Animal} in this {@link Cage}.
+     * @return A  random {@link Animal} in this {@link Cage}.
      */
     public Animal selectAnimal() {
-        return this.cagedAnimals.get(this.cagedAnimals.size() - 1);
+        int randomAnimalIndex = (new Random()).nextInt(this.cagedAnimals.size());
+        return this.cagedAnimals.get(randomAnimalIndex);
     }
 
     /**
@@ -75,8 +78,13 @@ public class Cage implements Comparable<Cage> {
      *
      * @param reptileEggs The {@link Animal} reptile eggs to this {@link Cage}.
      */
-    public void addReptileEggs(ArrayList<Egg> reptileEggs) {
-
+    public void addReptileEggs(ArrayList<Egg> reptileEggs) throws IllegalAccessException, InstantiationException, InvocationTargetException {
+        if (reptileEggs == null || reptileEggs.size() == 0) {
+            return;
+        }
+        for (Egg egg : reptileEggs) {
+            egg.hatch();
+        }
     }
 
     @Override

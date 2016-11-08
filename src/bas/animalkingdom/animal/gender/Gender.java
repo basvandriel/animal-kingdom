@@ -4,6 +4,7 @@ package bas.animalkingdom.animal.gender;
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 /**
@@ -15,6 +16,13 @@ public abstract class Gender {
      * The {@link Animal} belonging to this {@link Gender}
      */
     private Animal genderOwner;
+
+    /**
+     * Creates a new {@link Gender}.
+     */
+    public Gender() {
+
+    }
 
     /**
      * Checks if the {@link Animal} is pregnant or not.
@@ -29,7 +37,7 @@ public abstract class Gender {
      * @param parent1 The first {@link Animal} to propagate with.
      * @param parent2 The second {@link Animal} to propagate with.
      */
-    public abstract void propagate(Animal parent1, Animal parent2);
+    public abstract void propagate(Animal parent1, Animal parent2) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException;
 
     /**
      * The birth of the {@link Gender}.

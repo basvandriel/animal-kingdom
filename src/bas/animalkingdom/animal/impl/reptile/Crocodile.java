@@ -34,14 +34,4 @@ public class Crocodile extends Reptile {
     public String communicate() {
         return "GRRRRR CROCODILEELEELE";
     }
-
-    /**
-     * Lay eggs
-     *
-     * @return eggs The eggs that has been laid.
-     */
-    @Override
-    public ArrayList<Egg> layEggs() {
-        return null;
-    }
 }

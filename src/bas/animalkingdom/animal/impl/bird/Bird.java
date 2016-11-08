@@ -1,7 +1,12 @@
 package bas.animalkingdom.animal.impl.bird;
 
 import bas.animalkingdom.animal.Animal;
+import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.gender.Gender;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 /**
  * A {@link Bird} {@link Animal}.
@@ -29,5 +34,34 @@ public abstract class Bird extends Animal implements IBird {
      */
     public String fly() {
         return "Flying like a " + getClass().getSimpleName();
+    }
+
+    /**
+     * Lay eggs
+     *
+     * @return eggs The eggs that has been laid.
+     */
+    @Override
+    public ArrayList<Egg> layEggs() {
+        return this.giveBirth();
+    }
+
+    /**
+     * Hatches the laid eggs
+     *
+     * @param layedEggs The laid eggs
+     */
+    @Override
+    public void hatchEggs(ArrayList<Egg> layedEggs) {
+        if (layedEggs == null) {
+            return;
+        }
+        layedEggs.forEach(egg -> {
+            try {
+                egg.hatch();
+            } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

@@ -29,7 +29,7 @@ public class Male extends Gender {
      */
     @Override
     public void propagate(Animal parent1, Animal parent2) {
-
+        return;
     }
 
     /**

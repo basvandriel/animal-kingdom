@@ -28,6 +28,7 @@ import bas.animalkingdom.zoo.Zoo;
 import jdk.nashorn.internal.runtime.Context;
 import sun.net.www.http.Hurryable;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
@@ -36,46 +37,12 @@ import java.util.TreeSet;
  */
 public class Starter {
 
-    public static void main(String[] args) {
-/*        GrayMouse grayMouse = new GrayMouse(new Male(), "BodyCovering1", "Jumbo the gray mouse", "Gray red", 1200, 5);
-        GrayMouse grayMouse2 = new GrayMouse(new Male(), "BodyCovering1", "Hask the gray mouse", "Gray red", 1200, 5);
-        Human human = new Human(new Male(), "BodyCovering1", "Human the Normal Human", "Gray red", 1200, 5);
+    public static void main(String[] args) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, InterruptedException {
+        Human theMale = new Human(new Male(), "BodyCovering1", "Human the Normal Male", "Gray red", 1200, 0);
+        Elephant theFemale = new Elephant(new Female(), "BodyCovering1", "Human the Normal Female", "Gray", 1200, 5);
 
-        Mouse mouse = new Mouse(new Male(), "BodyCovering1", "Normal the Normal mouse", "Gray red", 1200, 5);
-        GrayMouse grayMouse1 = new GrayMouse(new Male(), "BodyCovering1", "Nigerion the gray mouse", "Gray red", 1200, 5);
-
-        ArrayList<Animal> animalsByRace = Zoo.getInstance("ICO41A").getAllAnimalsByRace(GrayMouse.class);
-        TreeSet<Cage> cagesBySpecies = Zoo.getInstance("ICO41A").getCagesBySpecies(Mammal.class);
-        ArrayList<Animal> allAnimalsBySpecies = Zoo.getInstance("ICO41A").getAllAnimalsBySpecies(Mammal.class);*/
-
-        Parrot parrot1 = new Parrot(new Male(), "BodyCovering1", "Jumbo the parrot1", "Gray red", 1200, 5);
-        String parrotFly = parrot1.fly();
-        System.out.println(parrotFly);
-
-        Pinguin pinguin1 = new Pinguin(new Male(), "BodyCovering1", "Jumbo the pinguin1", "Gray red", 1200, 5);
-        String pinguinFly = pinguin1.fly();
-        System.out.println(pinguinFly);
-
-        Crocodile crocodile = new Crocodile(new Male(), "BodyCovering1", "Jumbo the crocodile", "Gray red", 1200, 5);
-        String crocoCrawl = crocodile.crawl();
-        System.out.println(crocoCrawl);
-
-        Snake snake = new Snake(new Male(), "BodyCovering1", "Jumbo the snake", "Gray red", 1200, 5);
-        String snakeCrawl = snake.crawl();
-        System.out.println(snakeCrawl);
-
-        Human theMale = new Human(new Male(), "BodyCovering1", "Human the Normal Male", "Gray red", 1200, 5);
-        Human theFemale = new Human(new Female(), "BodyCovering1", "Human the Normal Female", "Gray red", 1200, 5);
-
-        boolean hasMarried = theMale.mary(theFemale);
-
-        Human theSecondFemale = new Human(new Female(), "akljdfadf", "Human the Normal Female Two", "Gray red", 1234, 5);
-        boolean hasSecondMer = theFemale.mary(theMale);
-
-        theMale.divorce();
-
-        boolean themaleismarried = theMale.isMarried();
-        boolean thefemaleismarried = theFemale.isMarried();
+        Thread.sleep(3000);
+        // theMale.propagate(theFemale);
 
         System.out.println("now we here");
 /*        Egg egg = new Egg();

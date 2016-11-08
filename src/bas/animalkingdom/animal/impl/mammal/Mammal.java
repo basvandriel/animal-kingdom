@@ -2,9 +2,11 @@ package bas.animalkingdom.animal.impl.mammal;
 
 
 import bas.animalkingdom.animal.Animal;
+import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.gender.Gender;
 import bas.animalkingdom.animal.gender.impl.Male;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 /**
@@ -29,9 +31,17 @@ public abstract class Mammal extends Animal implements IMammal {
     /**
      * Gives life birth
      */
-    public void giveLifeBirth() {
+    public void giveLifeBirth() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        ArrayList<Egg> mammalEggs = this.giveBirth();
+        if(mammalEggs == null || mammalEggs.size() == 0) {
+            return;
+        }
+        for(Egg egg : mammalEggs) {
+            Animal hatchedAnimal = egg.hatch();
+            System.out.println("lmfaodf");
 
-    }
+        }
+     }
 
     /**
      * Resolves the babies from the {@link Mammal}

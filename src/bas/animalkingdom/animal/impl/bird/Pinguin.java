@@ -33,25 +33,4 @@ public class Pinguin extends Bird {
     public String communicate() {
         return "What does a pinguin even say?";
     }
-
-    /**
-     * Lay eggs
-     *
-     * @return eggs The eggs that has been laid.
-     */
-    @Override
-    public ArrayList<Egg> layEggs() {
-        return null;
-    }
-
-
-    /**
-     * Hatches the laid eggs
-     *
-     * @param layedEggs The laid eggs
-     */
-    @Override
-    public void hatchEggs(ArrayList<Egg> layedEggs) {
-
-    }
 }

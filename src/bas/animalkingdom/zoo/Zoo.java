@@ -5,7 +5,9 @@ import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.impl.bird.Bird;
 import bas.animalkingdom.animal.impl.mammal.Mammal;
 import bas.animalkingdom.animal.impl.reptile.Reptile;
+import bas.animalkingdom.threads.ReptileEggHatcherThread;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.TreeSet;
@@ -253,7 +255,14 @@ public class Zoo {
      * @param reptileEggs The {@link Animal} eggs to add
      */
     public void addEggsOfReptiles(ArrayList<Egg> reptileEggs) {
+        if(reptileEggs.size() == 0) {
+            return;
+        }
+        Class<? extends Animal> reptileRaceClass = reptileEggs.get(0).getEmbryoConstructor().getDeclaringClass();
+        Cage reptileCage = this.getCageByRace(reptileRaceClass);
 
+        ReptileEggHatcherThread reptileEggHatcherThread = new ReptileEggHatcherThread(reptileCage, reptileEggs);
+        reptileEggHatcherThread.start();
     }
 
 }

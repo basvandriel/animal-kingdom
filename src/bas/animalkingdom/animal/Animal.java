@@ -1,9 +1,11 @@
 package bas.animalkingdom.animal;
 
 import bas.animalkingdom.animal.gender.Gender;
+import bas.animalkingdom.animal.impl.bird.Bird;
 import bas.animalkingdom.zoo.Zoo;
 import com.sun.scenario.animation.shared.AnimationAccessor;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public abstract class Animal {
@@ -42,11 +44,11 @@ public abstract class Animal {
     /**
      * Creates a new {@link Animal}.
      *
-     * @param gender The {@link Gender} of the {@link Animal}.
-     * @param bodyCovering The body covering of the {@link Animal}.
-     * @param name The name of the {@link Animal}.
-     * @param color The color of the {@link Animal}.
-     * @param weight The weight of the {@link Animal}.
+     * @param gender          The {@link Gender} of the {@link Animal}.
+     * @param bodyCovering    The body covering of the {@link Animal}.
+     * @param name            The name of the {@link Animal}.
+     * @param color           The color of the {@link Animal}.
+     * @param weight          The weight of the {@link Animal}.
      * @param maxNumberOfEggs The max number of eggs of the {@link Animal}.
      */
     public Animal(Gender gender, String bodyCovering, String name, String color, int weight, int maxNumberOfEggs) {
@@ -56,6 +58,8 @@ public abstract class Animal {
         this.color = color;
         this.weight = weight;
         this.maxNumberOfEggs = maxNumberOfEggs;
+
+        this.gender.setGenderOwner(this);
 
         Zoo.getInstance("ICO41A").addAnimal(this);
     }
@@ -72,8 +76,12 @@ public abstract class Animal {
      *
      * @param partner The other {@link Animal} to propagate with.
      */
-    public void propagate(Animal partner) {
-
+    public void propagate(Animal partner) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        if (!this.getClass().getSimpleName().equals(partner.getClass().getSimpleName())) {
+            return;
+        }
+        this.getGender().propagate(this, partner);
+        partner.getGender().propagate(partner, this);
     }
 
     /**
@@ -82,7 +90,7 @@ public abstract class Animal {
      * @return If the {@link Animal} is pregnant or not.
      */
     public boolean isPregnant() {
-        return false;
+        return this.getGender().isPregnant();
     }
 
     /**
@@ -91,11 +99,7 @@ public abstract class Animal {
      * @return The {@link Egg}s from the birth of the {@link Animal}.
      */
     public ArrayList<Egg> giveBirth() {
-        ArrayList<Egg> eggs = new ArrayList<>();
-        eggs.add(new Egg());
-
-
-        return eggs;
+        return this.getGender().giveBirth();
     }
 
     /**
@@ -104,7 +108,7 @@ public abstract class Animal {
      * @return If the {@link Animal} is a female or not.
      */
     public boolean isFemale() {
-        return false;
+        return this.getGender().isFemale();
     }
 
     /**
@@ -208,6 +212,7 @@ public abstract class Animal {
 
     /**
      * Retrieves The max number of eggs of the {@link Animal}.
+     *
      * @return The max number of eggs of the {@link Animal}.
      */
     public int getMaxNumberOfEggs() {
