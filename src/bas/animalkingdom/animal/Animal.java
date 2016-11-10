@@ -77,7 +77,7 @@ public abstract class Animal {
      * @param partner The other {@link Animal} to propagate with.
      */
     public void propagate(Animal partner) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        if (!this.getClass().getSimpleName().equals(partner.getClass().getSimpleName())) {
+        if (!this.getClass().equals(partner.getClass())) {
             return;
         }
         this.getGender().propagate(this, partner);

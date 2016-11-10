@@ -34,14 +34,4 @@ public class Mouse extends Mammal {
     public String communicate() {
         return "*mouse sound*";
     }
-
-    /**
-     * Suckles the the {@link Mouse} babies
-     *
-     * @param babies The {@link Mouse} babies
-     */
-    @Override
-    public void suckle(ArrayList<Mammal> babies) {
-
-    }
 }

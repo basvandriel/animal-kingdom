@@ -2,10 +2,11 @@ package bas.animalkingdom.animal.impl.mammal;
 
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.gender.Gender;
-import bas.animalkingdom.animal.gender.impl.Female;
-import javafx.scene.media.Media;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A {@link Human} {@link Mammal} {@link Animal}
@@ -33,6 +34,22 @@ public class Human extends Mammal {
     private Human partner;
 
     /**
+     * The extra chance of getting an STD
+     */
+    private double extraStdChance;
+
+    /**
+     * The extra chance of this human getting caught cheating
+     */
+    private double extraCaughtCheatingChance;
+
+
+    /**
+     * The {@link STD}s for this {@link Human}
+     */
+    private ArrayList<STD> stds;
+
+    /**
      * Creates a new {@link Human} {@link Animal}.
      *
      * @param gender          The {@link Gender} of the {@link Human} {@link Mammal} {@link Animal}.
@@ -44,6 +61,7 @@ public class Human extends Mammal {
      */
     public Human(Gender gender, String bodyCovering, String name, String color, int weight, int maxNumberOfEggs) {
         super(gender, bodyCovering, name, color, weight, maxNumberOfEggs);
+        this.stds = new ArrayList<>();
     }
 
     /**
@@ -60,8 +78,11 @@ public class Human extends Mammal {
     /**
      * Makes love
      */
-    public void makeLove() {
-
+    public void makeLove() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        if (partner == null) {
+            return;
+        }
+        this.makeLove(this.partner);
     }
 
     /**
@@ -69,14 +90,56 @@ public class Human extends Mammal {
      *
      * @param partner The {@link Human} partner to make love to
      */
-    public void makeLove(Human partner) {
+    public void makeLove(Human partner) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        if (!partner.getClass().isAssignableFrom(this.getClass())) {
+            return;
+        }
+
+        if(partner == this) {
+            return;
+        }
+
+        //ayy
+        if (partner == this.partner) {
+            this.marriageLove();
+        }
+
+        //Single love or cheating
+        if (partner != this.partner) {
+            if(this.isMarried() || partner.isMarried() && partner != (this).partner) {
+                this.adulteryLove(partner);
+            }
+
+            double currentStdChance = (Math.random() + this.extraStdChance);
+
+            if (Math.random() < currentStdChance) {
+                STD std = new STD("Some random STD named with " + currentStdChance);
+                Stream.of(this, partner).filter(Human::isUsingBirthControl).
+                        collect(Collectors.toList()).
+                        forEach(human -> human.getSTDs().add(std));
+            }
+            this.extraStdChance += 0.05;
+
+            double currentCaughtCheatingChance = 0.5 + this.extraCaughtCheatingChance;
+            if (isMarried() && (Math.random() < currentCaughtCheatingChance)) {
+                this.divorce();
+            } else {
+                this.extraCaughtCheatingChance += 0.05;
+            }
+        }
+
+        if (!this.usesBirthControl && !partner.isUsingBirthControl()) {
+            this.propagate(partner);
+            partner.propagate(this);
+        }
     }
 
     /**
      * Married love
      */
-    private void marriageLove() {
 
+    private void marriageLove() {
+        System.out.println("marriage love");
     }
 
     /**
@@ -85,7 +148,7 @@ public class Human extends Mammal {
      * @param lover The {@link Human} partner (lover) to make love to
      */
     private void adulteryLove(Human lover) {
-
+        System.out.println("marriage love with " + lover.getName());
     }
 
     /**
@@ -94,18 +157,13 @@ public class Human extends Mammal {
      * @param partner The {@link Human} to marry to
      */
     public boolean mary(Human partner) {
-        if (partner == null) {
-            return false;
-        }
-        boolean currentHumanIsMarried = this.isMarried();
-        boolean partnerIsMarried = partner.isMarried();
-
-        if (currentHumanIsMarried || partnerIsMarried) {
+        if (partner == null || partner == this ||
+                this.isMarried() || partner.isMarried()) {
             return false;
         }
 
-        this.partner = partner;
-        partner.partner = this;
+        setPartner(partner);
+        partner.setPartner(this);
         return true;
     }
 
@@ -122,21 +180,11 @@ public class Human extends Mammal {
      * Divorces the marriage
      */
     public void divorce() {
-        if(!this.isMarried()) {
+        if (!this.isMarried()) {
             return;
         }
-        this.partner.partner = null;
-        this.partner = null;
-    }
-
-    /**
-     * Suckles the the {@link Human} {@link Mammal} {@link Animal} babies
-     *
-     * @param babies The {@link Human} {@link Mammal} {@link Animal} babies
-     */
-    @Override
-    public void suckle(ArrayList<Mammal> babies) {
-
+        this.partner.setPartner(null);
+        this.setPartner(null);
     }
 
     /**
@@ -180,7 +228,7 @@ public class Human extends Mammal {
      *
      * @return if the {@link Human} uses birth control
      */
-    public boolean isUsesBirthControl() {
+    public boolean isUsingBirthControl() {
         return usesBirthControl;
     }
 
@@ -209,5 +257,14 @@ public class Human extends Mammal {
      */
     public Human getPartner() {
         return partner;
+    }
+
+    /**
+     * Retrieves the {@link STD}s for this {@link Human}
+     *
+     * @return The {@link STD}s for this {@link Human}
+     */
+    public ArrayList<STD> getSTDs() {
+        return stds;
     }
 }

@@ -4,7 +4,7 @@ package bas.animalkingdom.animal.impl.mammal;
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.gender.Gender;
-import bas.animalkingdom.animal.gender.impl.Male;
+import bas.animalkingdom.threads.SuckleDispatcherThread;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -13,6 +13,11 @@ import java.util.ArrayList;
  * A {@link Mammal} {@link Animal}
  */
 public abstract class Mammal extends Animal implements IMammal {
+
+    /**
+     * The babies for this {@link Mammal}
+     */
+    private ArrayList<IMammal> babies;
 
     /**
      * Creates a new {@link Mammal} {@link Animal}.
@@ -33,15 +38,28 @@ public abstract class Mammal extends Animal implements IMammal {
      */
     public void giveLifeBirth() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         ArrayList<Egg> mammalEggs = this.giveBirth();
-        if(mammalEggs == null || mammalEggs.size() == 0) {
+        if (mammalEggs == null || mammalEggs.size() == 0) {
             return;
         }
-        for(Egg egg : mammalEggs) {
-            Animal hatchedAnimal = egg.hatch();
-            System.out.println("lmfaodf");
 
+        this.babies = new ArrayList<>();
+        for (Egg egg : mammalEggs) {
+            this.babies.add((IMammal) egg.hatch());
         }
-     }
+    }
+
+    /**
+     * Suckles the the {@link Mammal} {@link Animal} babies
+     *
+     * @param babies The {@link Mammal} {@link Animal} babies
+     */
+    public void suckle(ArrayList<Mammal> babies) {
+        if (this.babies == null || this.babies.size() == 0) {
+            return;
+        }
+        SuckleDispatcherThread suckleDispatcherThread = new SuckleDispatcherThread(this);
+        suckleDispatcherThread.start();
+    }
 
     /**
      * Resolves the babies from the {@link Mammal}
@@ -49,8 +67,6 @@ public abstract class Mammal extends Animal implements IMammal {
      * @return The babies from the {@link Mammal}
      */
     public ArrayList<IMammal> getBabies() {
-        ArrayList<IMammal> babies = new ArrayList<>();
-        //babies.add(new Human(new Male()));
-        return babies;
+        return this.babies;
     }
 }

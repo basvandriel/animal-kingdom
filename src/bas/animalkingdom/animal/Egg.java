@@ -2,14 +2,15 @@ package bas.animalkingdom.animal;
 
 import bas.animalkingdom.animal.gender.Gender;
 import bas.animalkingdom.animal.gender.impl.Male;
+import bas.animalkingdom.animal.impl.mammal.Human;
 import bas.animalkingdom.animal.impl.mammal.elephant.Elephant;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
-
-import static com.sun.javafx.fxml.expression.Expression.add;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * An {@link Egg}
@@ -60,7 +61,6 @@ public class Egg {
     }
 
     /**
-     *
      * @param parent1
      * @param parent2
      * @return
@@ -69,8 +69,28 @@ public class Egg {
     private Map<Method, Object[]> resolveSpecialEmbryoPropertyMethods(Animal parent1, Animal parent2) throws NoSuchMethodException {
         HashMap<Method, Object[]> methods = new HashMap<>();
 
+
+        /*
+          TODO: Refactor
+
+          - Find class in resolve table from parent1
+          - Add all methods with resolved arguments into the methods hash map
+         */
+
         //if more resolve right method do some bas-magic
-        if (Elephant.class.isAssignableFrom(parent1.getClass())) {
+        if (Human.class.isAssignableFrom(parent1.getClass())) {
+            Method setInsertion = parent1.getClass().getMethod("setInsertion", String.class);
+
+            methods.put(setInsertion, new Object[]{
+                    ((Human) parent1).getInsertion()
+            });
+
+            Method setLastName = parent1.getClass().getMethod("setLastName", String.class);
+
+            methods.put(setLastName, new Object[]{
+                    ((Human) parent1).getLastName()
+            });
+        } else if (Elephant.class.isAssignableFrom(parent1.getClass())) {
             Method currentMethod = parent1.getClass().getMethod("setEarSize", int.class);
             if (currentMethod == null) {
                 return null;
@@ -79,7 +99,7 @@ public class Egg {
             int firstEarSize = ((Elephant) parent1).getEarSize();
             int secondEarSize = ((Elephant) parent2).getEarSize();
             Object[] methodParameters = new Object[]{
-                    8921
+                    firstEarSize - secondEarSize
             };
             methods.put(currentMethod, methodParameters);
         }
@@ -129,11 +149,11 @@ public class Egg {
         }
         Animal animal = this.embryoConstructor.newInstance(this.embryoProperties);
 
-        if(this.specialEmbryoPropertyMethods != null) {
-            for(Map.Entry<Method, Object[]> specialEmbryoPropertyMethod : this.specialEmbryoPropertyMethods.entrySet()) {
+        if (this.specialEmbryoPropertyMethods != null) {
+            for (Map.Entry<Method, Object[]> specialEmbryoPropertyMethod : this.specialEmbryoPropertyMethods.entrySet()) {
                 specialEmbryoPropertyMethod.getKey().invoke(animal, specialEmbryoPropertyMethod.getValue());
             }
-            specialEmbryoPropertyMethods.clear();
+            this.specialEmbryoPropertyMethods = null;
         }
         return animal;
     }

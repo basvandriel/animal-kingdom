@@ -51,9 +51,9 @@ public class OvulatingThread extends Thread {
 
 
                 try {
-                    this.female.getGenderOwner().propagate(new Elephant(new Male(), "BodyCovering1", "Elephantor the Normal Elephant", "Gray red", 1200, 0));
+                    this.female.getGenderOwner().propagate(new Human(new Male(), "BodyCovering1", "Elephantor the Normal Elephant", "Gray red", 1200, 0));
 
-                    ((Elephant) this.female.getGenderOwner()).giveLifeBirth();
+                    //((Elephant) this.female.getGenderOwner()).giveLifeBirth();
 
                 } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();

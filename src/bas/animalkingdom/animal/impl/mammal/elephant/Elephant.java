@@ -31,16 +31,6 @@ public class Elephant extends Mammal {
     }
 
     /**
-     * Suckles the the {@link Elephant} {@link Mammal} {@link Animal} babies
-     *
-     * @param babies The {@link Elephant} {@link Mammal} {@link Animal} babies
-     */
-    @Override
-    public void suckle(ArrayList<Mammal> babies) {
-
-    }
-
-    /**
      * Resolves the string how the {@link Elephant} communicates
      *
      * @return The string how the {@link Elephant} communicates
