@@ -95,6 +95,7 @@ public class Human extends Mammal {
             return;
         }
 
+        //haha
         if(partner == this) {
             return;
         }
