@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class AnimalController {
 
-
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @RequestMapping(value = "/animals", method = RequestMethod.GET)
     public String getAnimals(ModelMap modelMap) {
         Animal animal = new AfricanElephant(new Male(), "Body Covering", "Ename", " acolor", 123, 321);
         modelMap.put("animal", animal);
-        return "test";
+        return "animals";
     }
 }
