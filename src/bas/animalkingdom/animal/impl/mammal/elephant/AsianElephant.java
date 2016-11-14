@@ -1,9 +1,9 @@
 package bas.animalkingdom.animal.impl.mammal.elephant;
 
 
-import bas.animalkingdom.animal.Animal;
-import bas.animalkingdom.animal.impl.mammal.Mammal;
 import bas.animalkingdom.animal.gender.Gender;
+import bas.animalkingdom.animal.impl.mammal.Mammal;
+import bas.animalkingdom.animal.Animal;
 
 /**
  * An {@link AsianElephant} {@link Mammal} {@link Animal}

@@ -1,9 +1,7 @@
 package bas.animalkingdom.animal;
 
 import bas.animalkingdom.animal.gender.Gender;
-import bas.animalkingdom.animal.impl.bird.Bird;
 import bas.animalkingdom.zoo.Zoo;
-import com.sun.scenario.animation.shared.AnimationAccessor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

@@ -1,8 +1,8 @@
 package bas.animalkingdom.animal;
 
 import bas.animalkingdom.animal.gender.Gender;
-import bas.animalkingdom.animal.gender.impl.Male;
 import bas.animalkingdom.animal.impl.mammal.Human;
+import bas.animalkingdom.animal.gender.impl.Male;
 import bas.animalkingdom.animal.impl.mammal.elephant.Elephant;
 
 import java.lang.reflect.Constructor;

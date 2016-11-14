@@ -1,8 +1,8 @@
 package bas.animalkingdom.animal.gender.impl;
 
-import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.gender.Gender;
+import bas.animalkingdom.animal.Animal;
 
 import java.util.ArrayList;
 

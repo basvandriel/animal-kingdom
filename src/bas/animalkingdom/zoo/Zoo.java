@@ -1,13 +1,12 @@
 package bas.animalkingdom.zoo;
 
-import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.impl.bird.Bird;
 import bas.animalkingdom.animal.impl.mammal.Mammal;
-import bas.animalkingdom.animal.impl.reptile.Reptile;
 import bas.animalkingdom.threads.ReptileEggHatcherThread;
+import bas.animalkingdom.animal.Animal;
+import bas.animalkingdom.animal.impl.reptile.Reptile;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.TreeSet;

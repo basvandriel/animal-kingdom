@@ -1,8 +1,8 @@
 package bas.animalkingdom.animal.impl.mammal.mouse;
 
-import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.gender.Gender;
 import bas.animalkingdom.animal.impl.mammal.Mammal;
+import bas.animalkingdom.animal.Animal;
 
 /**
  * An {@link GrayMouse} {@link Mammal} {@link Animal}

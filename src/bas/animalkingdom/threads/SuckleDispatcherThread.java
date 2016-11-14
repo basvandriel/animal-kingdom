@@ -1,7 +1,7 @@
 package bas.animalkingdom.threads;
 
-import bas.animalkingdom.animal.impl.mammal.IMammal;
 import bas.animalkingdom.animal.impl.mammal.Mammal;
+import bas.animalkingdom.animal.impl.mammal.IMammal;
 
 import java.util.ArrayList;
 

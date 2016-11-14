@@ -3,7 +3,6 @@ package bas.animalkingdom.threads;
 import bas.animalkingdom.animal.gender.impl.Female;
 import bas.animalkingdom.animal.gender.impl.Male;
 import bas.animalkingdom.animal.impl.mammal.Human;
-import bas.animalkingdom.animal.impl.mammal.elephant.Elephant;
 
 import java.lang.reflect.InvocationTargetException;
 

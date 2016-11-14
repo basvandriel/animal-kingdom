@@ -1,9 +1,9 @@
 package bas.animalkingdom.animal.impl.mammal;
 
 
+import bas.animalkingdom.animal.gender.Gender;
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
-import bas.animalkingdom.animal.gender.Gender;
 import bas.animalkingdom.threads.SuckleDispatcherThread;
 
 import java.lang.reflect.InvocationTargetException;

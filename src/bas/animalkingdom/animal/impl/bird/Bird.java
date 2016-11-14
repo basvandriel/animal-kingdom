@@ -1,10 +1,9 @@
 package bas.animalkingdom.animal.impl.bird;
 
-import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.gender.Gender;
+import bas.animalkingdom.animal.Animal;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 

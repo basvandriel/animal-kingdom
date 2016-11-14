@@ -1,4 +1,4 @@
-package bas.animalkingdom;
+package bas.animalkingdom.config;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;

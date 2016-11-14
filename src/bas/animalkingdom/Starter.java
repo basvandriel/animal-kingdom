@@ -1,36 +1,9 @@
 package bas.animalkingdom;
 
-import bas.animalkingdom.animal.Animal;
-import bas.animalkingdom.animal.Egg;
-import bas.animalkingdom.animal.gender.Gender;
-import bas.animalkingdom.animal.gender.impl.Female;
 import bas.animalkingdom.animal.gender.impl.Male;
-import bas.animalkingdom.animal.impl.bird.Bird;
-import bas.animalkingdom.animal.impl.bird.Parrot;
-import bas.animalkingdom.animal.impl.bird.Pinguin;
 import bas.animalkingdom.animal.impl.mammal.Human;
-import bas.animalkingdom.animal.impl.mammal.Mammal;
-import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
-import bas.animalkingdom.animal.impl.mammal.elephant.AsianElephant;
-import bas.animalkingdom.animal.impl.mammal.elephant.Elephant;
-import bas.animalkingdom.animal.impl.mammal.mouse.GrayMouse;
-import bas.animalkingdom.animal.impl.mammal.mouse.Mouse;
-import bas.animalkingdom.animal.impl.mammal.mouse.WhiteMouse;
-import bas.animalkingdom.animal.impl.reptile.Crocodile;
-import bas.animalkingdom.animal.impl.reptile.Reptile;
-import bas.animalkingdom.animal.impl.reptile.Snake;
-import bas.animalkingdom.animal.impl.special.Platypus;
-import bas.animalkingdom.threads.OvulatingThread;
-import bas.animalkingdom.threads.ReptileEggHatcherThread;
-import bas.animalkingdom.threads.SuckleDispatcherThread;
-import bas.animalkingdom.zoo.Cage;
-import bas.animalkingdom.zoo.Zoo;
-import jdk.nashorn.internal.runtime.Context;
-import sun.net.www.http.Hurryable;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.TreeSet;
 
 /**
  *

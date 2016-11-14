@@ -1,10 +1,8 @@
 package bas.animalkingdom.animal.impl.mammal.mouse;
 
-import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.gender.Gender;
 import bas.animalkingdom.animal.impl.mammal.Mammal;
-
-import java.util.ArrayList;
+import bas.animalkingdom.animal.Animal;
 
 /**
  * An {@link Mouse} {@link Mammal} {@link Animal}

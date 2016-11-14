@@ -1,7 +1,7 @@
 package bas.animalkingdom.animal.impl.mammal;
 
-import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.gender.Gender;
+import bas.animalkingdom.animal.Animal;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

@@ -1,10 +1,7 @@
 package bas.animalkingdom.animal.impl.reptile;
 
 import bas.animalkingdom.animal.Animal;
-import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.gender.Gender;
-
-import java.util.ArrayList;
 
 /**
  * A {@link Snake} {@link Reptile} {@link Animal}
