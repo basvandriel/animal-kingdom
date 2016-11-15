@@ -1,8 +1,8 @@
-# `/src` : Source code
+# `/src/main` : Main source code
 
 ## Purpose
 
-The `/src` hierarchy contains the object-oriented application source code.
+The `/src/main` hierarchy contains the main object-oriented application source code.
 
 ## Requirements
 
