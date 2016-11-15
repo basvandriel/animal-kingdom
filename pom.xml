@@ -7,15 +7,27 @@
     <groupId>bas.animalkingdom</groupId>
     <artifactId>animal-kingdom</artifactId>
     <version>0.5</version>
+    <packaging>war</packaging>
 
     <build>
+        <finalName>animal-kingdom</finalName>
+        <directory>${project.basedir}/out</directory>
+        <outputDirectory>${project.build.directory}/classes</outputDirectory>
+
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
         </plugins>
