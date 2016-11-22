@@ -39,7 +39,7 @@ public class Cage implements Comparable<Cage> {
      */
     public Animal selectAnimal() {
         int randomAnimalIndex = (new Random()).nextInt(this.cagedAnimals.size());
-        return this.cagedAnimals.get(randomAnimalIndex);
+        return cagedAnimals.get(randomAnimalIndex);
     }
 
     /**
