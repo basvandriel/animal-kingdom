@@ -2,8 +2,12 @@ package bas.animalkingdom.zoo;
 
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
+import bas.animalkingdom.animal.gender.impl.Male;
 import bas.animalkingdom.animal.impl.bird.Bird;
 import bas.animalkingdom.animal.impl.mammal.Mammal;
+import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
+import bas.animalkingdom.animal.impl.mammal.mouse.Mouse;
+import bas.animalkingdom.animal.impl.mammal.mouse.WhiteMouse;
 import bas.animalkingdom.animal.impl.reptile.Reptile;
 import bas.animalkingdom.threads.ReptileEggHatcherThread;
 
@@ -37,8 +41,8 @@ public class Zoo {
      * @param name The name of the {@link Zoo}.
      */
     private Zoo(String name) {
+        this();
         this.name = name;
-        this.cages = new ArrayList<>();
     }
 
     /**
@@ -76,6 +80,7 @@ public class Zoo {
     public static Zoo getInstance(String zoo) {
         if (instance == null) {
             instance = new Zoo(zoo);
+            loadAnimals();
         }
         return instance;
     }
@@ -88,6 +93,7 @@ public class Zoo {
     public static Zoo getInstance() {
         if (instance == null) {
             instance = new Zoo();
+            loadAnimals();
         }
         return instance;
     }
@@ -254,7 +260,7 @@ public class Zoo {
      * @param reptileEggs The {@link Animal} eggs to add
      */
     public void addEggsOfReptiles(ArrayList<Egg> reptileEggs) {
-        if(reptileEggs.size() == 0) {
+        if (reptileEggs.size() == 0) {
             return;
         }
         Class<? extends Animal> reptileRaceClass = reptileEggs.get(0).getEmbryoConstructor().getDeclaringClass();
@@ -262,6 +268,16 @@ public class Zoo {
 
         ReptileEggHatcherThread reptileEggHatcherThread = new ReptileEggHatcherThread(reptileCage, reptileEggs);
         reptileEggHatcherThread.start();
+    }
+
+    private static void loadAnimals() {
+        AfricanElephant africanElephant = new AfricanElephant(new Male(), "Body Covering", "africanElephant", " acolor", 123, 321);
+        Mouse whiteMouse = new WhiteMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
+        Mouse whiteMouse1 = new WhiteMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
+        Mouse whiteMous2 = new WhiteMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
+        Mouse whiteMous3 = new WhiteMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
+        Mouse whiteMouse4 = new WhiteMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
+        Mouse whiteMouse5 = new WhiteMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
     }
 
 }
