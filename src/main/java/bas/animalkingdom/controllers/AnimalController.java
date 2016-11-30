@@ -17,12 +17,16 @@ public class AnimalController {
 
     @RequestMapping(value = "/animals", method = RequestMethod.GET)
     public String getAnimals(ModelMap modelMap, @RequestParam(value = "race", required = false, defaultValue = "") String race) throws ClassNotFoundException {
-        if (race.isEmpty()) {
-            modelMap.put("animals", Zoo.getInstance("ICO41A").getAllAnimals());
+        Zoo zoo = Zoo.getInstance("ICO41A");
 
+        modelMap.put("animals", zoo.getAllAnimals());
+
+        if (race.isEmpty()) {
+            modelMap.put("selectedAnimals", modelMap.get("animals"));
         } else {
-            Class<? extends Animal> animalClass = (Class<? extends Animal>) Class.forName(race);
-            modelMap.put("animals", Zoo.getInstance("ICO41A").getAllAnimalsByRace(animalClass));
+            Class<?> animalClass = Class.forName(race);
+
+            modelMap.put("selectedAnimals", zoo.getAllAnimalsByRace((Class<? extends Animal>) animalClass));
         }
 
         return "animals";

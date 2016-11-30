@@ -11,26 +11,36 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Animals overview</title>
+
+    <link rel="stylesheet" href="/resources/css/style.css"/>
 
     <link rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" href="webjars/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
+
+    <script src="webjars/jquery/3.1.1/jquery.min.js"></script>
+    <script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="webjars/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
+
 
 </head>
 <body>
-
-<div class="dropdown">
-    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-        Dropdown
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <c:forEach var="selectAnimal" items="${animals}">
-            <li><a href="/animals?race=${selectAnimal.getClass().getName()}">${selectAnimal.getClass().getSimpleName()}</a></li>
-        </c:forEach>
-    </ul>
+<div class="bg"></div>
+<div class="jumbotron">
+    <h1>Animals overview</h1>
+    <p class="lead">Use the button below to filter Animal races</p>
 </div>
 
-<table border="1">
+<span class="btn-select-value">Select an Item</span>
+<select class="selectpicker" title="Choose one of the following..." onchange="location = this.value;">
+    <c:forEach var="selectAnimal" items="${animals}">
+        <option value="/animals?race=${selectAnimal.getClass().getName()}">${selectAnimal.getClass().getSimpleName()}</option>
+    </c:forEach>
+</select>
+
+<table class="table table-responsive">
     <thead>
     <th>Animal Type</th>
     <th>Name</th>
@@ -41,7 +51,7 @@
     </thead>
 
     <tbody>
-    <c:forEach var="Animal" items="${animals}">
+    <c:forEach var="Animal" items="${selectedAnimals}">
         <tr>
             <td>${Animal.getClass().getSimpleName()}</td>
             <td>${Animal.getName()}</td>
@@ -53,5 +63,6 @@
     </c:forEach>
     </tbody>
 </table>
+
+
 </body>
-</html>
