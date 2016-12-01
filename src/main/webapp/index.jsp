@@ -19,9 +19,10 @@
 <body>
 
 <div class="list-group">
-    <a href="/animals" class="list-group-item list-group-item-action active">
+    <a href="/overview" class="list-group-item list-group-item-action active">
         <h5 class="list-group-item-heading">Overview</h5>
-        <p class="list-group-item-text">An overview of all the animals added to the Zoo. You can filter them by race.</p>
+        <p class="list-group-item-text">An overview of all the animals added to the Zoo. You can filter them by
+            race.</p>
     </a>
 </div>
 <p>

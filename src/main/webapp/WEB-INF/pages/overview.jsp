@@ -77,7 +77,7 @@
     <a href="/overview">
         <button type="button" class="btn btn-link">Remove filter</button>
     </a>
-    <br><br><br><br>
+    <br><br>
 
 
     <table class="table table-responsive">
