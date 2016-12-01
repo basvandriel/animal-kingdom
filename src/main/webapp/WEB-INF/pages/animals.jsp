@@ -24,25 +24,83 @@
     <script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="webjars/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            console.log("No");
+
+            console.log(localStorage.getItem('selectedAnimalRace'));
+
+            /*            console.log("No");
+
+             console.log(localStorage.getItem('selectedAnimal'));
+
+             if (localStorage.getItem('selectedAnimal') != undefined) {
+             // console.log(localStorage.getItem('selectedAnimal'));
+
+             document.getElementById("raceSelector").options[localStorage.getItem('selectedAnimal')].selected = true;
+             }
+
+             // On change store the value
+             document.getElementById("raceSelector").onchange = function () {
+
+             localStorage.setItem('selectedAnimal', document.getElementById("raceSelector").value);
+             console.log(localStorage.getItem('selectedAnimal'));
+
+             window.location.href = this.value;
+
+             };*/
+
+            $(function () {
+                if (localStorage.getItem('selectedAnimalRace')) {
+                    var selectedAnimalRace = localStorage.getItem('selectedAnimalRace');
+
+
+                    $('button[data-id="raceSelector"]').attr("title", selectedAnimalRace);
+                    $('button[data-id="raceSelector"] span.filter-option').text(selectedAnimalRace);
+
+                }
+
+                document.getElementById("raceSelector").onchange = function () {
+                    var select = document.getElementById("raceSelector");
+                    var race = select.options[select.selectedIndex].text;
+
+                    localStorage.setItem('selectedAnimalRace', race);
+
+                    window.location.href = this.value;
+                };
+
+                localStorage.setItem('selectedAnimalRace', "Select an animal race");
+
+            });
+
+
+        });
+
+
+    </script>
 
 </head>
 <body>
-<div class="bg"></div>
-<div class="jumbotron">
-    <h1>Animals overview</h1>
-    <p class="lead">Use the button below to filter Animal races</p>
+<div class="jumbotron" style="background-color: rgba(79,130,233,0.89); color: white;">
+
+
+    <div class="container text-center"><h1>Animals overview</h1>
+        <p class="lead">Use the button below to filter Animal races</p></div>
 </div>
 
-<span class="btn-select-value">Select an Item</span>
-<select class="selectpicker" title="Choose one of the following..." onchange="location = this.value;">
-    <c:forEach var="selectAnimal" items="${animals}">
-        <option value="/animals?race=${selectAnimal.getClass().getName()}">${selectAnimal.getClass().getSimpleName()}</option>
+<div class="container" style="width: 85%;">
+
+<select id="raceSelector" class="selectpicker" title="Select an animal race">
+    <c:forEach var="availableAnimal" items="${availableAnimals}">
+        <option value="/animals?race=${availableAnimal.getName()}">
+                ${availableAnimal.getSimpleName()}
+        </option>
     </c:forEach>
 </select>
 
 <table class="table table-responsive">
     <thead>
-    <th>Animal Type</th>
+    <th>Animal</th>
     <th>Name</th>
     <th>Color</th>
     <th>Body covering</th>
@@ -64,5 +122,6 @@
     </tbody>
 </table>
 
+</div>
 
 </body>

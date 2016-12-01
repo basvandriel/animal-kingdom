@@ -1,16 +1,15 @@
 package bas.animalkingdom.controllers;
 
 import bas.animalkingdom.animal.Animal;
-import bas.animalkingdom.animal.gender.impl.Male;
-import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
-import bas.animalkingdom.animal.impl.mammal.mouse.Mouse;
-import bas.animalkingdom.animal.impl.mammal.mouse.WhiteMouse;
+import bas.animalkingdom.animal.impl.mammal.Human;
 import bas.animalkingdom.zoo.Zoo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.stream.Collectors;
 
 @Controller("AnimalC")
 public class AnimalController {
@@ -19,13 +18,12 @@ public class AnimalController {
     public String getAnimals(ModelMap modelMap, @RequestParam(value = "race", required = false, defaultValue = "") String race) throws ClassNotFoundException {
         Zoo zoo = Zoo.getInstance("ICO41A");
 
-        modelMap.put("animals", zoo.getAllAnimals());
+        modelMap.put("availableAnimals", zoo.getAvailableAnimals());
 
         if (race.isEmpty()) {
-            modelMap.put("selectedAnimals", modelMap.get("animals"));
+            modelMap.put("selectedAnimals", zoo.getAllAnimals().stream().filter(animal -> !Human.class.isAssignableFrom(animal.getClass())).collect(Collectors.toList()));
         } else {
             Class<?> animalClass = Class.forName(race);
-
             modelMap.put("selectedAnimals", zoo.getAllAnimalsByRace((Class<? extends Animal>) animalClass));
         }
 

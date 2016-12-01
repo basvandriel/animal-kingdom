@@ -4,7 +4,9 @@ package bas.animalkingdom.animal.gender.impl;
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.gender.Gender;
+import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
 import bas.animalkingdom.threads.OvulatingThread;
+import bas.animalkingdom.zoo.Zoo;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -43,7 +45,6 @@ public class Female extends Gender {
      */
     public ArrayList<Egg> produceEggs() {
         ArrayList<Egg> eggs = new ArrayList<>();
-
         eggs.add(new Egg());
         return eggs;
     }
@@ -69,11 +70,9 @@ public class Female extends Gender {
      */
     public void menstruate() {
         if (this.isPregnant()) {
-            System.out.println("Cant menstruate because pregnant");
             return;
         }
         this.eggs.clear();
-        System.out.println("mensturated\n\n");
     }
 
     private List<Egg> getInseminatedEggs() {
@@ -105,13 +104,11 @@ public class Female extends Gender {
     @Override
     public void propagate(Animal parent1, Animal parent2) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         if ((parent1.isFemale() && parent2.isFemale()) || (parent1.isPregnant() || parent2.isPregnant())) {
-            System.out.println("can't propagate");
             return;
         }
         for (Egg egg : this.eggs) {
             egg.inseminate(parent1, parent2);
         }
-        System.out.println();
     }
 
     /**

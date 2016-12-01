@@ -6,6 +6,7 @@ import bas.animalkingdom.animal.gender.impl.Male;
 import bas.animalkingdom.animal.impl.bird.Bird;
 import bas.animalkingdom.animal.impl.mammal.Mammal;
 import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
+import bas.animalkingdom.animal.impl.mammal.mouse.GrayMouse;
 import bas.animalkingdom.animal.impl.mammal.mouse.Mouse;
 import bas.animalkingdom.animal.impl.mammal.mouse.WhiteMouse;
 import bas.animalkingdom.animal.impl.reptile.Reptile;
@@ -13,6 +14,8 @@ import bas.animalkingdom.threads.ReptileEggHatcherThread;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -245,6 +248,17 @@ public class Zoo {
         return animalsBySpecies;
     }
 
+    public Set<Class<? extends Animal>> getAvailableAnimals() {
+        Set<Class<? extends Animal>> availableAnimals = new HashSet<>();
+        for(Animal animal : this.getAllAnimals()) {
+            if(availableAnimals.contains(animal.getClass())) {
+                continue;
+            }
+            availableAnimals.add(animal.getClass());
+        }
+        return availableAnimals;
+    }
+
     /**
      * Retrieves all the {@link Animal}s.
      *
@@ -277,7 +291,7 @@ public class Zoo {
         Mouse whiteMous2 = new WhiteMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
         Mouse whiteMous3 = new WhiteMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
         Mouse whiteMouse4 = new WhiteMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
-        Mouse whiteMouse5 = new WhiteMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
+        Mouse whiteMouse5 = new GrayMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
     }
 
 }
