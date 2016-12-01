@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Controller("AnimalC")
 public class AnimalController {
 
-    @RequestMapping(value = "/animals", method = RequestMethod.GET)
+    @RequestMapping(value = "/overview", method = RequestMethod.GET)
     public String getAnimals(ModelMap modelMap, @RequestParam(value = "race", required = false, defaultValue = "") String race) throws ClassNotFoundException {
         Zoo zoo = Zoo.getInstance("ICO41A");
 
@@ -27,6 +27,6 @@ public class AnimalController {
             modelMap.put("selectedAnimals", zoo.getAllAnimalsByRace((Class<? extends Animal>) animalClass));
         }
 
-        return "animals";
+        return "overview";
     }
 }
