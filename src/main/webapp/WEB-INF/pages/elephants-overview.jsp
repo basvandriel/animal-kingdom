@@ -62,7 +62,7 @@
 <div class="jumbotron" style="background-color: rgba(79,130,233,0.89); color: white;">
 
 
-    <div class="container text-center" style="text-shadow: 1px 1px 2px black, 0 0 25px #9aa5a9, 0 0 5px darkblue;"><h1>Animals overview</h1>
+    <div class="container text-center"><h1>Animals overview</h1>
         <p class="lead">Use the button below to filter Animal races</p></div>
 </div>
 
@@ -90,6 +90,7 @@
         <th>Body covering</th>
         <th>Weight</th>
         <th>Max number of eggs</th>
+        <th>Earsize</th>
         </thead>
 
         <tbody>
@@ -101,6 +102,7 @@
                 <td>${Animal.getBodyCovering()}</td>
                 <td>${Animal.getWeight()}</td>
                 <td>${Animal.getMaxNumberOfEggs()}</td>
+                <td>${Animal.getEarSize()}</td>
             </tr>
         </c:forEach>
         </tbody>

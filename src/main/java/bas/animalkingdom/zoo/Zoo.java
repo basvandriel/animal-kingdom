@@ -6,6 +6,7 @@ import bas.animalkingdom.animal.gender.impl.Male;
 import bas.animalkingdom.animal.impl.bird.Bird;
 import bas.animalkingdom.animal.impl.mammal.Mammal;
 import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
+import bas.animalkingdom.animal.impl.mammal.elephant.AsianElephant;
 import bas.animalkingdom.animal.impl.mammal.mouse.GrayMouse;
 import bas.animalkingdom.animal.impl.mammal.mouse.Mouse;
 import bas.animalkingdom.animal.impl.mammal.mouse.WhiteMouse;
@@ -250,8 +251,8 @@ public class Zoo {
 
     public Set<Class<? extends Animal>> getAvailableAnimals() {
         Set<Class<? extends Animal>> availableAnimals = new HashSet<>();
-        for(Animal animal : this.getAllAnimals()) {
-            if(availableAnimals.contains(animal.getClass())) {
+        for (Animal animal : this.getAllAnimals()) {
+            if (availableAnimals.contains(animal.getClass())) {
                 continue;
             }
             availableAnimals.add(animal.getClass());
@@ -292,6 +293,13 @@ public class Zoo {
         Mouse whiteMous3 = new WhiteMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
         Mouse whiteMouse4 = new WhiteMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
         Mouse whiteMouse5 = new GrayMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
+
+        AfricanElephant africanElephant1 = new AfricanElephant(new Male(), "Body Covering", "afed", " acolor", 123, 321);
+        africanElephant1.setEarSize(214);
+
+        AsianElephant asianElephant = new AsianElephant(new Male(), "Body Covering", "afed", " acolor", 123, 321);
+        asianElephant.setEarSize(20123);
+
     }
 
 }

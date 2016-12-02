@@ -2,6 +2,8 @@ package bas.animalkingdom.controllers;
 
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.impl.mammal.Human;
+import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
+import bas.animalkingdom.animal.impl.mammal.elephant.AsianElephant;
 import bas.animalkingdom.zoo.Zoo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,6 +29,15 @@ public class AnimalController {
             modelMap.put("selectedAnimals", zoo.getAllAnimalsByRace((Class<? extends Animal>) animalClass));
         }
 
+        if (race.equals(Human.class.getName())) {
+            return "humans-overview";
+        }
+		
+		if(race.equals(AfricanElephant.class.getName()) || race.equals(AsianElephant.class.getName())) {
+            return "elephants-overview";
+		}
+
         return "overview";
     }
+
 }
