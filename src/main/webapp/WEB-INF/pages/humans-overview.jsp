@@ -85,6 +85,7 @@
     <table class="table table-responsive">
         <thead>
         <th>Type</th>
+        <th>Gender</th>
         <th>Name</th>
         <th>Insertion</th>
         <th>Last name</th>
@@ -100,6 +101,7 @@
         <c:forEach var="Animal" items="${selectedAnimals}">
             <tr>
                 <td>${Animal.getClass().getSimpleName()}</td>
+                <td>${Animal.getGender().getClass().getSimpleName()}</td>
                 <td>${Animal.getName()}</td>
                 <td>${Animal.getInsertion()}</td>
                 <td>${Animal.getLastName()}</td>

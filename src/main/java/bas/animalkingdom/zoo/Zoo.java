@@ -4,6 +4,7 @@ import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.gender.impl.Male;
 import bas.animalkingdom.animal.impl.bird.Bird;
+import bas.animalkingdom.animal.impl.mammal.Human;
 import bas.animalkingdom.animal.impl.mammal.Mammal;
 import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
 import bas.animalkingdom.animal.impl.mammal.elephant.AsianElephant;
@@ -300,6 +301,12 @@ public class Zoo {
         AsianElephant asianElephant = new AsianElephant(new Male(), "Body Covering", "afed", " acolor", 123, 321);
         asianElephant.setEarSize(20123);
 
+
+        Human human = new Human(new Male(), "a humans bodycovinerg", "Bas van Driel", "Whiteboy", 70, 1);
+        Human human1 = new Human(new Male(), "a humans bodycovinerg", "Noone the human", "Black", 70, 1);
+        Human human2 = new Human(new Male(), "a humans bodycovinerg", "Mr Slave", "Yellow", 70, 1);
+
+        human.mary(human2);
     }
 
 }

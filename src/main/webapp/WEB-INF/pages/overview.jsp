@@ -85,6 +85,7 @@
     <table class="table table-responsive">
         <thead>
         <th>Type</th>
+        <th>Gender</th>
         <th>Name</th>
         <th>Color</th>
         <th>Body covering</th>
@@ -96,6 +97,7 @@
         <c:forEach var="Animal" items="${selectedAnimals}">
             <tr>
                 <td>${Animal.getClass().getSimpleName()}</td>
+                <td>${Animal.getGender().getClass().getSimpleName()}</td>
                 <td>${Animal.getName()}</td>
                 <td>${Animal.getColor()}</td>
                 <td>${Animal.getBodyCovering()}</td>

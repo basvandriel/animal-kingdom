@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.stream.Collectors;
 
-@Controller("AnimalC")
+@Controller("Animal")
 public class AnimalController {
 
     @RequestMapping(value = "/overview", method = RequestMethod.GET)
