@@ -67,7 +67,12 @@
 </div>
 
 <div class="container" style="width: 85%;">
+    <button type="button" class="btn btn-outline-primary">Add animal</button>
 
+    <button type="button" class="btn btn-outline-primary" disabled>Delete animal</button>
+    <button type="button" class="btn btn-outline-primary" disabled>Update animal</button>
+
+    <br><br><br>
 
     <select id="raceSelector" class="selectpicker" title="Select an animal race">
         <c:forEach var="availableAnimal" items="${availableAnimals}">
