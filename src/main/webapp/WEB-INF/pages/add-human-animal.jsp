@@ -61,14 +61,28 @@
         <div class="form-group row">
             <label for="inputBodyCovering" class="col-sm-2 col-form-label">Body covering</label>
             <div class="col-sm-10">
-                <input type="bodyCovering" class="form-control" id="inputBodyCovering">
+                <input type="text" class="form-control" id="inputBodyCovering">
             </div>
         </div>
 
         <div class="form-group row">
             <label for="inputName" class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">
-                <input type="name" class="form-control" id="inputName">
+                <input type="text" class="form-control" id="inputName">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="inputInsertion" class="col-sm-2 col-form-label">Insertion</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputInsertion">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="inputLastName" class="col-sm-2 col-form-label">Last name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputLastName">
             </div>
         </div>
 
@@ -98,6 +112,16 @@
             </div>
         </div>
 
+        <div class="form-group row">
+            <label class="col-sm-2">Using birth control</label>
+            <div class="col-sm-10">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox">
+                    </label>
+                </div>
+            </div>
+        </div>
         <br>
         <div class="form-group row">
             <div class="offset-sm-2 col-sm-10">
@@ -124,6 +148,7 @@
 
     $(function () {
         $('#cp2').colorpicker({/*options...*/});
+        console.log(" hey");
     });
 
 </script>

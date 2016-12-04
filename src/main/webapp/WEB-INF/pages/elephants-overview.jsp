@@ -18,7 +18,7 @@
 
     <link rel="stylesheet" href="webjars/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
 
-    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="../resources/css/style.css"/>
 
 
     <script src="webjars/jquery/3.1.1/jquery.min.js"></script>
@@ -67,7 +67,7 @@
 </div>
 
 <div class="container" style="width: 85%;">
-    <button type="button" class="btn btn-outline-primary">Add animal</button>
+    <a href="/overview/add"><button type="button" class="btn btn-outline-primary">Add animal</button></a>
 
     <button type="button" class="btn btn-outline-primary" disabled>Delete animal</button>
     <button type="button" class="btn btn-outline-primary" disabled>Update animal</button>

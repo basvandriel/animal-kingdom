@@ -67,7 +67,7 @@
 </div>
 
 <div class="container" style="width: 85%;">
-    <button type="button" class="btn btn-outline-primary">Add animal</button>
+    <a href="/overview/add"><button type="button" class="btn btn-outline-primary">Add animal</button></a>
 
     <button type="button" class="btn btn-outline-primary" disabled>Delete animal</button>
     <button type="button" class="btn btn-outline-primary" disabled>Update animal</button>
