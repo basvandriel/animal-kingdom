@@ -108,6 +108,13 @@
         </tbody>
     </table>
 
+    <br>
+
+    <a href="/">
+        <button type="button" class="btn btn-link">Home page</button>
+    </a>
+
+
 
 </div>
 
