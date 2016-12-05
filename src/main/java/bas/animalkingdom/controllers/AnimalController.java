@@ -103,7 +103,7 @@ public class AnimalController {
                                         @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs)
 
             throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
-        ModelAndView modelAndView = new ModelAndView("../../index");
+        ModelAndView modelAndView = new ModelAndView("overview");
 
         Animal animal = new AnimalFactory(race, gender, bodyCovering, name, color, weight, maxNumberOfEggs).build();
         if (animal == null) {
