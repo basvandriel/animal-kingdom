@@ -2,6 +2,8 @@ package bas.animalkingdom.controllers;
 
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.AnimalFactory;
+import bas.animalkingdom.animal.gender.impl.Female;
+import bas.animalkingdom.animal.gender.impl.Male;
 import bas.animalkingdom.animal.impl.bird.Parrot;
 import bas.animalkingdom.animal.impl.bird.Pinguin;
 import bas.animalkingdom.animal.impl.mammal.Human;
@@ -16,17 +18,18 @@ import bas.animalkingdom.animal.impl.special.Platypus;
 import bas.animalkingdom.zoo.Zoo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.InvalidClassException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.stream.Collectors;
 
 @Controller("Animal")
 public class AnimalController {
-
 
 
     @RequestMapping(value = "/overview", method = RequestMethod.GET)
@@ -70,6 +73,11 @@ public class AnimalController {
                 Platypus.class
         });
 
+        modelMap.put("genders", new Class[]{
+                Male.class,
+                Female.class,
+        });
+
         if (race.equals(Human.class.getName())) {
             return "add-human-overview";
         }
@@ -81,23 +89,38 @@ public class AnimalController {
         return "add-animal";
     }
 
+
     @RequestMapping(value = "/overview/add", method = RequestMethod.POST)
-    public String handleAddAnimal(ModelMap modelMap, @RequestParam(value = "race", required = false, defaultValue = "") String race,
-                                  @RequestParam(value = "gender", required = false) String gender,
-                                  @RequestParam(value = "bodyCovering", required = false) String bodyCovering,
-                                  @RequestParam(value = "name", required = false) String name,
-                                  @RequestParam(value = "color", required = false) String color,
-                                  @RequestParam(value = "weight", required = false) int weight,
-                                  @RequestParam(value = "gender", required = false) int maxNumberOfEggs) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
+    public String handleAddAnimal(@RequestParam(value = "race", required = false, defaultValue = "") String race,
+                                  @RequestParam(value = "gender") String gender,
+                                  @RequestParam(value = "bodyCovering") String bodyCovering,
+                                  @RequestParam(value = "name") String name,
+                                  @RequestParam(value = "color") String color,
+                                  @RequestParam(value = "weight") int weight,
+                                  @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs,
 
-        AnimalFactory animalFactory = new AnimalFactory();
-        Animal animal = animalFactory.build(race, gender, bodyCovering, name, color, weight, maxNumberOfEggs);
+                                  //Elephant properties
+                                  @RequestParam(value = "earSize", required = false) int earSize,
 
-        //Add animal to list
+                                  //Human properties
+                                  @RequestParam(value = "insertion", required = false) String insertion,
+                                  @RequestParam(value = "lastName", required = false) String lastName,
+                                  @RequestParam(value = "usesBirthControl", required = false) boolean usesBirthControl)
 
+            throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
+        AnimalFactory animalFactory = new AnimalFactory(race, gender, bodyCovering, name, color, weight, maxNumberOfEggs);
+
+        Animal animal = null;
+        if (race.equals(AfricanElephant.class.getName()) || race.equals(AsianElephant.class.getName())) {
+            animal = animalFactory.build(earSize);
+        } else if (race.equals(Human.class.getName())) {
+            animal = animalFactory.build(insertion, lastName, usesBirthControl);
+        }
+
+        if (animal == null) {
+            return "/";
+        }
 
         return "overview";
     }
-
-
 }
