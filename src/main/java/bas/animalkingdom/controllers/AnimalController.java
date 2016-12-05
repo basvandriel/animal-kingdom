@@ -94,36 +94,66 @@ public class AnimalController {
 
 
     @RequestMapping(value = "/overview/add", method = RequestMethod.POST)
-    public String handleAddAnimal(@RequestParam(value = "race", required = false, defaultValue = "") String race,
-                                  @RequestParam(value = "gender") String gender,
-                                  @RequestParam(value = "bodyCovering") String bodyCovering,
-                                  @RequestParam(value = "name") String name,
-                                  @RequestParam(value = "color") String color,
-                                  @RequestParam(value = "weight") int weight,
-                                  @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs,
-
-                                  //Elephant properties
-                                  @RequestParam(value = "earSize", required = false) int earSize,
-
-                                  //Human properties
-                                  @RequestParam(value = "insertion", required = false) String insertion,
-                                  @RequestParam(value = "lastName", required = false) String lastName,
-                                  @RequestParam(value = "usesBirthControl", required = false) boolean usesBirthControl)
+    public ModelAndView handleAddAnimal(@RequestParam(value = "race", defaultValue = "") String race,
+                                        @RequestParam(value = "gender") String gender,
+                                        @RequestParam(value = "bodyCovering") String bodyCovering,
+                                        @RequestParam(value = "name") String name,
+                                        @RequestParam(value = "color") String color,
+                                        @RequestParam(value = "weight") int weight,
+                                        @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs)
 
             throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
-        AnimalFactory animalFactory = new AnimalFactory(race, gender, bodyCovering, name, color, weight, maxNumberOfEggs);
+        ModelAndView modelAndView = new ModelAndView("../../index");
 
-        Animal animal = null;
-        if (race.equals(AfricanElephant.class.getName()) || race.equals(AsianElephant.class.getName())) {
-            animal = animalFactory.build(earSize);
-        } else if (race.equals(Human.class.getName())) {
-            animal = animalFactory.build(insertion, lastName, usesBirthControl);
+        Animal animal = new AnimalFactory(race, gender, bodyCovering, name, color, weight, maxNumberOfEggs).build();
+        if (animal == null) {
+            modelAndView.setViewName("../../index");
         }
+        return modelAndView;
+    }
 
+
+  /*  @RequestMapping(value = "/overview/add", method = RequestMethod.POST)
+    public String handleAddElephantAnimal(@RequestParam(value = "race", required = false, defaultValue = "") String race,
+                                          @RequestParam(value = "gender") String gender,
+                                          @RequestParam(value = "bodyCovering") String bodyCovering,
+                                          @RequestParam(value = "name") String name,
+                                          @RequestParam(value = "color") String color,
+                                          @RequestParam(value = "weight") int weight,
+                                          @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs,
+
+                                          //Elephant properties
+                                          @RequestParam(value = "earSize") int earSize)
+
+            throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
+
+        Animal animal = new AnimalFactory(race, gender, bodyCovering, name, color, weight, maxNumberOfEggs).build(earSize);
         if (animal == null) {
             return "/";
         }
 
         return "overview";
     }
+
+    @RequestMapping(value = "/overview/add", method = RequestMethod.POST)
+    public String handleAddHumanAnimal(@RequestParam(value = "race", required = false, defaultValue = "") String race,
+                                       @RequestParam(value = "gender") String gender,
+                                       @RequestParam(value = "bodyCovering") String bodyCovering,
+                                       @RequestParam(value = "name") String name,
+                                       @RequestParam(value = "color") String color,
+                                       @RequestParam(value = "weight") int weight,
+                                       @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs,
+                                       @RequestParam(value = "insertion") String insertion,
+                                       @RequestParam(value = "lastName") String lastName,
+                                       @RequestParam(value = "usesBirthControl") boolean usesBirthControl)
+
+            throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
+
+        Animal animal = new AnimalFactory(race, gender, bodyCovering, name, color, weight, maxNumberOfEggs).build(insertion, lastName, usesBirthControl);
+        if (animal == null) {
+            return "/";
+        }
+
+        return "overview";
+    }*/
 }

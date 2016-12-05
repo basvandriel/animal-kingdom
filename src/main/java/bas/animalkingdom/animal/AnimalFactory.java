@@ -60,10 +60,12 @@ public class AnimalFactory {
 
     public Animal build() throws ClassNotFoundException, IllegalAccessException, InstantiationException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
         Class<?> raceClass = Class.forName(this.race);
-        if (Animal.class.isAssignableFrom(raceClass)) {
+
+        Constructor<?> animalConstructor = raceClass.getConstructor(Gender.class, String.class, String.class, String.class, int.class, int.class);
+        if (Animal.class.isAssignableFrom(animalConstructor.getClass())) {
             throw new InvalidClassException("Can't find an Animal class");
         }
-        Constructor<?> animalConstructor = raceClass.getConstructor(Gender.class, String.class, String.class, String.class, int.class, int.class);
+
         Gender genderObject = (Gender) Class.forName(gender).newInstance();
 
         return (Animal) animalConstructor.newInstance(genderObject, bodyCovering, name, color, weight, maxNumberOfEggs);
