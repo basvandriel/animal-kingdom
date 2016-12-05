@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -45,69 +44,69 @@
 
     <br><br><br>
 
-    <form:form method="POST" action="/overview/add" id="animalForm" modelAttribute="animalForm">
+    <form id="animalForm" action="/overview/add" method="POST">
 
-    <div class="form-group row">
-        <form:label for="inputName" class="col-sm-2 col-form-label" path="gender">Gender</form:label>
+        <div class="form-group row">
+            <label for="inputName" class="col-sm-2 col-form-label">Gender</label>
 
-        <div class="col-sm-10">
-            <form:select id="genderSelector" class="selectpicker" title=" " form="animalForm" path="gender">
-                <c:forEach var="availableGender" items="${availableGenders}">
-                    <option value="${availableGender.getName()}">
-                            ${availableGender.getSimpleName()}
-                    </option>
-                </c:forEach>
-            </form:select>
-        </div>
-    </div>
-
-
-    <div class="form-group row">
-        <form:label for="inputBodyCovering" class="col-sm-2 col-form-label" path="bodyCovering">Body covering</form:label>
-        <div class="col-sm-10">
-            <form:input type="text" class="form-control" id="inputBodyCovering" path="bodyCovering">
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-        <div class="col-sm-10">
-            <form:input type="text" class="form-control" id="inputName" path="name">
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <form:label for="inputColor" class="col-sm-2 col-form-label" path="color">Color</form:label>
-
-        <div class="col-sm-10">
-            <div id="cp2" class="input-group colorpicker-component">
-                <form:input type="text" value="" class="form-control" id="inputColor" path="color"/>
-                <span class="input-group-addon"><i></i></span>
+            <div class="col-sm-10">
+                <select id="genderSelector" class="selectpicker" title=" " form="animalForm">
+                    <c:forEach var="availableGender" items="${availableGenders}">
+                        <option value="${availableGender.getName()}">
+                                ${availableGender.getSimpleName()}
+                        </option>
+                    </c:forEach>
+                </select>
             </div>
         </div>
-    </div>
 
-    <div class="form-group row">
-        <form:label for="inputWeight" class="col-sm-2 col-form-label" path="weight">Weight</form:label>
-        <div class="col-sm-10">
-            <form:input type="text" class="form-control" id="inputWeight" path="weight">
+
+        <div class="form-group row">
+            <label for="inputBodyCovering" class="col-sm-2 col-form-label">Body covering</label>
+            <div class="col-sm-10">
+                <input type="text" name="bodyCovering" class="form-control" id="inputBodyCovering">
+            </div>
         </div>
-    </div>
 
-
-    <div class="form-group row">
-        <form:label for="inputMaxNumberOfEggs" class="col-sm-2 col-form-label" path="maxNumberOfEggs">Max number of eggs</form:label>
-        <div class="col-sm-10">
-            <form:input type="text" class="form-control" id="inputMaxNumberOfEggs" path="maxNumberOfEggs">
+        <div class="form-group row">
+            <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-10">
+                <input type="name" name="name" class="form-control" id="inputName">
+            </div>
         </div>
-    </div>
 
-    <br>
-    <div class="form-group row">
-        <div class="offset-sm-2 col-sm-10">
-            <button type="submit" class="btn btn-primary">Add animal</button>
+        <div class="form-group row">
+            <label for="inputColor" class="col-sm-2 col-form-label">Color</label>
+
+            <div class="col-sm-10">
+                <div id="cp2" class="input-group colorpicker-component">
+                    <input type="text" name="color" value="" class="form-control" id="inputColor"/>
+                    <span class="input-group-addon"><i></i></span>
+                </div>
+            </div>
         </div>
-    </div>
+
+        <div class="form-group row">
+            <label for="inputWeight" class="col-sm-2 col-form-label">Weight</label>
+            <div class="col-sm-10">
+                <input type="text" name="weight" class="form-control" id="inputWeight">
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <label for="inputMaxNumberOfEggs" class="col-sm-2 col-form-label">Max number of eggs</label>
+            <div class="col-sm-10">
+                <input type="text" name="maxNumberOfEggs" class="form-control" id="inputMaxNumberOfEggs">
+            </div>
+        </div>
+
+        <br>
+        <div class="form-group row">
+            <div class="offset-sm-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Add animal</button>
+            </div>
+        </div>
     </form>
 
     <br><br>

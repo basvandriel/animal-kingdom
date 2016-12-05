@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.InvalidClassException;
 import java.lang.reflect.InvocationTargetException;
@@ -57,7 +58,7 @@ public class AnimalController {
     }
 
     @RequestMapping(value = "/overview/add", method = RequestMethod.GET)
-    public String addAnimalOverview(ModelMap modelMap, @RequestParam(value = "race", required = false, defaultValue = "") String race) throws ClassNotFoundException {
+    public ModelAndView addAnimalOverview(ModelMap modelMap, @RequestParam(value = "race", required = false, defaultValue = "") String race) throws ClassNotFoundException {
         //Add all animals which can be added
         modelMap.put("availableAnimals", new Class[]{
                 Parrot.class,
@@ -78,15 +79,17 @@ public class AnimalController {
                 Female.class,
         });
 
+        ModelAndView modelAndView = new ModelAndView("add-animal");
+
         if (race.equals(Human.class.getName())) {
-            return "add-human-overview";
+            modelAndView.setViewName("add-human-overview");
         }
 
         if (race.equals(AfricanElephant.class.getName()) || race.equals(AsianElephant.class.getName())) {
-            return "add-elephant-animal";
+            modelAndView.setViewName("add-elephant-animal");
         }
 
-        return "add-animal";
+        return modelAndView;
     }
 
 
