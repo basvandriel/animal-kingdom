@@ -64,27 +64,28 @@
 
 <div class="container" style="width: 85%;">
 
-    <p>Animal race</p>
-    <select id="add-animal-raceSelector" class="selectpicker" title="Select an animal race">
-        <c:forEach var="availableAnimal" items="${availableAnimals}">
-            <option value="${availableAnimal.getName()}">
-                    ${availableAnimal.getSimpleName()}
-            </option>
-        </c:forEach>
-    </select>
-
     <br><br><br>
 
     <form id="animalForm" action="/overview/add" method="POST">
+
+        <p>Animal race</p>
+        <select id="add-animal-raceSelector" class="selectpicker" title="Select an animal race" name="race">
+            <c:forEach var="availableAnimal" items="${availableAnimals}">
+                <option value="${availableAnimal.getName()}">
+                        ${availableAnimal.getSimpleName()}
+                </option>
+            </c:forEach>
+        </select>
+        <br><br><br>
 
         <div class="form-group row">
             <label for="inputName" class="col-sm-2 col-form-label">Gender</label>
 
             <div class="col-sm-10">
-                <select id="genderSelector" class="selectpicker" title=" " form="animalForm">
-                    <c:forEach var="availableGender" items="${availableGenders}">
-                        <option value="${availableGender.getName()}">
-                                ${availableGender.getSimpleName()}
+                <select id="genderSelector" class="selectpicker" title=" " form="animalForm" name="gender">
+                    <c:forEach var="gender" items="${genders}">
+                        <option value="${gender.getName()}">
+                                ${gender.getSimpleName()}
                         </option>
                     </c:forEach>
                 </select>

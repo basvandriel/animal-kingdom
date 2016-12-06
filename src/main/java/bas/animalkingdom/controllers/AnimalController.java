@@ -91,7 +91,9 @@ public class AnimalController {
     }
 
 
-    @RequestMapping(value = "/overview/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/overview/add", method = RequestMethod.POST, params = {
+            "race", "gender", "bodyCovering", "name", "color", "weight", "maxNumberOfEggs"
+    })
     public ModelAndView handleAddAnimal(@RequestParam(value = "race") String race,
                                         @RequestParam(value = "gender") String gender,
                                         @RequestParam(value = "bodyCovering") String bodyCovering,
@@ -101,18 +103,20 @@ public class AnimalController {
                                         @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs)
 
             throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
-        ModelAndView modelAndView = new ModelAndView("overview");
 
+        String view = "overview";
         Animal animal = new AnimalFactory(race, gender, bodyCovering, name, color, weight, maxNumberOfEggs).build();
         if (animal == null) {
-            modelAndView.setViewName("../../index");
+            view = "../../index";
         }
-        return modelAndView;
+        return new ModelAndView(view);
     }
 
 
-  /*  @RequestMapping(value = "/overview/add", method = RequestMethod.POST)
-    public String handleAddElephantAnimal(@RequestParam(value = "race", required = false, defaultValue = "") String race,
+    @RequestMapping(value = "/overview/add", method = RequestMethod.POST, params = {
+            "race", "gender", "bodyCovering", "name", "color", "weight", "maxNumberOfEggs", "earSize"
+    })
+    public String handleAddElephantAnimal(@RequestParam(value = "race") String race,
                                           @RequestParam(value = "gender") String gender,
                                           @RequestParam(value = "bodyCovering") String bodyCovering,
                                           @RequestParam(value = "name") String name,
@@ -133,8 +137,10 @@ public class AnimalController {
         return "overview";
     }
 
-    @RequestMapping(value = "/overview/add", method = RequestMethod.POST)
-    public String handleAddHumanAnimal(@RequestParam(value = "race", required = false, defaultValue = "") String race,
+    @RequestMapping(value = "/overview/add", method = RequestMethod.POST, params = {
+            "race", "gender", "bodyCovering", "name", "color", "weight", "maxNumberOfEggs", "insertion", "lastName", "usesBirthControl"
+    })
+    public String handleAddHumanAnimal(@RequestParam(value = "race") String race,
                                        @RequestParam(value = "gender") String gender,
                                        @RequestParam(value = "bodyCovering") String bodyCovering,
                                        @RequestParam(value = "name") String name,
@@ -153,5 +159,5 @@ public class AnimalController {
         }
 
         return "overview";
-    }*/
+    }
 }

@@ -73,18 +73,15 @@ public class AnimalFactory {
 
     public Animal build(int earSize) throws ClassNotFoundException, IllegalAccessException, InstantiationException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
         Elephant animal = (Elephant) this.build();
-        if (Elephant.class.isAssignableFrom(animal.getClass())) {
-            return null;
-        }
+        //Todo check if its a elephant type
         animal.setEarSize(earSize);
         return animal;
     }
 
     public Animal build(String insertion, String lastName, boolean usesBirthControl) throws ClassNotFoundException, IllegalAccessException, InstantiationException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
         Human animal = (Human) this.build();
-        if (Elephant.class.isAssignableFrom(animal.getClass())) {
-            return null;
-        }
+
+        //TODO : Check if is human class
         animal.setInsertion(insertion);
         animal.setLastName(lastName);
         animal.setUsesBirthControl(usesBirthControl);
