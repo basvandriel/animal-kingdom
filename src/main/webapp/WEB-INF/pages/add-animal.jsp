@@ -6,14 +6,14 @@
     <title>Animals overview</title>
 
 
-    <link rel="stylesheet" href="../webjars/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="../webjars/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css" type="text/css">
 
-    <link rel="stylesheet" href="../webjars/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="../webjars/bootstrap-select/1.9.4/css/bootstrap-select.min.css" type="text/css">
 
-    <script src="../webjars/jquery/3.1.1/jquery.min.js"></script>
-    <script src="../webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../webjars/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
+    <script src="../webjars/jquery/3.1.1/jquery.min.js" type="application/javascript"></script>
+    <script src="../webjars/bootstrap/3.3.7/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="../webjars/bootstrap-select/1.9.4/js/bootstrap-select.min.js" type="application/javascript"></script>
 
     <script src="/webjars/bootstrap-colorpicker/2.3.6/dist/js/bootstrap-colorpicker.min.js"></script>
     <link rel="stylesheet" href="../webjars/bootstrap-colorpicker/2.3.6/dist/css/bootstrap-colorpicker.min.css">
@@ -23,33 +23,29 @@
 
             $(".selectpicker").selectpicker();
 
-            if (localStorage.getItem('add-animal-raceSelectorOption') != "undefined") {
-                console.log("get here?");;
-                var selectedAnimalRaceOptionIndex = localStorage.getItem('add-animal-raceSelectorOption');
+            if (localStorage.getItem('add-animal-raceSelectorOption')) {
+                var selectIndex = localStorage.getItem('add-animal-raceSelectorOption');
 
-                console.log(selectedAnimalRaceOptionIndex);
-                var selectedAnimalRaceOption = document.getElementById('add-animal-raceSelector').options[selectedAnimalRaceOptionIndex];
+                var selectedAnimalRaceOption = document.getElementById('add-animal-raceSelector').options[selectIndex];
 
                 //Elements for setting the dropdown title
-                //$('button[data-id="add-animal-raceSelector"]').attr("title", selectedAnimalRaceOption.text);
-                //$('button[data-id="add-animal-raceSelector"] span.filter-option').text(selectedAnimalRaceOption.text);
+                $('button[data-id="add-animal-raceSelector"]').attr("title", selectedAnimalRaceOption.text);
+                $('button[data-id="add-animal-raceSelector"] span.filter-option').text(selectedAnimalRaceOption.text);
 
-                console.log(typeof selectedAnimalRaceOptionIndex);
-
-                document.getElementById('add-animal-raceSelector').options[selectedAnimalRaceOptionIndex].selected = true;
-
-//                localStorage.setItem('add-animal-raceSelectorTitle', "Select an animal race");
-                localStorage.setItem('add-animal-raceSelectorOption', undefined);
+                selectedAnimalRaceOption.selected = true;
+                localStorage.removeItem('add-animal-raceSelectorOption');
             }
 
+            /**
+             *
+             */
             document.getElementById("add-animal-raceSelector").onchange = function () {
-                console.log("what the fck");
-                localStorage.setItem('add-animal-raceSelectorOption', document.getElementById("add-animal-raceSelector").selectedIndex);
-
+                var select = document.getElementById("add-animal-raceSelector");
+                if (select.options[select.selectedIndex].value != "") {
+                    localStorage.setItem('add-animal-raceSelectorOption', select.selectedIndex);
+                }
                 window.location.href = "/overview/add?race=" + this.value;
             };
-
-
         });
     </script>
 </head>
@@ -58,9 +54,10 @@
 <div class="jumbotron" style="background-color: rgba(79,130,233,0.89); color: white;">
 
 
-    <div class="container text-center" style="text-shadow: 1px 1px 2px black, 0 0 25px #9aa5a9, 0 0 5px darkblue;"><h1>
-        Animals overview</h1>
-        <p class="lead">Use the button below to filter Animal races</p></div>
+    <div class="container text-center" style="text-shadow: 1px 1px 2px black, 0 0 25px #9aa5a9, 0 0 5px darkblue;">
+        <h1>Add an animal to the zoo</h1>
+        <p class="lead">Use the button below to filter Animal races</p>
+    </div>
 </div>
 
 <div class="container" style="width: 85%;">

@@ -92,7 +92,7 @@ public class AnimalController {
 
 
     @RequestMapping(value = "/overview/add", method = RequestMethod.POST)
-    public ModelAndView handleAddAnimal(@RequestParam(value = "race", defaultValue = "") String race,
+    public ModelAndView handleAddAnimal(@RequestParam(value = "race") String race,
                                         @RequestParam(value = "gender") String gender,
                                         @RequestParam(value = "bodyCovering") String bodyCovering,
                                         @RequestParam(value = "name") String name,
