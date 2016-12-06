@@ -18,7 +18,6 @@ import bas.animalkingdom.animal.impl.special.Platypus;
 import bas.animalkingdom.zoo.Zoo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.InvalidClassException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.stream.Collectors;
 
 @Controller("Animal")
@@ -34,7 +32,9 @@ public class AnimalController {
 
 
     @RequestMapping(value = "/overview", method = RequestMethod.GET)
-    public String getAnimals(ModelMap modelMap, @RequestParam(value = "race", required = false, defaultValue = "") String race) throws ClassNotFoundException {
+    public ModelAndView getAnimals(ModelMap modelMap, @RequestParam(value = "race", required = false, defaultValue = "") String race) throws ClassNotFoundException {
+        ModelAndView modelAndView = new ModelAndView("overview");
+
         Zoo zoo = Zoo.getInstance("ICO41A");
 
         modelMap.put("availableAnimals", zoo.getAvailableAnimals());
@@ -47,14 +47,12 @@ public class AnimalController {
         }
 
         if (race.equals(Human.class.getName())) {
-            return "humans-overview";
+            modelAndView.setViewName("humans-overview");
+        } else if (race.equals(AfricanElephant.class.getName()) || race.equals(AsianElephant.class.getName())) {
+            modelAndView.setViewName("elephants-overview");
         }
 
-        if (race.equals(AfricanElephant.class.getName()) || race.equals(AsianElephant.class.getName())) {
-            return "elephants-overview";
-        }
-
-        return "overview";
+        return modelAndView;
     }
 
     @RequestMapping(value = "/overview/add", method = RequestMethod.GET)
@@ -82,7 +80,7 @@ public class AnimalController {
         ModelAndView modelAndView = new ModelAndView("add-animal");
 
         if (race.equals(Human.class.getName())) {
-            modelAndView.setViewName("add-human-overview");
+            modelAndView.setViewName("add-human-animal");
         }
 
         if (race.equals(AfricanElephant.class.getName()) || race.equals(AsianElephant.class.getName())) {

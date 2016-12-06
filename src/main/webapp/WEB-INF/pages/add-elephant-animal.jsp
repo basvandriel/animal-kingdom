@@ -18,6 +18,40 @@
 
     <script src="/webjars/bootstrap-colorpicker/2.3.6/dist/js/bootstrap-colorpicker.min.js"></script>
     <link rel="stylesheet" href="../webjars/bootstrap-colorpicker/2.3.6/dist/css/bootstrap-colorpicker.min.css">
+    <script type="application/javascript">
+        $(document).ready(function () {
+
+            $(".selectpicker").selectpicker();
+
+            if (localStorage.getItem('add-animal-raceSelectorOption') != "undefined") {
+                console.log("get here?");
+                var selectedAnimalRaceOptionIndex = localStorage.getItem('add-animal-raceSelectorOption');
+                var selectedAnimalRaceOption = document.getElementById('add-animal-raceSelector').options[selectedAnimalRaceOptionIndex];
+
+                //Elements for setting the dropdown title
+                $('button[data-id="add-animal-raceSelector"]').attr("title", selectedAnimalRaceOption.text);
+                $('button[data-id="add-animal-raceSelector"] span.filter-option').text(selectedAnimalRaceOption.text);
+
+                console.log(typeof selectedAnimalRaceOptionIndex);
+
+                document.getElementById('add-animal-raceSelector').options[selectedAnimalRaceOptionIndex].selected = true;
+
+//                localStorage.setItem('add-animal-raceSelectorTitle', "Select an animal race");
+                localStorage.setItem('add-animal-raceSelectorOption', undefined);
+            };
+
+
+            document.getElementById("add-animal-raceSelector").onchange = function () {
+                console.log("what the fck");
+                var select = document.getElementById("add-animal-raceSelector");
+                localStorage.setItem('add-animal-raceSelectorOption', select.selectedIndex);
+
+                window.location.href = "/overview/add?race=" + this.value;
+            };
+
+
+        });
+    </script>
 
 
 </head>
@@ -34,10 +68,9 @@
 <div class="container" style="width: 85%;">
 
     <p>Animal race</p>
-    <select id="raceSelector" class="selectpicker" title="Select an animal race">
-        <option value=""></option>
+    <select id="add-animal-raceSelector" class="selectpicker" title="Select an animal race">
         <c:forEach var="availableAnimal" items="${availableAnimals}">
-            <option value="/overview?race=${availableAnimal.getName()}">
+            <option value="${availableAnimal.getName()}">
                     ${availableAnimal.getSimpleName()}
             </option>
         </c:forEach>
