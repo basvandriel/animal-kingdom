@@ -110,7 +110,7 @@
                 <td>${Animal.getName()}</td>
                 <td>${Animal.getInsertion()}</td>
                 <td>${Animal.getLastName()}</td>
-                <td>${Animal.getColor()}</td>
+                <td style="color:${Animal.getColor()}">${Animal.getColor()}</td>
                 <td>${Animal.getBodyCovering()}</td>
                 <td>${Animal.getWeight()}</td>
                 <td>${Animal.getMaxNumberOfEggs()}</td>

@@ -53,7 +53,6 @@ public class AnimalFactory {
     public Animal build(String insertion, String lastName, boolean usesBirthControl) throws ClassNotFoundException, IllegalAccessException, InstantiationException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
         Human animal = (Human) this.build();
 
-        //TODO : Check if is human class
         animal.setInsertion(insertion);
         animal.setLastName(lastName);
         animal.setUsesBirthControl(usesBirthControl);

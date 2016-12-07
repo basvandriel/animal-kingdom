@@ -1,12 +1,12 @@
 package bas.animalkingdom.animal.impl.mammal;
 
+import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.gender.Gender;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import bas.animalkingdom.animal.Animal;
 
 /**
  * A {@link Human} {@link Mammal} {@link Animal}
@@ -96,7 +96,7 @@ public class Human extends Mammal {
         }
 
         //haha
-        if(partner == this) {
+        if (partner == this) {
             return;
         }
 
@@ -107,7 +107,7 @@ public class Human extends Mammal {
 
         //Single love or cheating
         if (partner != this.partner) {
-            if(this.isMarried() || partner.isMarried() && partner != (this).partner) {
+            if (this.isMarried() || partner.isMarried() && partner != (this).partner) {
                 this.adulteryLove(partner);
             }
 

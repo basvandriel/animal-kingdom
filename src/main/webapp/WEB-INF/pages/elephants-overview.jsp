@@ -105,7 +105,7 @@
                 <td>${Animal.getClass().getSimpleName()}</td>
                 <td>${Animal.getGender().getClass().getSimpleName()}</td>
                 <td>${Animal.getName()}</td>
-                <td>${Animal.getColor()}</td>
+                <td style="color:${Animal.getColor()}">${Animal.getColor()}</td>
                 <td>${Animal.getBodyCovering()}</td>
                 <td>${Animal.getWeight()}</td>
                 <td>${Animal.getMaxNumberOfEggs()}</td>
