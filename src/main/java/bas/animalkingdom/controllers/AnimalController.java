@@ -22,15 +22,18 @@ import com.sun.activation.registries.MailcapParseException;
 
 import jdk.nashorn.internal.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.json.JsonObject;
 import javax.json.stream.JsonParser;
+import javax.servlet.http.HttpServletRequest;
 import java.io.InvalidClassException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -180,15 +183,13 @@ public class AnimalController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/overview/marry", method = RequestMethod.POST)
-    public ModelAndView handleMarry(@RequestParam(value = "UUIDS") String UUIDS) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/overview");
+    @RequestMapping(value = "/overview/marry", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String handleMarry(@RequestParam(value = "UUIDs") String UUIDs) {
+        System.out.println("anyeone here?");
 
         //Marry humans;
+//        Map json = new Gson().fromJson(UUIDS, Map.class);
 
-        Gson gson = new Gson();
-        Object object = gson.fromJson(UUIDS, Object.class);
-
-        return modelAndView;
+        return "nigger";
     }
 }

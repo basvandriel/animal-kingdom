@@ -82,27 +82,26 @@
                     return $(this).attr("data-uuid");
                 }).get();
 
-                if(UUIDs.length != 1) {
+
+                if (UUIDs.length != 2) {
                     return;
                 }
+
 
                 $.ajax({
                     url: "/overview/marry",
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
-                    dataType : 'json',
+                    dataType: 'json',
                     data: JSON.stringify(UUIDs),
                     async: false,
                     cache: false,
                     processData: false,
                     success: function (resposeJsonObject) {
                         console.log('succes');
+                        console.log(resposeJsonObject);
                     }
                 });
-
-
-                console.log(UUIDs);
-                //Crazy ajax stuff
             });
 
 
