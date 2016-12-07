@@ -17,6 +17,10 @@ import bas.animalkingdom.animal.impl.reptile.Snake;
 import bas.animalkingdom.animal.impl.special.Platypus;
 import bas.animalkingdom.repository.AnimalService;
 import bas.animalkingdom.zoo.Zoo;
+import com.google.gson.Gson;
+import com.sun.activation.registries.MailcapParseException;
+
+import jdk.nashorn.internal.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,8 +29,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.json.JsonObject;
+import javax.json.stream.JsonParser;
 import java.io.InvalidClassException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller("Animal")
@@ -169,6 +177,18 @@ public class AnimalController {
             return modelAndView;
         }
         this.animalService.addAnimal(animal);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/overview/marry", method = RequestMethod.POST)
+    public ModelAndView handleMarry(@RequestParam(value = "UUIDS") String UUIDS) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/overview");
+
+        //Marry humans;
+
+        Gson gson = new Gson();
+        Object object = gson.fromJson(UUIDS, Object.class);
+
         return modelAndView;
     }
 }
