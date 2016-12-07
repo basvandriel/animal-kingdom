@@ -18,8 +18,18 @@
 
     <link rel="stylesheet" href="webjars/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
 
-    <link rel="stylesheet" href="css/style.css"/>
+    <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
 
+    <style type="text/css" rel="stylesheet">
+        tbody tr:hover {
+            background-color: rgba(79, 130, 233, 0.65);
+            cursor: pointer;
+        }
+
+        .selectedanimal {
+            background-color: rgba(79, 130, 233, 0.65);
+        }
+    </style>
 
     <script src="webjars/jquery/3.1.1/jquery.min.js"></script>
     <script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -52,6 +62,49 @@
                 window.location.href = this.value;
             };
 
+            $('tbody tr').on('click', function () {
+                if ($(this).hasClass('selectedAnimal')) {
+                    $('#marryButton').attr("disabled", true);
+                    $(this).removeClass('selectedAnimal');
+                    return;
+                }
+                if ($('tbody tr.selectedAnimal').length > 1) {
+                    return;
+                } else if (($('tbody tr.selectedAnimal').length == 1)) {
+                    $('#marryButton').removeAttr("disabled");
+                }
+                $(this).addClass('selectedAnimal');
+            });
+
+            $("#marryButton").on('click', function (e) {
+                e.preventDefault();
+                var UUIDs = $(".selectedAnimal").map(function () {
+                    return $(this).attr("data-uuid");
+                }).get();
+
+                if(UUIDs.length != 1) {
+                    return;
+                }
+
+                $.ajax({
+                    url: "/overview/marry",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(UUIDs),
+                    async: false,
+                    cache: false,
+                    processData: false,
+                    success: function (resposeJsonObject) {
+                        console.log('succes');
+                    }
+                });
+
+
+                console.log(UUIDs);
+                //Crazy ajax stuff
+            });
+
+
         });
 
 
@@ -67,10 +120,16 @@
 </div>
 
 <div class="container" style="width: 85%;">
-    <a href="/overview/add"><button type="button" class="btn btn-outline-primary">Add animal</button></a>
+    <a href="/overview/add">
+        <button type="button" class="btn btn-outline-primary">Add animal</button>
+    </a>
 
     <button type="button" class="btn btn-outline-primary" disabled>Delete animal</button>
     <button type="button" class="btn btn-outline-primary" disabled>Update animal</button>
+
+    <br><br>
+    <button type="button" class="btn btn-outline-primary" id="marryButton" disabled>Marry</button>
+
 
     <br><br><br>
 
@@ -104,7 +163,7 @@
 
         <tbody>
         <c:forEach var="Animal" items="${selectedAnimals}">
-            <tr>
+            <tr data-uuid="${Animal.getUuid()}">
                 <td>${Animal.getClass().getSimpleName()}</td>
                 <td>${Animal.getGender().getClass().getSimpleName()}</td>
                 <td>${Animal.getName()}</td>
@@ -115,7 +174,8 @@
                 <td>${Animal.getWeight()}</td>
                 <td>${Animal.getMaxNumberOfEggs()}</td>
                 <td>${Animal.isUsingBirthControl()}</td>
-                <td><c:if test="${Animal.getPartner() != null}">${Animal.getPartner().getName()} ${Animal.getPartner().getInsertion()} ${Animal.getPartner().getLastName()}</c:if></td>
+                <td><c:if
+                        test="${Animal.getPartner() != null}">${Animal.getPartner().getName()} ${Animal.getPartner().getInsertion()} ${Animal.getPartner().getLastName()}</c:if></td>
             </tr>
         </c:forEach>
         </tbody>

@@ -6,9 +6,14 @@ import bas.animalkingdom.zoo.Zoo;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public abstract class Animal {
 
+    /**
+     *
+     */
+    private UUID uuid;
     /**
      * The {@link Gender} of the {@link Animal}.
      */
@@ -51,6 +56,8 @@ public abstract class Animal {
      * @param maxNumberOfEggs The max number of eggs of the {@link Animal}.
      */
     public Animal(Gender gender, String bodyCovering, String name, String color, int weight, int maxNumberOfEggs) {
+        this.uuid = UUID.randomUUID();
+
         this.gender = gender;
         this.bodyCovering = bodyCovering;
         this.name = name;
@@ -111,6 +118,15 @@ public abstract class Animal {
     }
 
     /**
+     * Sets the unique UUID of the {@link Animal}
+     *
+     * @param uuid The unique UUID of the {@link Animal}
+     */
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    /**
      * Sets the {@link Gender} of the {@link Animal}.
      *
      * @param gender The {@link Gender} of the {@link Animal}.
@@ -165,6 +181,15 @@ public abstract class Animal {
     }
 
     /**
+     * Retrieves the unique UUID of the {@link Animal}
+     *
+     * @return The unique UUID of the {@link Animal}
+     */
+    public UUID getUuid() {
+        return this.uuid;
+    }
+
+    /**
      * Retrieves the {@link Gender} of the {@link Animal}.
      *
      * @return The {@link Gender} of the {@link Animal}.
@@ -190,7 +215,6 @@ public abstract class Animal {
     public String getName() {
         return name;
     }
-
 
 
     /**
