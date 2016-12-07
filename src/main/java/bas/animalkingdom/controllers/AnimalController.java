@@ -15,7 +15,9 @@ import bas.animalkingdom.animal.impl.mammal.mouse.WhiteMouse;
 import bas.animalkingdom.animal.impl.reptile.Crocodile;
 import bas.animalkingdom.animal.impl.reptile.Snake;
 import bas.animalkingdom.animal.impl.special.Platypus;
+import bas.animalkingdom.repository.AnimalService;
 import bas.animalkingdom.zoo.Zoo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,8 @@ import java.util.stream.Collectors;
 @Controller("Animal")
 public class AnimalController {
 
+    @Autowired
+    private AnimalService animalService;
 
     @RequestMapping(value = "/overview", method = RequestMethod.GET)
     public ModelAndView getAnimals(ModelMap modelMap, @RequestParam(value = "race", required = false, defaultValue = "") String race) throws ClassNotFoundException {
@@ -103,12 +107,14 @@ public class AnimalController {
 
             throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
 
-        String view = "overview";
+        ModelAndView modelAndView = new ModelAndView("redirect:/overview");
         Animal animal = new AnimalFactory(race, gender, bodyCovering, name, color, weight, maxNumberOfEggs).build();
         if (animal == null) {
-            view = "../../index";
+            modelAndView.setViewName("redirect:/../../index");
+            return modelAndView;
         }
-        return new ModelAndView("redirect:/" + view);
+        this.animalService.addAnimal(animal);
+        return modelAndView;
     }
 
 
@@ -129,13 +135,15 @@ public class AnimalController {
             throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
 
 
-        String view = "overview";
+        ModelAndView modelAndView = new ModelAndView("redirect:/overview");
         Animal animal = new AnimalFactory(race, gender, bodyCovering, name, color, weight, maxNumberOfEggs).build(earSize);
         if (animal == null) {
-            view = "../../index";
+            modelAndView.setViewName("redirect:/../../index");
+            return modelAndView;
         }
+        this.animalService.addAnimal(animal);
 
-        return new ModelAndView("redirect:/" + view);
+        return modelAndView;
     }
 
     @RequestMapping(value = "/overview/add", method = RequestMethod.POST, params = {
@@ -154,12 +162,13 @@ public class AnimalController {
 
             throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
 
-        String view = "overview";
+        ModelAndView modelAndView = new ModelAndView("redirect:/overview");
         Animal animal = new AnimalFactory(race, gender, bodyCovering, name, color, weight, maxNumberOfEggs).build(insertion, lastName, usesBirthControl);
         if (animal == null) {
-            view = "../../index";
+            modelAndView.setViewName("redirect:/../../index");
+            return modelAndView;
         }
-
-        return new ModelAndView("redirect:/" + view);
+        this.animalService.addAnimal(animal);
+        return modelAndView;
     }
 }

@@ -85,7 +85,7 @@ public class Zoo {
     public static Zoo getInstance(String zoo) {
         if (instance == null) {
             instance = new Zoo(zoo);
-            loadAnimals();
+//            loadAnimals();
         }
         return instance;
     }
@@ -98,7 +98,7 @@ public class Zoo {
     public static Zoo getInstance() {
         if (instance == null) {
             instance = new Zoo();
-            loadAnimals();
+//            loadAnimals();
         }
         return instance;
     }
@@ -287,7 +287,7 @@ public class Zoo {
     }
 
     private static void loadAnimals() {
-        AfricanElephant africanElephant = new AfricanElephant(new Male(), "Body Covering", "africanElephant", " acolor", 123, 321);
+/*        AfricanElephant africanElephant = new AfricanElephant(new Male(), "Body Covering", "africanElephant", " acolor", 123, 321);
         Mouse whiteMouse = new WhiteMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
         Mouse whiteMouse1 = new WhiteMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
         Mouse whiteMous2 = new WhiteMouse(new Male(), "Body Covering", "anMouse", " acolor", 123, 321);
@@ -306,7 +306,7 @@ public class Zoo {
         Human human1 = new Human(new Male(), "a humans bodycovinerg", "Noone the human", "Black", 70, 1);
         Human human2 = new Human(new Male(), "a humans bodycovinerg", "Mr Slave", "Yellow", 70, 1);
 
-        human.mary(human2);
+        human.mary(human2);*/
     }
 
 }
