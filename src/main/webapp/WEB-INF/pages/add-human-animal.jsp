@@ -148,7 +148,7 @@
 
 
         <div class="form-group row">
-            <label for="inputMaxNumberOfEggs" class="col-sm-2 col-form-label">Uses birth control</label>
+            <label for="inputMaxNumberOfEggs" class="col-sm-2 col-form-label">Using birth control</label>
             <div class="col-sm-10">
                     <input type="checkbox" class="form-control form-check-input" id="inputUsingBirthControl"
                            name="usingBirthControl">
