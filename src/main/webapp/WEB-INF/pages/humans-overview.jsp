@@ -62,18 +62,30 @@
                 window.location.href = this.value;
             };
 
+
             $('tbody tr').on('click', function () {
+
                 if ($(this).hasClass('selectedAnimal')) {
-                    $('#marryButton').attr("disabled", true);
+                    $("#marryButton").attr("disabled", true).text("Marry");
                     $(this).removeClass('selectedAnimal');
                     return;
-                }
-                if ($('tbody tr.selectedAnimal').length > 1) {
+                } else if ($(".selectedAnimal").length >= 2) {
                     return;
-                } else if (($('tbody tr.selectedAnimal').length == 1)) {
-                    $('#marryButton').removeAttr("disabled");
                 }
-                $(this).addClass('selectedAnimal');
+                console.log("bfeore adding" + $(".selectedAnimal").length);
+
+                $(this).addClass("selectedAnimal");
+                console.log("after adding" + $(".selectedAnimal").length);
+
+                if ($(".selectedAnimal").length == 2) {
+                    console.log("working");
+                    $($(".selectedAnimal")).each(function (i, o) {
+                        console.log(i);
+                        console.log(o);
+                    });
+                    $("#marryButton").removeAttr("disabled").text("Marry");
+                    //$(this).children().last().text() != ""
+                }
             });
 
             $("#marryButton").on('click', function (e) {
@@ -82,13 +94,15 @@
                     return $(this).attr("data-uuid");
                 }).get();
 
+                //Check if the human has been married
+                var marryOrDivorce = "marry";
 
                 if (UUIDs.length != 2) {
                     return;
                 }
 
                 $.ajax({
-                    url: "/overview/marry",
+                    url: "/overview/" + marryOrDivorce,
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
