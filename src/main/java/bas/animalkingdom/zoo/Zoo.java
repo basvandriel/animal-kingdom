@@ -2,23 +2,13 @@ package bas.animalkingdom.zoo;
 
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
-import bas.animalkingdom.animal.gender.impl.Male;
 import bas.animalkingdom.animal.impl.bird.Bird;
-import bas.animalkingdom.animal.impl.mammal.Human;
 import bas.animalkingdom.animal.impl.mammal.Mammal;
-import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
-import bas.animalkingdom.animal.impl.mammal.elephant.AsianElephant;
-import bas.animalkingdom.animal.impl.mammal.mouse.GrayMouse;
-import bas.animalkingdom.animal.impl.mammal.mouse.Mouse;
-import bas.animalkingdom.animal.impl.mammal.mouse.WhiteMouse;
 import bas.animalkingdom.animal.impl.reptile.Reptile;
 import bas.animalkingdom.threads.ReptileEggHatcherThread;
 
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * A {@link Zoo}
@@ -309,4 +299,11 @@ public class Zoo {
         human.mary(human2);*/
     }
 
+    public Animal getAnimalByUUID(UUID uuid) {
+        Optional<Animal> animalByUUID = this.getAllAnimals().stream().filter(animal -> animal.getUuid().toString().equals(uuid.toString())).findFirst();
+        if (!animalByUUID.isPresent()) {
+            return null;
+        }
+        return animalByUUID.get();
+    }
 }

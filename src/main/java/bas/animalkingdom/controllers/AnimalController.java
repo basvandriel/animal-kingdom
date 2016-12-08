@@ -1,5 +1,6 @@
 package bas.animalkingdom.controllers;
 
+import bas.animalkingdom.SpringHelper;
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.AnimalFactory;
 import bas.animalkingdom.animal.gender.impl.Female;
@@ -18,11 +19,8 @@ import bas.animalkingdom.animal.impl.special.Platypus;
 import bas.animalkingdom.repository.AnimalService;
 import bas.animalkingdom.zoo.Zoo;
 import com.google.gson.Gson;
-import com.sun.activation.registries.MailcapParseException;
-
-import jdk.nashorn.internal.parser.JSONParser;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,13 +29,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.json.JsonObject;
-import javax.json.stream.JsonParser;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.io.InvalidClassException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
-import java.util.Objects;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller("Animal")
@@ -183,13 +180,23 @@ public class AnimalController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/overview/marry", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody String handleMarry(@RequestParam(value = "UUIDs") String UUIDs) {
-        System.out.println("anyeone here?");
+    @RequestMapping(value = "/overview/marry", method = RequestMethod.POST)
+    public @ResponseBody boolean handleMarry(HttpServletRequest httpServletRequest) throws IOException {
+        Gson gson = new Gson();
+        List<String> json = gson.fromJson(
+                SpringHelper.getAjaxStringFromRequest(httpServletRequest), (new TypeToken<List<String>>() {
+                }).getType());
 
-        //Marry humans;
-//        Map json = new Gson().fromJson(UUIDS, Map.class);
+        if (json.size() != 2) {
+            return false;
+        }
 
-        return "nigger";
+        Human human1 = (Human) Zoo.getInstance().getAnimalByUUID(UUID.fromString(json.get(0)));
+        Human human2 = (Human) Zoo.getInstance().getAnimalByUUID(UUID.fromString(json.get(1)));
+
+        if (human1 == null || human2 == null) {
+            return false;
+        }
+        return  human1.mary(human2);
     }
 }

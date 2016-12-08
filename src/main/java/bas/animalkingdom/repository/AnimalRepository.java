@@ -39,7 +39,7 @@ public class AnimalRepository {
                 Human human1 = new Human(new Male(), "a humans bodycovinerg", "Noone the human", "Black", 70, 1);
                 Human human2 = new Human(new Male(), "a humans bodycovinerg", "Mr Slave", "Yellow", 70, 1);
 
-                human.mary(human2);
+
 
                 add(africanElephant1);
                 add(africanElephant);

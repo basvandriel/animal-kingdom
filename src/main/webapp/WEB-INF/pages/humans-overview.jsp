@@ -87,7 +87,6 @@
                     return;
                 }
 
-
                 $.ajax({
                     url: "/overview/marry",
                     type: "POST",
@@ -98,8 +97,7 @@
                     cache: false,
                     processData: false,
                     success: function (resposeJsonObject) {
-                        console.log('succes');
-                        console.log(resposeJsonObject);
+                        location.reload();
                     }
                 });
             });
