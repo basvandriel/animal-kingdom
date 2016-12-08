@@ -216,25 +216,16 @@ public class AnimalController {
     public
     @ResponseBody
     boolean handleMarry(HttpServletRequest httpServletRequest) throws IOException {
-        ArrayList<String> humanUUIDs = this.parseHumanUUIDs(httpServletRequest);
-        ArrayList<Human> humans = this.getHumansByHumanUUIDs(humanUUIDs);
-        if (humanUUIDs == null || humans == null) {
-            return false;
-        }
-        return humans.get(0).mary(humans.get(1));
+        ArrayList<Human> humans = this.getHumansByHumanUUIDs(this.parseHumanUUIDs(httpServletRequest));
+        return humans != null && humans.get(0).mary(humans.get(1));
     }
 
     @RequestMapping(value = "/overview/isMarried", method = RequestMethod.POST)
     public
     @ResponseBody
     boolean isMarried(HttpServletRequest httpServletRequest) throws IOException {
-        ArrayList<String> humanUUIDs = this.parseHumanUUIDs(httpServletRequest);
-        ArrayList<Human> humans = this.getHumansByHumanUUIDs(humanUUIDs);
-        if (humanUUIDs == null || humans == null) {
-            return false;
-        }
-
-        if (humans.get(0).getPartner() == null || humans.get(1).getPartner() == null) {
+        ArrayList<Human> humans = this.getHumansByHumanUUIDs(this.parseHumanUUIDs(httpServletRequest));
+        if (humans == null || humans.get(0).getPartner() == null || humans.get(1).getPartner() == null) {
             return false;
         }
         return humans.get(0).getPartner() == humans.get(1);
@@ -244,16 +235,11 @@ public class AnimalController {
     public
     @ResponseBody
     boolean divorce(HttpServletRequest httpServletRequest) throws IOException {
-        ArrayList<String> humanUUIDs = this.parseHumanUUIDs(httpServletRequest);
-        ArrayList<Human> humans = this.getHumansByHumanUUIDs(humanUUIDs);
-        if (humanUUIDs == null || humans == null) {
+        ArrayList<Human> humans = this.getHumansByHumanUUIDs(this.parseHumanUUIDs(httpServletRequest));
+        if (humans == null || humans.get(0).getPartner() == null
+                || humans.get(1).getPartner() == null || humans.get(0).getPartner() != humans.get(1)) {
             return false;
         }
-
-        if (humans.get(0).getPartner() == null || humans.get(1).getPartner() == null || humans.get(0).getPartner() != humans.get(1)) {
-            return false;
-        }
-
         humans.get(0).divorce();
         return true;
     }

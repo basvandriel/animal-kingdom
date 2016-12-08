@@ -128,9 +128,7 @@
                     success: function (isMarried) {
                         marryOrDivorce = isMarried ? "divorce" : "marry";
                     }
-                });
-
-                $.ajax({
+                }).$.ajax({
                     url: "/overview/" + marryOrDivorce,
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
