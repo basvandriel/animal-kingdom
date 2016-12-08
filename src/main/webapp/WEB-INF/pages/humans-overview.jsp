@@ -71,36 +71,49 @@
                 } else if ($(".selectedAnimal").length >= 2) {
                     return;
                 }
-                console.log("bfeore adding" + $(".selectedAnimal").length);
-
                 $(this).addClass("selectedAnimal");
-                console.log("after adding" + $(".selectedAnimal").length);
 
-                if ($(".selectedAnimal").length == 2) {
-                    var UUIDs = $(".selectedAnimal").map(function (i, o) {
-                        return $(o).attr("data-uuid");
-                    }).get();
+                var UUIDs = $(".selectedAnimal").map(function (i, o) {
+                    return $(o).attr("data-uuid");
+                }).get();
 
-                    var marryOrDivorce = "Marry";
-                    if(UUIDs.length != 2) {
-                        return;
-                    }
-                    $.ajax({
-                        url: "/overview/isMarried" ,
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: 'json',
-                        data: JSON.stringify(UUIDs),
-                        async: false,
-                        cache: false,
-                        processData: false,
-                        success: function (isMarried) {
-                            console.log(isMarried);
-                            marryOrDivorce = isMarried ? "Divorce" : "Marry";
-                        }
-                    });
-                    $("#marryButton").removeAttr("disabled").text(marryOrDivorce);
+                var marryOrDivorce = "Marry";
+                if (UUIDs.length != 2) {
+                    return;
                 }
+
+
+                $.ajax({
+                    url: "/overview/isMarriedTo",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify(UUIDs),
+                    async: false,
+                    cache: false,
+                    processData: false,
+                    success: function (isMarried) {
+                        marryOrDivorce = isMarried ? "Divorce" : "Marry";
+                    }
+                });
+
+                //Crazy ajax stuff
+/*                $.ajax({
+                    url: "/overview/canMarry",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify(UUIDs),
+                    async: false,
+                    cache: false,
+                    processData: false,
+                    success: function (canMarry) {
+                        console.log(canMarry);
+                        console.log(_isMarried);
+                    }
+                });*/
+                $("#marryButton").removeAttr("disabled").text(marryOrDivorce);
+
             });
 
             $("#marryButton").on('click', function (e) {
@@ -117,7 +130,7 @@
                 }
 
                 $.ajax({
-                    url: "/overview/isMarried" ,
+                    url: "/overview/isMarriedTo",
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
@@ -128,7 +141,8 @@
                     success: function (isMarried) {
                         marryOrDivorce = isMarried ? "divorce" : "marry";
                     }
-                }).$.ajax({
+                });
+                $.ajax({
                     url: "/overview/" + marryOrDivorce,
                     type: "POST",
                     contentType: "application/json; charset=utf-8",

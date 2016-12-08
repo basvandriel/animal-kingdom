@@ -220,14 +220,36 @@ public class AnimalController {
         return humans != null && humans.get(0).mary(humans.get(1));
     }
 
-    @RequestMapping(value = "/overview/isMarried", method = RequestMethod.POST)
+    @RequestMapping(value = "/overview/canMarry", method = RequestMethod.POST)
     public
     @ResponseBody
-    boolean isMarried(HttpServletRequest httpServletRequest) throws IOException {
+    boolean canMarry(HttpServletRequest httpServletRequest) throws IOException {
+        //Get all the humans parsed by the given human UUIDS
         ArrayList<Human> humans = this.getHumansByHumanUUIDs(this.parseHumanUUIDs(httpServletRequest));
-        if (humans == null || humans.get(0).getPartner() == null || humans.get(1).getPartner() == null) {
-            return false;
+
+        //If there are no humans found, or both doesn't have a partner, no option for marriage is possible
+        if (humans == null || (humans.get(0).getPartner() == null && humans.get(1).getPartner() == null)) {
+            return true;
         }
+
+
+        //If one of them has a partner, marriage is not possible
+        return (humans.get(0).getPartner() != null && humans.get(1).getPartner() == null) || (humans.get(0).getPartner() == null && humans.get(1).getPartner() != null);
+    }
+
+    @RequestMapping(value = "/overview/isMarriedTo", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean isMarriedTo(HttpServletRequest httpServletRequest) throws IOException {
+        //Get all the humans parsed by the given human UUIDS
+        ArrayList<Human> humans = this.getHumansByHumanUUIDs(this.parseHumanUUIDs(httpServletRequest));
+
+        //If there are no humans found, or both doesn't have a partner, no option for marriage is possible
+        if (humans == null || (humans.get(0).getPartner() == null && humans.get(1).getPartner() == null)) {
+            return false;
+            //If one of them has a partner, marriage is not possible
+        }
+        //If the human's partner is the other human, the human is married to this other human
         return humans.get(0).getPartner() == humans.get(1);
     }
 
