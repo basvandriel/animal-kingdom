@@ -64,7 +64,6 @@
 
 
             $('tbody tr').on('click', function () {
-
                 if ($(this).hasClass('selectedAnimal')) {
                     $("#marryButton").attr("disabled", true).text("Marry");
                     $(this).removeClass('selectedAnimal');
@@ -78,13 +77,29 @@
                 console.log("after adding" + $(".selectedAnimal").length);
 
                 if ($(".selectedAnimal").length == 2) {
-                    console.log("working");
-                    $($(".selectedAnimal")).each(function (i, o) {
-                        console.log(i);
-                        console.log(o);
+                    var UUIDs = $(".selectedAnimal").map(function (i, o) {
+                        return $(o).attr("data-uuid");
+                    }).get();
+
+                    var marryOrDivorce = "Marry";
+                    if(UUIDs.length != 2) {
+                        return;
+                    }
+                    $.ajax({
+                        url: "/overview/isMarried" ,
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        data: JSON.stringify(UUIDs),
+                        async: false,
+                        cache: false,
+                        processData: false,
+                        success: function (isMarried) {
+                            console.log(isMarried);
+                            marryOrDivorce = isMarried ? "Divorce" : "Marry";
+                        }
                     });
-                    $("#marryButton").removeAttr("disabled").text("Marry");
-                    //$(this).children().last().text() != ""
+                    $("#marryButton").removeAttr("disabled").text(marryOrDivorce);
                 }
             });
 
@@ -100,6 +115,20 @@
                 if (UUIDs.length != 2) {
                     return;
                 }
+
+                $.ajax({
+                    url: "/overview/isMarried" ,
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify(UUIDs),
+                    async: false,
+                    cache: false,
+                    processData: false,
+                    success: function (isMarried) {
+                        marryOrDivorce = isMarried ? "divorce" : "marry";
+                    }
+                });
 
                 $.ajax({
                     url: "/overview/" + marryOrDivorce,

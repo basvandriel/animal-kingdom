@@ -30,9 +30,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.*;
 import java.io.IOException;
 import java.io.InvalidClassException;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -180,23 +183,78 @@ public class AnimalController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/overview/marry", method = RequestMethod.POST)
-    public @ResponseBody boolean handleMarry(HttpServletRequest httpServletRequest) throws IOException {
+
+    private ArrayList<String> parseHumanUUIDs(HttpServletRequest httpServletRequest) throws IOException {
         Gson gson = new Gson();
-        List<String> json = gson.fromJson(
+        List<String> humanUUIDs = gson.fromJson(
                 SpringHelper.getAjaxStringFromRequest(httpServletRequest), (new TypeToken<List<String>>() {
                 }).getType());
 
-        if (json.size() != 2) {
+        if (humanUUIDs.size() != 2) {
+            return null;
+        }
+        return (ArrayList<String>) humanUUIDs;
+    }
+
+    private ArrayList<Human> getHumansByHumanUUIDs(ArrayList<String> humanUUIDs) {
+        ArrayList<Human> humans = new ArrayList<>();
+        if (humanUUIDs == null) {
+            return humans;
+        }
+        for (String humanUUID : humanUUIDs) {
+            Human human = (Human) Zoo.getInstance().getAnimalByUUID(UUID.fromString(humanUUID));
+            if (human == null) {
+                return null;
+            }
+            humans.add(human);
+        }
+        return humans;
+    }
+
+
+    @RequestMapping(value = "/overview/marry", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean handleMarry(HttpServletRequest httpServletRequest) throws IOException {
+        ArrayList<String> humanUUIDs = this.parseHumanUUIDs(httpServletRequest);
+        ArrayList<Human> humans = this.getHumansByHumanUUIDs(humanUUIDs);
+        if (humanUUIDs == null || humans == null) {
+            return false;
+        }
+        return humans.get(0).mary(humans.get(1));
+    }
+
+    @RequestMapping(value = "/overview/isMarried", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean isMarried(HttpServletRequest httpServletRequest) throws IOException {
+        ArrayList<String> humanUUIDs = this.parseHumanUUIDs(httpServletRequest);
+        ArrayList<Human> humans = this.getHumansByHumanUUIDs(humanUUIDs);
+        if (humanUUIDs == null || humans == null) {
             return false;
         }
 
-        Human human1 = (Human) Zoo.getInstance().getAnimalByUUID(UUID.fromString(json.get(0)));
-        Human human2 = (Human) Zoo.getInstance().getAnimalByUUID(UUID.fromString(json.get(1)));
-
-        if (human1 == null || human2 == null) {
+        if (humans.get(0).getPartner() == null || humans.get(1).getPartner() == null) {
             return false;
         }
-        return  human1.mary(human2);
+        return humans.get(0).getPartner() == humans.get(1);
+    }
+
+    @RequestMapping(value = "/overview/divorce", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean divorce(HttpServletRequest httpServletRequest) throws IOException {
+        ArrayList<String> humanUUIDs = this.parseHumanUUIDs(httpServletRequest);
+        ArrayList<Human> humans = this.getHumansByHumanUUIDs(humanUUIDs);
+        if (humanUUIDs == null || humans == null) {
+            return false;
+        }
+
+        if (humans.get(0).getPartner() == null || humans.get(1).getPartner() == null || humans.get(0).getPartner() != humans.get(1)) {
+            return false;
+        }
+
+        humans.get(0).divorce();
+        return true;
     }
 }
