@@ -88,7 +88,6 @@
                         cache: false,
                         processData: false,
                         success: function (isPregnant) {
-                            console.log(" niggers");
                             if (!isPregnant) {
                                 return;
                             }
