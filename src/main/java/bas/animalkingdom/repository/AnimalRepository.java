@@ -1,6 +1,7 @@
 package bas.animalkingdom.repository;
 
 import bas.animalkingdom.animal.Animal;
+import bas.animalkingdom.animal.gender.impl.Female;
 import bas.animalkingdom.animal.gender.impl.Male;
 import bas.animalkingdom.animal.impl.mammal.Human;
 import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
@@ -23,6 +24,7 @@ public class AnimalRepository {
             {
                 AfricanElephant africanElephant = new AfricanElephant(new Male(), "Body Covering", "africanElephant", " acolor", 123, 321);
                 AfricanElephant africanElephant1 = new AfricanElephant(new Male(), "Body Covering", "afed", " acolor", 123, 321);
+                AfricanElephant africanElephant2 = new AfricanElephant(new Female(), "Body 12314", "F4male", " 51225", 123, 321);
 
                 africanElephant1.setEarSize(214);
 
@@ -39,10 +41,12 @@ public class AnimalRepository {
                 Human human1 = new Human(new Male(), "a humans bodycovinerg", "Noone the human", "Black", 70, 1);
                 Human human2 = new Human(new Male(), "a humans bodycovinerg", "Max van Driel", "Yellow", 70, 1);
                 Human human4 = new Human(new Male(), "a humans bodycovinerg", "Mini me", "Yellow", 70, 1);
+//                /Human human5 = new Human(new Female(), "a humans bodycovinerg", "F4MALE", "Yellow", 70, 1);
 
 
                 add(africanElephant1);
                 add(africanElephant);
+                add(africanElephant2);
 
                 add(whiteMouse);
                 add(whiteMouse1);
@@ -52,6 +56,7 @@ public class AnimalRepository {
                 add(human1);
                 add(human2);
                 add(human4);
+
             }
         };
     }

@@ -276,8 +276,20 @@ public class AnimalController {
     @ResponseBody
     boolean canPropagate(HttpServletRequest httpServletRequest) throws IOException {
         ArrayList<Animal> nonHumanAnimals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
-
         return nonHumanAnimals != null && (nonHumanAnimals.get(0).getClass() == nonHumanAnimals.get(1).getClass());
+    }
 
+    @RequestMapping(value = "/overview/propagate", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean propagate(HttpServletRequest httpServletRequest) throws IOException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        ArrayList<Animal> nonHumanAnimals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
+
+        //If the animals are not from the same race, they can't propagate
+        if (nonHumanAnimals == null || (nonHumanAnimals.get(0).getClass() != nonHumanAnimals.get(1).getClass())) {
+            return false;
+        }
+        nonHumanAnimals.get(0).propagate(nonHumanAnimals.get(1));
+        return true;
     }
 }

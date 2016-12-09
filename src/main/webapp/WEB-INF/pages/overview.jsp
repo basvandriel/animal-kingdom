@@ -79,7 +79,7 @@
                 if (UUIDs.length != 2) {
                     return;
                 }
-                
+
                 $.ajax({
                     url: "/overview/canPropagate",
                     type: "POST",
@@ -98,7 +98,7 @@
                 });
             });
 
-            $("#propateButton").on('click', function (e) {
+            $("#propagateButton").on('click', function (e) {
                 e.preventDefault();
                 var UUIDs = $(".selectedAnimal").map(function () {
                     return $(this).attr("data-uuid");
@@ -108,19 +108,22 @@
                     return;
                 }
 
-                /*                $.ajax({
-                 url: "/overview/propagate",
-                 type: "POST",
-                 contentType: "application/json; charset=utf-8",
-                 dataType: 'json',
-                 data: JSON.stringify(UUIDs),
-                 async: false,
-                 cache: false,
-                 processData: false,
-                 success: function (isMarried) {
-                 marryOrDivorce = isMarried ? "divorce" : "marry";
-                 }
-                 });*/
+                $.ajax({
+                    url: "/overview/propagate",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify(UUIDs),
+                    async: false,
+                    cache: false,
+                    processData: false,
+                    success: function (hasPropagated) {
+                        if(!hasPropagated) {
+                            return;
+                        }
+                        alert("Successfully propagated");
+                    }
+                });
             });
         });
 
