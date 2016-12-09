@@ -39,7 +39,6 @@
 
 
         $(document).ready(function () {
-
             $(".selectpicker").selectpicker();
 
             if (localStorage.getItem('selectedAnimalRace')) {
@@ -77,11 +76,11 @@
                     return $(o).attr("data-uuid");
                 }).get();
 
-                var marryOrDivorce = "Marry";
                 if (UUIDs.length != 2) {
                     return;
                 }
 
+                var canDivorce, buttonEnabled = false;
 
                 $.ajax({
                     url: "/overview/isMarriedTo",
@@ -93,12 +92,12 @@
                     cache: false,
                     processData: false,
                     success: function (isMarried) {
-                        marryOrDivorce = isMarried ? "Divorce" : "Marry";
+                        canDivorce = isMarried;
                     }
                 });
 
-                //Crazy ajax stuff
-/*                $.ajax({
+                //Check if they can marry
+                $.ajax({
                     url: "/overview/canMarry",
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
@@ -108,12 +107,14 @@
                     cache: false,
                     processData: false,
                     success: function (canMarry) {
-                        console.log(canMarry);
-                        console.log(_isMarried);
+                        buttonEnabled = canMarry;
                     }
-                });*/
-                $("#marryButton").removeAttr("disabled").text(marryOrDivorce);
-
+                });
+                if (buttonEnabled) {
+                    $("#marryButton").removeAttr("disabled");
+                }
+                //Check the canMarry, then decide to disable the button
+                $("#marryButton").text(canDivorce ? "Divorce" : "Marry");
             });
 
             $("#marryButton").on('click', function (e) {

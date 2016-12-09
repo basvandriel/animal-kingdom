@@ -37,8 +37,8 @@ public class AnimalRepository {
 
                 Human human = new Human(new Male(), "a humans bodycovinerg", "Bas van Driel", "Whiteboy", 70, 1);
                 Human human1 = new Human(new Male(), "a humans bodycovinerg", "Noone the human", "Black", 70, 1);
-                Human human2 = new Human(new Male(), "a humans bodycovinerg", "Mr Slave", "Yellow", 70, 1);
-
+                Human human2 = new Human(new Male(), "a humans bodycovinerg", "Max van Driel", "Yellow", 70, 1);
+                Human human4 = new Human(new Male(), "a humans bodycovinerg", "Mini me", "Yellow", 70, 1);
 
 
                 add(africanElephant1);
@@ -51,6 +51,7 @@ public class AnimalRepository {
                 add(human);
                 add(human1);
                 add(human2);
+                add(human4);
             }
         };
     }

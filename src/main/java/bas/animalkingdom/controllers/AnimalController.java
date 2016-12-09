@@ -20,6 +20,7 @@ import bas.animalkingdom.repository.AnimalService;
 import bas.animalkingdom.zoo.Zoo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -227,14 +228,16 @@ public class AnimalController {
         //Get all the humans parsed by the given human UUIDS
         ArrayList<Human> humans = this.getHumansByHumanUUIDs(this.parseHumanUUIDs(httpServletRequest));
 
-        //If there are no humans found, or both doesn't have a partner, no option for marriage is possible
-        if (humans == null || (humans.get(0).getPartner() == null && humans.get(1).getPartner() == null)) {
-            return true;
+        if (humans == null) {
+            return false;
         }
+        boolean oneHasPartner = (humans.get(0).getPartner() != null && humans.get(1).getPartner() == null) ||
+                (humans.get(0).getPartner() == null && humans.get(1).getPartner() != null);
 
+        boolean bothHasOtherPartner = (humans.get(0).getPartner() != humans.get(1) && humans.get(0).getPartner() != null) &&
+                (humans.get(1).getPartner() != humans.get(0) && humans.get(1).getPartner() != null);
 
-        //If one of them has a partner, marriage is not possible
-        return (humans.get(0).getPartner() != null && humans.get(1).getPartner() == null) || (humans.get(0).getPartner() == null && humans.get(1).getPartner() != null);
+        return !(oneHasPartner || bothHasOtherPartner);
     }
 
     @RequestMapping(value = "/overview/isMarriedTo", method = RequestMethod.POST)
