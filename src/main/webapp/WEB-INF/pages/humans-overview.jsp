@@ -247,7 +247,6 @@
             });
 
 
-
         });
 
 
@@ -259,7 +258,8 @@
 
 
     <div class="container text-center"><h1>Animals overview</h1>
-        <p class="lead">Use the button below to filter Animal races</p></div>
+        <p class="lead">Use the button below to filter Animal races</p>
+    </div>
 </div>
 
 <div class="container" style="width: 85%;">
@@ -270,11 +270,14 @@
     <button type="button" class="btn btn-outline-primary" disabled>Delete animal</button>
     <button type="button" class="btn btn-outline-primary" disabled>Update animal</button>
 
-    <br><br>
+    <br><br><br>
+    <div class="alert alert-info" role="alert" style="width: 500px">
+        <strong>Double click</strong> an animal for a detailed view
+    </div>
+
     <button type="button" class="btn btn-outline-primary" id="marryButton" disabled>Marry</button>
     <button type="button" class="btn btn-outline-primary" id="makeLoveButton" disabled>Make love</button>
     <button type="button" class="btn btn-outline-primary" id="giveBirthButton" disabled>Give birth</button>
-
 
     <br><br><br>
 
