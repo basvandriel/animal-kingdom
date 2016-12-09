@@ -8,6 +8,7 @@ import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
 import bas.animalkingdom.threads.OvulatingThread;
 import bas.animalkingdom.zoo.Zoo;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,7 +122,9 @@ public class Female extends Gender {
         if (!this.isPregnant()) {
             return null;
         }
-        return (ArrayList<Egg>) this.getInseminatedEggs();
+        List<Egg> eggs = this.getInseminatedEggs();
+        this.eggs.clear();
+        return (ArrayList<Egg>) eggs;
     }
 
     /**

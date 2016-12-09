@@ -3,6 +3,7 @@ package bas.animalkingdom.controllers;
 import bas.animalkingdom.SpringHelper;
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.AnimalFactory;
+import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.gender.impl.Female;
 import bas.animalkingdom.animal.gender.impl.Male;
 import bas.animalkingdom.animal.impl.bird.Parrot;
@@ -32,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InvalidClassException;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -300,4 +302,25 @@ public class AnimalController {
         ArrayList<Animal> nonHumanAnimals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
         return nonHumanAnimals != null && nonHumanAnimals.get(0).isPregnant();
     }
+
+    @RequestMapping(value = "/overview/giveBirth", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean giveBirth(HttpServletRequest httpServletRequest) throws IOException, IllegalAccessException, InstantiationException, InvocationTargetException {
+        ArrayList<Animal> nonHumanAnimals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
+        if (nonHumanAnimals == null) {
+            return false;
+        }
+
+        ArrayList<Egg> eggs = nonHumanAnimals.get(0).giveBirth();
+        if (eggs == null || eggs.size() <= 0) {
+            return false;
+        }
+
+        for (Egg egg : eggs) {
+            this.animalService.addAnimal(egg.hatch());
+        }
+        return true;
+    }
+
 }

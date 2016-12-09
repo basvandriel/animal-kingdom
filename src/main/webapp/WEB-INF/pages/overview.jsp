@@ -144,6 +144,35 @@
                     }
                 });
             });
+
+            $("#giveBirthButton").on('click', function (e) {
+                e.preventDefault();
+                var UUIDs = $(".selectedAnimal").map(function () {
+                    return $(this).attr("data-uuid");
+                }).get();
+
+                if (UUIDs.length != 1) {
+                    return;
+                }
+
+                $.ajax({
+                    url: "/overview/giveBirth",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify(UUIDs),
+                    async: false,
+                    cache: false,
+                    processData: false,
+                    success: function (hasGivenBirth) {
+                        if (!hasGivenBirth) {
+                            return;
+                        }
+                        alert("Successfully given birth");
+                        location.reload();
+                    }
+                });
+            });
         });
 
 
@@ -169,7 +198,7 @@
 
     <br><br>
     <button type="button" class="btn btn-outline-primary" id="propagateButton" disabled>Propagate</button>
-    <button type="button" class="btn btn-outline-primary" id="giveBirthButton" disabled>giveBirth</button>
+    <button type="button" class="btn btn-outline-primary" id="giveBirthButton" disabled>Give birth</button>
 
 
     <br><br><br>
