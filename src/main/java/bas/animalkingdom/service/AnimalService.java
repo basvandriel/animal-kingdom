@@ -1,6 +1,7 @@
-package bas.animalkingdom.repository;
+package bas.animalkingdom.service;
 
 import bas.animalkingdom.animal.Animal;
+import bas.animalkingdom.repository.AnimalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
