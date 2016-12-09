@@ -40,7 +40,9 @@
     <button type="button" class="btn btn-outline-primary" disabled>Update animal</button>
 
     <br><br><br>
-    <button type="button" class="btn btn-outline-primary" id="divorceButton" disabled>Divorce</button>
+    <button type="button" class="btn btn-outline-primary" id="divorceButton"
+            <c:if test="${human.getPartner() == null}">disabled</c:if>>Divorce
+    </button>
     <br><br>
     <div class="col-md-6">
         <h1>Properties</h1>
@@ -119,7 +121,7 @@
             <tbody>
             <c:forEach var="humanSTD" items="${animal.getSTDs()}">
                 <tr>
-                    <td>${animalSTD.getName()}</td>
+                    <td>${humanSTD.getName()}</td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -205,9 +207,9 @@
                 </thead>
 
                 <tbody>
-                <c:forEach var="humanSTD" items="${animal.getPartner().getSTDs()}">
+                <c:forEach var="humanPartnerSTD" items="${animal.getPartner().getSTDs()}">
                     <tr>
-                        <td>${animalSTD.getName()}</td>
+                        <td>${humanSTD.getName()}</td>
                     </tr>
                 </c:forEach>
 
