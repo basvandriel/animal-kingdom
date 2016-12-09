@@ -61,6 +61,10 @@
                 window.location.href = this.value;
             };
 
+            $("tbody tr").dblclick(function (event) {
+                event.preventDefault();
+                window.location.href = "/overview/human?uuid=" + $(this).attr("data-uuid");
+            });
 
             $('tbody tr').on('click', function () {
                 if ($(this).hasClass('selectedAnimal')) {

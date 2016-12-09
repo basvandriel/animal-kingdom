@@ -368,4 +368,17 @@ public class AnimalController {
         }
         return true;
     }
+
+    @RequestMapping(value = "/overview/human", method = RequestMethod.GET)
+    public ModelAndView getDetailedHumanOverview(ModelMap modelMap, @RequestParam(value = "uuid") String uuidString) throws ClassNotFoundException {
+        ModelAndView modelAndView = new ModelAndView("human-detailed-overview");
+
+        Human animal = (Human) Zoo.getInstance("ICO41A").getAnimalByUUID(UUID.fromString(uuidString));
+        if(animal == null) {
+            modelAndView.setViewName("/overview");
+        }
+        modelMap.put("human", animal);
+        return modelAndView;
+    }
+
 }
