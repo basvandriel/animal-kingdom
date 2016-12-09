@@ -66,6 +66,9 @@
                 if ($(this).hasClass('selectedAnimal')) {
                     $("#marryButton").attr("disabled", true).text("Marry");
                     $(this).removeClass('selectedAnimal');
+                    if ($(".selectedAnimal").length <= 0) {
+                        $("#makeLoveButton").attr("disabled", true);
+                    }
                     return;
                 } else if ($(".selectedAnimal").length >= 2) {
                     return;
@@ -76,45 +79,51 @@
                     return $(o).attr("data-uuid");
                 }).get();
 
-                if (UUIDs.length != 2) {
-                    return;
+
+                console.log(UUIDs.length);
+
+                if (UUIDs.length > 0) {
+                    $("#makeLoveButton").removeAttr("disabled");
                 }
 
-                var canDivorce, buttonEnabled = false;
+                if (UUIDs.length == 2) {
+                    var canDivorce, buttonEnabled = false;
 
-                $.ajax({
-                    url: "/overview/isMarriedTo",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    data: JSON.stringify(UUIDs),
-                    async: false,
-                    cache: false,
-                    processData: false,
-                    success: function (isMarried) {
-                        canDivorce = isMarried;
-                    }
-                });
+                    $.ajax({
+                        url: "/overview/isMarriedTo",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        data: JSON.stringify(UUIDs),
+                        async: false,
+                        cache: false,
+                        processData: false,
+                        success: function (isMarried) {
+                            canDivorce = isMarried;
+                        }
+                    });
 
-                //Check if they can marry
-                $.ajax({
-                    url: "/overview/canMarry",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    data: JSON.stringify(UUIDs),
-                    async: false,
-                    cache: false,
-                    processData: false,
-                    success: function (canMarry) {
-                        buttonEnabled = canMarry;
+                    //Check if they can marry
+                    $.ajax({
+                        url: "/overview/canMarry",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        data: JSON.stringify(UUIDs),
+                        async: false,
+                        cache: false,
+                        processData: false,
+                        success: function (canMarry) {
+                            buttonEnabled = canMarry;
+                        }
+                    });
+                    if (buttonEnabled) {
+                        $("#marryButton").removeAttr("disabled");
                     }
-                });
-                if (buttonEnabled) {
-                    $("#marryButton").removeAttr("disabled");
+                    //Check the canMarry, then decide to disable the button
+                    $("#marryButton").text(canDivorce ? "Divorce" : "Marry");
                 }
-                //Check the canMarry, then decide to disable the button
-                $("#marryButton").text(canDivorce ? "Divorce" : "Marry");
+
             });
 
             $("#marryButton").on('click', function (e) {
@@ -163,6 +172,10 @@
                 var UUIDs = $(".selectedAnimal").map(function () {
                     return $(this).attr("data-uuid");
                 }).get();
+
+                if (UUIDs.length <= 0) {
+                    return;
+                }
 
                 $.ajax({
                     url: "/overview/makeLove",
