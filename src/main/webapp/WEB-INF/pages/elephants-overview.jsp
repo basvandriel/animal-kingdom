@@ -140,6 +140,7 @@
                         if (!hasPropagated) {
                             return;
                         }
+                        $("tbody tr").removeClass("selectedAnimal");
                         alert("Successfully propagated");
                     }
                 });
@@ -189,7 +190,9 @@
 </div>
 
 <div class="container" style="width: 85%;">
-    <a href="/overview/add"><button type="button" class="btn btn-outline-primary">Add animal</button></a>
+    <a href="/overview/add">
+        <button type="button" class="btn btn-outline-primary">Add animal</button>
+    </a>
 
     <button type="button" class="btn btn-outline-primary" disabled>Delete animal</button>
     <button type="button" class="btn btn-outline-primary" disabled>Update animal</button>

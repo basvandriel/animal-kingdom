@@ -140,6 +140,7 @@
                         if (!hasPropagated) {
                             return;
                         }
+                        $("tbody tr").removeClass("selectedAnimal");
                         alert("Successfully propagated");
                     }
                 });
