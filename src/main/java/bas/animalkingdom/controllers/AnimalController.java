@@ -188,7 +188,7 @@ public class AnimalController {
                 SpringHelper.getAjaxStringFromRequest(httpServletRequest), (new TypeToken<List<String>>() {
                 }).getType());
 
-        if (humanUUIDs.size() != 2) {
+        if (humanUUIDs.size() <= 0) {
             return null;
         }
         return (ArrayList<String>) humanUUIDs;
@@ -291,5 +291,13 @@ public class AnimalController {
         }
         nonHumanAnimals.get(0).propagate(nonHumanAnimals.get(1));
         return true;
+    }
+
+    @RequestMapping(value = "/overview/isPregnant", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean isPregnant(HttpServletRequest httpServletRequest) throws IOException {
+        ArrayList<Animal> nonHumanAnimals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
+        return nonHumanAnimals != null && nonHumanAnimals.get(0).isPregnant();
     }
 }

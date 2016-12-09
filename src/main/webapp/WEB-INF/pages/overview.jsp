@@ -65,6 +65,7 @@
             $('tbody tr').on('click', function () {
                 if ($(this).hasClass('selectedAnimal')) {
                     $("#propagateButton").attr("disabled", true);
+                    $("#giveBirthButton").attr("disabled", true);
                     $(this).removeClass('selectedAnimal');
                     return;
                 } else if ($(".selectedAnimal").length >= 2) {
@@ -76,26 +77,44 @@
                     return $(o).attr("data-uuid");
                 }).get();
 
-                if (UUIDs.length != 2) {
-                    return;
+                if (UUIDs.length == 1) {
+                    $.ajax({
+                        url: "/overview/isPregnant",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        data: JSON.stringify(UUIDs),
+                        async: false,
+                        cache: false,
+                        processData: false,
+                        success: function (isPregnant) {
+                            console.log(" niggers");
+                            if (!isPregnant) {
+                                return;
+                            }
+                            $("#giveBirthButton").removeAttr("disabled");
+                        }
+                    });
                 }
 
-                $.ajax({
-                    url: "/overview/canPropagate",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    data: JSON.stringify(UUIDs),
-                    async: false,
-                    cache: false,
-                    processData: false,
-                    success: function (canPropagate) {
-                        if (!canPropagate) {
-                            return;
+                if (UUIDs.length == 2) {
+                    $.ajax({
+                        url: "/overview/canPropagate",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        data: JSON.stringify(UUIDs),
+                        async: false,
+                        cache: false,
+                        processData: false,
+                        success: function (canPropagate) {
+                            if (!canPropagate) {
+                                return;
+                            }
+                            $("#propagateButton").removeAttr("disabled");
                         }
-                        $("#propagateButton").removeAttr("disabled");
-                    }
-                });
+                    });
+                }
             });
 
             $("#propagateButton").on('click', function (e) {
@@ -118,7 +137,7 @@
                     cache: false,
                     processData: false,
                     success: function (hasPropagated) {
-                        if(!hasPropagated) {
+                        if (!hasPropagated) {
                             return;
                         }
                         alert("Successfully propagated");
@@ -150,6 +169,8 @@
 
     <br><br>
     <button type="button" class="btn btn-outline-primary" id="propagateButton" disabled>Propagate</button>
+    <button type="button" class="btn btn-outline-primary" id="giveBirthButton" disabled>giveBirth</button>
+
 
     <br><br><br>
 
