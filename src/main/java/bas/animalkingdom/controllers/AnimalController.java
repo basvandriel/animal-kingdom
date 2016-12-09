@@ -323,4 +323,27 @@ public class AnimalController {
         return true;
     }
 
+    @RequestMapping(value = "/overview/makeLove", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean makeLove(HttpServletRequest httpServletRequest) throws IOException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+        ArrayList<Animal> nonHumanAnimals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
+        if (nonHumanAnimals == null) {
+            return false;
+        }
+
+        //Self love
+        if (nonHumanAnimals.size() == 1) {
+            ((Human) nonHumanAnimals.get(0)).makeLove((Human) nonHumanAnimals.get(0));
+            return true;
+        }
+
+        //Make love to partner or cheating
+        if (nonHumanAnimals.size() == 2) {
+            ((Human) nonHumanAnimals.get(0)).makeLove((Human) nonHumanAnimals.get(1));
+            return true;
+        }
+        return false;
+    }
+
 }

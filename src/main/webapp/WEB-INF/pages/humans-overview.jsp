@@ -158,6 +158,31 @@
                 });
             });
 
+            $("#makeLoveButton").on('click', function (e) {
+                e.preventDefault();
+                var UUIDs = $(".selectedAnimal").map(function () {
+                    return $(this).attr("data-uuid");
+                }).get();
+
+                $.ajax({
+                    url: "/overview/makeLove",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify(UUIDs),
+                    async: false,
+                    cache: false,
+                    processData: false,
+                    success: function (hasMadeLove) {
+                        if (!hasMadeLove) {
+                            return;
+                        }
+                        $("tbody tr").removeClass("selectedAnimal");
+                        alert("Successfully made love");
+                    }
+                });
+            });
+
 
         });
 
