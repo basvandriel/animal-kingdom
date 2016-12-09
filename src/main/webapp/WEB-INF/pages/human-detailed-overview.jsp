@@ -39,8 +39,9 @@
     <button type="button" class="btn btn-outline-primary" disabled>Delete animal</button>
     <button type="button" class="btn btn-outline-primary" disabled>Update animal</button>
 
+    <br><br><br>
+    <button type="button" class="btn btn-outline-primary" id="divorceButton" disabled>Divorce</button>
     <br><br>
-
     <div class="col-md-6">
         <h1>Properties</h1>
         <hr>
@@ -121,13 +122,6 @@
                     <td>${animalSTD.getName()}</td>
                 </tr>
             </c:forEach>
-            <tr>
-                <td>Wie?</td>
-            </tr>
-            <tr>
-                <td>Wat?</td>
-            </tr>
-
             </tbody>
         </table>
     </div>
@@ -135,8 +129,8 @@
     <div class="col-md-6">
         <c:if test="${human.getPartner() != null}">
 
-        <h1>Partner properties</h1>
-        <hr>
+            <h1>Partner properties</h1>
+            <hr>
 
 
             <div class="form-group row">
@@ -216,19 +210,11 @@
                         <td>${animalSTD.getName()}</td>
                     </tr>
                 </c:forEach>
-                <tr>
-                    <td>Wie?</td>
-                </tr>
-                <tr>
-                    <td>Wat?</td>
-                </tr>
 
                 </tbody>
             </table>
         </c:if>
     </div>
-
-
 
 
     <br><br><br>
