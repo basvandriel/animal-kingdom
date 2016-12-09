@@ -3,6 +3,7 @@ package bas.animalkingdom.controllers;
 import bas.animalkingdom.SpringHelper;
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.AnimalFactory;
+import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.gender.impl.Female;
 import bas.animalkingdom.animal.gender.impl.Male;
 import bas.animalkingdom.animal.impl.bird.Parrot;
@@ -32,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InvalidClassException;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -188,25 +190,25 @@ public class AnimalController {
                 SpringHelper.getAjaxStringFromRequest(httpServletRequest), (new TypeToken<List<String>>() {
                 }).getType());
 
-        if (humanUUIDs.size() != 2) {
+        if (humanUUIDs.size() <= 0) {
             return null;
         }
         return (ArrayList<String>) humanUUIDs;
     }
 
-    private ArrayList<Human> getHumansByHumanUUIDs(ArrayList<String> humanUUIDs) {
-        ArrayList<Human> humans = new ArrayList<>();
+    private ArrayList<Animal> getAnimalsByUUIDs(ArrayList<String> humanUUIDs) {
+        ArrayList<Animal> animals = new ArrayList<>();
         if (humanUUIDs == null) {
-            return humans;
+            return animals;
         }
         for (String humanUUID : humanUUIDs) {
-            Human human = (Human) Zoo.getInstance().getAnimalByUUID(UUID.fromString(humanUUID));
-            if (human == null) {
+            Animal animal = Zoo.getInstance().getAnimalByUUID(UUID.fromString(humanUUID));
+            if (animal == null) {
                 return null;
             }
-            humans.add(human);
+            animals.add(animal);
         }
-        return humans;
+        return animals;
     }
 
 
@@ -214,8 +216,8 @@ public class AnimalController {
     public
     @ResponseBody
     boolean handleMarry(HttpServletRequest httpServletRequest) throws IOException {
-        ArrayList<Human> humans = this.getHumansByHumanUUIDs(this.parseHumanUUIDs(httpServletRequest));
-        return humans != null && humans.get(0).mary(humans.get(1));
+        ArrayList<Animal> humans = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
+        return humans != null && ((Human) humans.get(0)).mary((Human) humans.get(1));
     }
 
     @RequestMapping(value = "/overview/canMarry", method = RequestMethod.POST)
@@ -223,16 +225,21 @@ public class AnimalController {
     @ResponseBody
     boolean canMarry(HttpServletRequest httpServletRequest) throws IOException {
         //Get all the humans parsed by the given human UUIDS
-        ArrayList<Human> humans = this.getHumansByHumanUUIDs(this.parseHumanUUIDs(httpServletRequest));
+        ArrayList<Animal> humans = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
 
         if (humans == null) {
             return false;
         }
-        boolean oneHasPartner = (humans.get(0).getPartner() != null && humans.get(1).getPartner() == null) ||
-                (humans.get(0).getPartner() == null && humans.get(1).getPartner() != null);
 
-        boolean bothHasOtherPartner = (humans.get(0).getPartner() != humans.get(1) && humans.get(0).getPartner() != null) &&
-                (humans.get(1).getPartner() != humans.get(0) && humans.get(1).getPartner() != null);
+        Human human1 = (Human) humans.get(0);
+        Human human2 = (Human) humans.get(1);
+
+
+        boolean oneHasPartner = (human1.getPartner() != null && human2.getPartner() == null) ||
+                (human1.getPartner() == null && human2.getPartner() != null);
+
+        boolean bothHasOtherPartner = (human1.getPartner() != human2 && human1.getPartner() != null) &&
+                (human2.getPartner() != human1 && human2.getPartner() != null);
 
         return !(oneHasPartner || bothHasOtherPartner);
     }
@@ -242,27 +249,78 @@ public class AnimalController {
     @ResponseBody
     boolean isMarriedTo(HttpServletRequest httpServletRequest) throws IOException {
         //Get all the humans parsed by the given human UUIDS
-        ArrayList<Human> humans = this.getHumansByHumanUUIDs(this.parseHumanUUIDs(httpServletRequest));
+        ArrayList<Animal> humans = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
 
         //If there are no humans found, or both doesn't have a partner, no option for marriage is possible
-        if (humans == null || (humans.get(0).getPartner() == null && humans.get(1).getPartner() == null)) {
+        if (humans == null || (((Human) humans.get(0)).getPartner() == null && ((Human) humans.get(1)).getPartner() == null)) {
             return false;
             //If one of them has a partner, marriage is not possible
         }
         //If the human's partner is the other human, the human is married to this other human
-        return humans.get(0).getPartner() == humans.get(1);
+        return ((Human) humans.get(0)).getPartner() == ((Human) humans.get(1));
     }
 
     @RequestMapping(value = "/overview/divorce", method = RequestMethod.POST)
     public
     @ResponseBody
     boolean divorce(HttpServletRequest httpServletRequest) throws IOException {
-        ArrayList<Human> humans = this.getHumansByHumanUUIDs(this.parseHumanUUIDs(httpServletRequest));
-        if (humans == null || humans.get(0).getPartner() == null
-                || humans.get(1).getPartner() == null || humans.get(0).getPartner() != humans.get(1)) {
+        ArrayList<Animal> humans = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
+        if (humans == null || ((Human) humans.get(0)).getPartner() == null
+                || ((Human) humans.get(1)).getPartner() == null || ((Human) humans.get(0)).getPartner() != ((Human) humans.get(1))) {
             return false;
         }
-        humans.get(0).divorce();
+        ((Human) humans.get(0)).divorce();
         return true;
     }
+
+    @RequestMapping(value = "/overview/canPropagate", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean canPropagate(HttpServletRequest httpServletRequest) throws IOException {
+        ArrayList<Animal> nonHumanAnimals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
+        return nonHumanAnimals != null && (nonHumanAnimals.get(0).getClass() == nonHumanAnimals.get(1).getClass());
+    }
+
+    @RequestMapping(value = "/overview/propagate", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean propagate(HttpServletRequest httpServletRequest) throws IOException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        ArrayList<Animal> nonHumanAnimals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
+
+        //If the animals are not from the same race, they can't propagate
+        if (nonHumanAnimals == null || (nonHumanAnimals.get(0).getClass() != nonHumanAnimals.get(1).getClass())) {
+            return false;
+        }
+        nonHumanAnimals.get(0).propagate(nonHumanAnimals.get(1));
+        return true;
+    }
+
+    @RequestMapping(value = "/overview/isPregnant", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean isPregnant(HttpServletRequest httpServletRequest) throws IOException {
+        ArrayList<Animal> nonHumanAnimals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
+        return nonHumanAnimals != null && nonHumanAnimals.get(0).isPregnant();
+    }
+
+    @RequestMapping(value = "/overview/giveBirth", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean giveBirth(HttpServletRequest httpServletRequest) throws IOException, IllegalAccessException, InstantiationException, InvocationTargetException {
+        ArrayList<Animal> nonHumanAnimals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
+        if (nonHumanAnimals == null) {
+            return false;
+        }
+
+        ArrayList<Egg> eggs = nonHumanAnimals.get(0).giveBirth();
+        if (eggs == null || eggs.size() <= 0) {
+            return false;
+        }
+
+        for (Egg egg : eggs) {
+            this.animalService.addAnimal(egg.hatch());
+        }
+        return true;
+    }
+
 }
