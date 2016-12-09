@@ -175,7 +175,7 @@ public class Zoo {
             if (!species.isAssignableFrom(cageRace)) {
                 continue;
             }
-            System.out.println("just added the " + cageRace);
+            //System.out.println("just added the " + cageRace);
             cages.add(cage);
         }
         return cages;

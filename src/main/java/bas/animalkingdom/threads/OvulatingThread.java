@@ -48,16 +48,14 @@ public class OvulatingThread extends Thread {
             while (true) {
                 sleep(this.MENSTRUATION_CYCLE);
                 this.female.ovulate();
-
-
-                try {
+/*                try {
                     this.female.getGenderOwner().propagate(new Human(new Male(), "BodyCovering1", "Elephantor the Normal Elephant", "Gray red", 1200, 0));
 
                     //((Elephant) this.female.getGenderOwner()).giveLifeBirth();
 
                 } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
-                }
+                }*/
 
                 sleep(this.MENSTRUATION_CYCLE);
                 this.female.menstruate();
