@@ -65,6 +65,8 @@
             $('tbody tr').on('click', function () {
                 if ($(this).hasClass('selectedAnimal')) {
                     $("#marryButton").attr("disabled", true).text("Marry");
+                    $("#giveBirthButton").attr("disabled", true);
+
                     $(this).removeClass('selectedAnimal');
                     if ($(".selectedAnimal").length <= 0) {
                         $("#makeLoveButton").attr("disabled", true);
@@ -84,6 +86,26 @@
 
                 if (UUIDs.length > 0) {
                     $("#makeLoveButton").removeAttr("disabled");
+                }
+
+                if (UUIDs.length == 1) {
+                    $.ajax({
+                        url: "/overview/isPregnant",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        data: JSON.stringify(UUIDs),
+                        async: false,
+                        cache: false,
+                        processData: false,
+                        success: function (isPregnant) {
+                            console.log(" niggers");
+                            if (!isPregnant) {
+                                return;
+                            }
+                            $("#giveBirthButton").removeAttr("disabled");
+                        }
+                    });
                 }
 
                 if (UUIDs.length == 2) {
@@ -196,6 +218,36 @@
                 });
             });
 
+            $("#giveBirthButton").on('click', function (e) {
+                e.preventDefault();
+                var UUIDs = $(".selectedAnimal").map(function () {
+                    return $(this).attr("data-uuid");
+                }).get();
+
+                if (UUIDs.length != 1) {
+                    return;
+                }
+
+                $.ajax({
+                    url: "/overview/giveLifeBirth",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify(UUIDs),
+                    async: false,
+                    cache: false,
+                    processData: false,
+                    success: function (hasGivenBirth) {
+                        if (!hasGivenBirth) {
+                            return;
+                        }
+                        alert("Successfully given birth");
+                        location.reload();
+                    }
+                });
+            });
+
+
 
         });
 
@@ -222,6 +274,7 @@
     <br><br>
     <button type="button" class="btn btn-outline-primary" id="marryButton" disabled>Marry</button>
     <button type="button" class="btn btn-outline-primary" id="makeLoveButton" disabled>Make love</button>
+    <button type="button" class="btn btn-outline-primary" id="giveBirthButton" disabled>Give birth</button>
 
 
     <br><br><br>

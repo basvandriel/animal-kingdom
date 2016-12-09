@@ -9,6 +9,7 @@ import bas.animalkingdom.animal.gender.impl.Male;
 import bas.animalkingdom.animal.impl.bird.Parrot;
 import bas.animalkingdom.animal.impl.bird.Pinguin;
 import bas.animalkingdom.animal.impl.mammal.Human;
+import bas.animalkingdom.animal.impl.mammal.IMammal;
 import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
 import bas.animalkingdom.animal.impl.mammal.elephant.AsianElephant;
 import bas.animalkingdom.animal.impl.mammal.mouse.GrayMouse;
@@ -346,4 +347,25 @@ public class AnimalController {
         return false;
     }
 
+    @RequestMapping(value = "/overview/giveLifeBirth", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean giveLifeBirth(HttpServletRequest httpServletRequest) throws IOException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+        ArrayList<Animal> nonHumanAnimals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
+        if (nonHumanAnimals == null) {
+            return false;
+        }
+
+        Human human = (Human) nonHumanAnimals.get(0);
+        human.giveLifeBirth();
+
+        ArrayList<IMammal> babies = human.getBabies();
+        if (babies == null || babies.size() <= 0) {
+            return false;
+        }
+        for (IMammal mammal : babies) {
+            this.animalService.addAnimal((Animal) mammal);
+        }
+        return true;
+    }
 }
