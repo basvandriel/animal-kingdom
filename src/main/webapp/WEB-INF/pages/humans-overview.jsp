@@ -183,6 +183,7 @@
 
     <br><br>
     <button type="button" class="btn btn-outline-primary" id="marryButton" disabled>Marry</button>
+    <button type="button" class="btn btn-outline-primary" id="makeLoveButton" disabled>Make love</button>
 
 
     <br><br><br>
