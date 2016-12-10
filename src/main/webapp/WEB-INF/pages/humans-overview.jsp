@@ -283,6 +283,31 @@
                 });
             });
 
+            $("#deleteButton").on("click", function () {
+                if (!confirm("Are you sure you want to delete this human?")) {
+                    return;
+                }
+                var UUIDs = $(".selectedAnimal").map(function (i, o) {
+                    return $(o).attr("data-uuid");
+                }).get();
+
+                $.ajax({
+                    url: "/overview/delete",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify(UUIDs),
+                    async: false,
+                    cache: false,
+                    processData: false,
+                    success: function (isDeleted) {
+                        if (!isDeleted) {
+                            return;
+                        }
+                        window.location.href = "/overview";
+                    }
+                });
+            });
 
         });
 
