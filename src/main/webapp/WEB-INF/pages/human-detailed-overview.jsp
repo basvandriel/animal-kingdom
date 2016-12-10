@@ -68,6 +68,10 @@
                     }
                 });
             });
+
+            $("#editButton").on("click", function () {
+                window.location.href = "/overview/edit?uuid=${human.getUuid()}";
+            });
         });
     </script>
 
