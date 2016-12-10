@@ -226,6 +226,11 @@
                     }
                 });
             });
+
+            $("#editButton").on("click", function () {
+                var UUID = $(".selectedAnimal").attr("data-uuid");
+                window.location.href = "/overview/edit?uuid=" + UUID;
+            });
         });
 
 
