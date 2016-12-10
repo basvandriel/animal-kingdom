@@ -87,9 +87,7 @@
 
     <button type="button" class="btn btn-outline-primary" id="deleteButton">Delete animal</button>
 
-    <a href="/overview/edit">
-        <button type="button" class="btn btn-outline-primary" id="editButton">Edit animal</button>
-    </a>
+    <button type="button" class="btn btn-outline-primary" id="editButton">Edit animal</button>
 
     <br><br><br>
     <button type="button" class="btn btn-outline-primary" id="divorceButton"
