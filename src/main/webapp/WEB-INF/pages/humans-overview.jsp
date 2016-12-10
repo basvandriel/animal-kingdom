@@ -68,31 +68,49 @@
 
             $('tbody tr').on('click', function () {
                 if ($(this).hasClass('selectedAnimal')) {
-                    $("#marryButton").attr("disabled", true).text("Marry");
-                    $("#giveBirthButton").attr("disabled", true);
-
                     $(this).removeClass('selectedAnimal');
-                    if ($(".selectedAnimal").length <= 0) {
-                        $("#makeLoveButton").attr("disabled", true);
-                    }
-                    return;
-                } else if ($(".selectedAnimal").length >= 2) {
-                    return;
+                } else {
+                    $(this).addClass("selectedAnimal");
                 }
-                $(this).addClass("selectedAnimal");
+
+
+                /*                if ($(this).hasClass('selectedAnimal')) {
+                 $("#marryButton").attr("disabled", true).text("Marry");
+                 $("#giveBirthButton").attr("disabled", true);
+
+                 $(this).removeClass('selectedAnimal');
+                 if ($(".selectedAnimal").length <= 0) {
+                 $("#makeLoveButton").attr("disabled", true);
+                 }
+                 return;
+                 } else if ($(".selectedAnimal").length >= 2) {
+                 return;
+                 }
+                 $(this).addClass("selectedAnimal");*/
 
                 var UUIDs = $(".selectedAnimal").map(function (i, o) {
                     return $(o).attr("data-uuid");
                 }).get();
 
-
                 console.log(UUIDs.length);
+
+                //Disable buttons when nothing is selected
+                if (UUIDs.length <= 0) {
+                    $("#deleteButton").attr("disabled", true);
+
+                    $("#marryButton").attr("disabled", true).text("Marry");
+                    $("#makeLoveButton").attr("disabled", true);
+                    $("#giveBirthButton").attr("disabled", true);
+                }
+
 
                 if (UUIDs.length > 0) {
                     $("#makeLoveButton").removeAttr("disabled");
                 }
 
                 if (UUIDs.length == 1) {
+                    $("#marryButton").attr("disabled", true).text("Marry");
+
                     $.ajax({
                         url: "/overview/isPregnant",
                         type: "POST",
@@ -111,6 +129,12 @@
                     });
                 }
 
+                //Delete humans
+                if (UUIDs.length >= 1) {
+                    $("#deleteButton").removeAttr("disabled");
+                }
+
+                //Maryr humans
                 if (UUIDs.length == 2) {
                     var canDivorce, buttonEnabled = false;
 
@@ -147,6 +171,12 @@
                     }
                     //Check the canMarry, then decide to disable the button
                     $("#marryButton").text(canDivorce ? "Divorce" : "Marry");
+                }
+
+                //When there are more then 2 selected, they can't propagate or give birth or marry
+                if (UUIDs.length > 2) {
+                    $("#giveBirthButton").attr("disabled", true);
+                    $("#marryButton").attr("disabled", true).text("Marry");
                 }
 
             });
@@ -271,7 +301,7 @@
         <button type="button" class="btn btn-outline-primary">Add animal</button>
     </a>
 
-    <button type="button" class="btn btn-outline-primary" disabled>Delete animal</button>
+    <button type="button" class="btn btn-outline-primary" id="deleteButton" disabled>Delete animal</button>
     <button type="button" class="btn btn-outline-primary" disabled>Update animal</button>
 
     <br><br><br>
