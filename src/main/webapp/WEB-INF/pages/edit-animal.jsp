@@ -38,6 +38,9 @@
 
     <form id="animalForm" action="/overview/edit" method="POST">
 
+        <h1>hey</h1>
+        <input type="hidden" name="uuid" readonly value="${animal.getUuid()}">
+
         <div class="form-group row">
             <label for="genderSelector" class="col-sm-2 col-form-label">Gender</label>
 
@@ -45,7 +48,7 @@
                 <select id="genderSelector" class="selectpicker"
                         title="${animal.getGender().getClass().getSimpleName()}" form="animalForm" name="gender">
                     <c:forEach var="gender" items="${genders}">
-                        <option value="${gender.getName()}">
+                        <option <c:if test="${animal.getGender().getClass().getName() == gender.getName()}">selected="selected"</c:if> value="${gender.getName()}">
                                 ${gender.getSimpleName()}
                         </option>
                     </c:forEach>

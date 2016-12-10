@@ -4,6 +4,7 @@ import bas.animalkingdom.SpringHelper;
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.AnimalFactory;
 import bas.animalkingdom.animal.Egg;
+import bas.animalkingdom.animal.gender.Gender;
 import bas.animalkingdom.animal.gender.impl.Female;
 import bas.animalkingdom.animal.gender.impl.Male;
 import bas.animalkingdom.animal.impl.bird.Parrot;
@@ -224,6 +225,39 @@ public class AnimalController {
         } else if (Elephant.class.isAssignableFrom(animal.getClass())) {
             modelAndView.setViewName("edit-elephant-animal");
         }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/overview/edit", method = RequestMethod.POST, params = {
+            "uuid", "gender", "bodyCovering", "name", "color", "weight", "maxNumberOfEggs"
+    })
+    public ModelAndView handleEditAnimal(@RequestParam(value = "uuid") String uuidString,
+                                         @RequestParam(value = "gender") String genderString,
+                                         @RequestParam(value = "bodyCovering") String bodyCovering,
+                                         @RequestParam(value = "name") String name,
+                                         @RequestParam(value = "color") String color,
+                                         @RequestParam(value = "weight") int weight,
+                                         @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs)
+
+            throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
+
+
+        ModelAndView modelAndView = new ModelAndView("redirect:/overview");
+
+        Animal animal = Zoo.getInstance("ICO41A").getAnimalByUUID(UUID.fromString(uuidString));
+
+        Gender gender = (Gender) Class.forName(genderString).newInstance();
+        if (gender == null) {
+            modelAndView.setViewName("redirect:/../index");
+            return modelAndView;
+        }
+        animal.setBodyCovering(bodyCovering);
+        animal.setGender(gender);
+        animal.setName(name);
+        animal.setColor(color);
+        animal.setWeight(weight);
+        animal.setMaxNumberOfEggs(maxNumberOfEggs);
+
         return modelAndView;
     }
 
