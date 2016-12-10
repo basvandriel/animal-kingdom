@@ -2,6 +2,7 @@ package bas.animalkingdom.zoo;
 
 import bas.animalkingdom.animal.Animal;
 import bas.animalkingdom.animal.Egg;
+import bas.animalkingdom.animal.impl.mammal.Human;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -71,6 +72,9 @@ public class Cage implements Comparable<Cage> {
     public boolean deleteAnimal(Animal anAnimal) {
         if (anAnimal.getClass().isInstance(this.getCageRace())) {
             return false;
+        }
+        if (Human.class.isAssignableFrom(anAnimal.getClass()) && ((Human) anAnimal).getPartner() != null) {
+            ((Human) anAnimal).divorce();
         }
         return this.cagedAnimals.remove(anAnimal);
     }
