@@ -101,6 +101,7 @@
                     $("#marryButton").attr("disabled", true).text("Marry");
                     $("#makeLoveButton").attr("disabled", true);
                     $("#giveBirthButton").attr("disabled", true);
+                    $("#editButton").attr("disabled", true);
                 }
 
 
@@ -109,7 +110,9 @@
                 }
 
                 if (UUIDs.length == 1) {
+                    $("#editButton").removeAttr("disabled");
                     $("#marryButton").attr("disabled", true).text("Marry");
+
 
                     $.ajax({
                         url: "/overview/isPregnant",
@@ -136,6 +139,7 @@
 
                 //Maryr humans
                 if (UUIDs.length == 2) {
+                    $("#editButton").attr("disabled", true);
                     $("#giveBirthButton").attr("disabled", true);
 
 
@@ -178,6 +182,7 @@
 
                 //When there are more then 2 selected, they can't propagate or give birth or marry
                 if (UUIDs.length > 2) {
+                    $("#editButton").attr("disabled", true);
                     $("#giveBirthButton").attr("disabled", true);
                     $("#marryButton").attr("disabled", true).text("Marry");
                 }
@@ -331,7 +336,7 @@
     </a>
 
     <button type="button" class="btn btn-outline-primary" id="deleteButton" disabled>Delete animal</button>
-    <button type="button" class="btn btn-outline-primary" disabled>Update animal</button>
+    <button type="button" class="btn btn-outline-primary" id="editButton" disabled>Edit animal</button>
 
     <br><br><br>
     <div class="alert alert-info" role="alert" style="width: 500px">
