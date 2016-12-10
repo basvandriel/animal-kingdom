@@ -249,6 +249,7 @@
                             return;
                         }
                         $("tbody tr").removeClass("selectedAnimal");
+                        $("#deleteButton").attr("disabled", true);
                         alert("Successfully made love");
                     }
                 });
