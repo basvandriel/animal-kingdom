@@ -53,7 +53,6 @@ public class Cage implements Comparable<Cage> {
      * Adds a {@link Animal} in to {@link Cage}.
      *
      * @param anAnimal The {@link Animal} to add in this {@link Cage}.
-     *
      * @return If the {@link Animal} in this {@link Cage} could be added.
      */
     public boolean addAnimal(Animal anAnimal) {
@@ -61,6 +60,19 @@ public class Cage implements Comparable<Cage> {
             return false;
         }
         return this.cagedAnimals.add(anAnimal);
+    }
+
+    /**
+     * Deletes a {@link Animal} from this {@link Cage}.
+     *
+     * @param anAnimal The {@link Animal} to delete from this {@link Cage}.
+     * @return If the {@link Animal} in this {@link Cage} could be deleted
+     */
+    public boolean deleteAnimal(Animal anAnimal) {
+        if (anAnimal.getClass().isInstance(this.getCageRace())) {
+            return false;
+        }
+        return this.cagedAnimals.remove(anAnimal);
     }
 
     /**

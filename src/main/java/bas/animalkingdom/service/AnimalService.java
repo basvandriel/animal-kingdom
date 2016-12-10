@@ -19,7 +19,7 @@ public class AnimalService {
     }
 
     public void addAnimal(Animal animal) {
-        if(animal == null) {
+        if (animal == null) {
             return;
         }
         animalRepository.getAllAnimals().add(animal);

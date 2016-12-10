@@ -44,7 +44,7 @@ public class AnimalRepository {
 //                /Human human5 = new Human(new Female(), "a humans bodycovinerg", "F4MALE", "Yellow", 70, 1);
 
 
-                add(africanElephant1);
+/*                add(africanElephant1);
                 add(africanElephant);
                 add(africanElephant2);
 
@@ -55,7 +55,7 @@ public class AnimalRepository {
                 add(human);
                 add(human1);
                 add(human2);
-                add(human4);
+                add(human4);*/
 
             }
         };

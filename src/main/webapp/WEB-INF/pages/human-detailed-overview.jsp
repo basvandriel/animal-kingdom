@@ -27,7 +27,6 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#divorceButton").on("click", function () {
-
                 var UUIDs = ["${human.getUuid()}", "${human.getPartner().getUuid()}"];
 
                 $.ajax({
@@ -47,6 +46,29 @@
                     }
                 });
             });
+
+            $("#deleteButton").on("click", function () {
+/*                var confirm = confirm("Are you sure you want to delete this animal?");
+                if (!confirm) {
+                    return;
+                }*/
+                $.ajax({
+                    url: "/overview/delete",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify(["${human.getUuid()}"]),
+                    async: false,
+                    cache: false,
+                    processData: false,
+                    success: function (isDeleted) {
+                        if (!isDeleted) {
+                            return;
+                        }
+                        window.location.href = "/overview";
+                    }
+                });
+            });
         });
     </script>
 
@@ -60,7 +82,7 @@
 
 <div class="container" style="width: 85%;">
 
-    <button type="button" class="btn btn-outline-primary" disabled>Delete animal</button>
+    <button type="button" class="btn btn-outline-primary" id="deleteButton">Delete animal</button>
     <button type="button" class="btn btn-outline-primary" disabled>Update animal</button>
 
     <br><br><br>

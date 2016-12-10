@@ -125,7 +125,6 @@ public class AnimalController {
             modelAndView.setViewName("redirect:/../../index");
             return modelAndView;
         }
-        this.animalService.addAnimal(animal);
         return modelAndView;
     }
 
@@ -153,8 +152,6 @@ public class AnimalController {
             modelAndView.setViewName("redirect:/../../index");
             return modelAndView;
         }
-        this.animalService.addAnimal(animal);
-
         return modelAndView;
     }
 
@@ -180,8 +177,25 @@ public class AnimalController {
             modelAndView.setViewName("redirect:/../../index");
             return modelAndView;
         }
-        this.animalService.addAnimal(animal);
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/overview/delete", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean handleDeleteAnimal(HttpServletRequest httpServletRequest) throws IOException {
+        ArrayList<Animal> animals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
+        //Might delete more animals
+
+        Zoo zoo = Zoo.getInstance("ICO41A");
+
+        if (animals == null || animals.size() <= 0) {
+            return false;
+        }
+        for (Animal animal : animals) {
+            zoo.deleteAnimal(animal);
+        }
+        return true;
     }
 
 
@@ -374,7 +388,7 @@ public class AnimalController {
         ModelAndView modelAndView = new ModelAndView("human-detailed-overview");
 
         Human animal = (Human) Zoo.getInstance("ICO41A").getAnimalByUUID(UUID.fromString(uuidString));
-        if(animal == null) {
+        if (animal == null) {
             modelAndView.setViewName("/overview");
         }
         modelMap.put("human", animal);
