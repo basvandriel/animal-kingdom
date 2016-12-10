@@ -24,6 +24,7 @@ import bas.animalkingdom.service.AnimalService;
 import bas.animalkingdom.zoo.Zoo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.sun.corba.se.impl.protocol.INSServerRequestDispatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -240,15 +241,15 @@ public class AnimalController {
                                          @RequestParam(value = "weight") int weight,
                                          @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs)
 
-            throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
+            throws ClassNotFoundException, IllegalAccessException, InstantiationException
 
-
+    {
         ModelAndView modelAndView = new ModelAndView("redirect:/overview");
 
         Animal animal = Zoo.getInstance("ICO41A").getAnimalByUUID(UUID.fromString(uuidString));
 
         Gender gender = (Gender) Class.forName(genderString).newInstance();
-        if (gender == null) {
+        if (animal == null || gender == null) {
             return modelAndView;
         }
         animal.setBodyCovering(bodyCovering);
@@ -272,17 +273,15 @@ public class AnimalController {
                                                  @RequestParam(value = "weight") int weight,
                                                  @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs,
                                                  @RequestParam(value = "earSize") int earSize
-    )
-
-            throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
+    ) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 
 
         ModelAndView modelAndView = new ModelAndView("redirect:/overview");
 
         Elephant animal = (Elephant) Zoo.getInstance("ICO41A").getAnimalByUUID(UUID.fromString(uuidString));
-
         Gender gender = (Gender) Class.forName(genderString).newInstance();
-        if (gender == null) {
+
+        if (animal == null || gender == null) {
             return modelAndView;
         }
         animal.setBodyCovering(bodyCovering);
@@ -292,6 +291,42 @@ public class AnimalController {
         animal.setWeight(weight);
         animal.setMaxNumberOfEggs(maxNumberOfEggs);
         animal.setEarSize(earSize);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/overview/edit", method = RequestMethod.POST, params = {
+            "uuid", "gender", "bodyCovering", "name", "insertion", "lastName", "color", "weight", "maxNumberOfEggs", "usingBirthControl"
+    })
+    public ModelAndView handleEditElephantAnimal(@RequestParam(value = "uuid") String uuidString,
+                                                 @RequestParam(value = "gender") String genderString,
+                                                 @RequestParam(value = "bodyCovering") String bodyCovering,
+                                                 @RequestParam(value = "name") String name,
+                                                 @RequestParam(value = "insertion") String insertion,
+                                                 @RequestParam(value = "lastName") String lastName,
+                                                 @RequestParam(value = "color") String color,
+                                                 @RequestParam(value = "weight") int weight,
+                                                 @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs,
+                                                 @RequestParam(value = "usingBirthControl") boolean usingBirthControl
+    ) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+
+        ModelAndView modelAndView = new ModelAndView("redirect:/overview");
+
+        Human animal = (Human) Zoo.getInstance("ICO41A").getAnimalByUUID(UUID.fromString(uuidString));
+        Gender gender = (Gender) Class.forName(genderString).newInstance();
+        if (animal == null || gender == null) {
+            return modelAndView;
+        }
+
+        animal.setBodyCovering(bodyCovering);
+        animal.setGender(gender);
+        animal.setName(name);
+        animal.setInsertion(insertion);
+        animal.setLastName(lastName);
+        animal.setColor(color);
+        animal.setWeight(weight);
+        animal.setMaxNumberOfEggs(maxNumberOfEggs);
+        animal.setUsesBirthControl(usingBirthControl);
 
         return modelAndView;
     }

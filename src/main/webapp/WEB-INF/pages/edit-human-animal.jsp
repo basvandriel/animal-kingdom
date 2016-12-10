@@ -37,6 +37,7 @@
 <div class="container" style="width: 85%;">
 
     <form id="animalForm" action="/overview/edit" method="POST">
+        <input type="hidden" name="uuid" readonly value="${animal.getUuid()}">
 
         <div class="form-group row">
             <label for="genderSelector" class="col-sm-2 col-form-label">Gender</label>
@@ -45,7 +46,9 @@
                 <select id="genderSelector" class="selectpicker"
                         title="${animal.getGender().getClass().getSimpleName()}" form="animalForm" name="gender">
                     <c:forEach var="gender" items="${genders}">
-                        <option value="${gender.getName()}">
+                        <option
+                                <c:if test="${animal.getGender().getClass().getName() == gender.getName()}">selected="selected"</c:if>
+                                value="${gender.getName()}">
                                 ${gender.getSimpleName()}
                         </option>
                     </c:forEach>
@@ -115,7 +118,8 @@
         <div class="form-group row">
             <label for="inputMaxNumberOfEggs" class="col-sm-2 col-form-label">Using birth control</label>
             <div class="col-sm-10">
-                <input type="checkbox" class="form-control form-check-input" id="inputUsingBirthControl" name="usingBirthControl" <c:if test="${animal.isUsingBirthControl() == true}">checked</c:if>>
+                <input type="checkbox" class="form-control form-check-input" id="inputUsingBirthControl"
+                       name="usingBirthControl" <c:if test="${animal.isUsingBirthControl() == true}">checked</c:if>>
             </div>
         </div>
 
