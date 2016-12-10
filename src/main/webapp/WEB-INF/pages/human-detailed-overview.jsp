@@ -25,23 +25,27 @@
     <script src="../webjars/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
 
     <script type="text/javascript">
-        $("#divorceButton").on("click", function () {
+        $(document).ready(function () {
+            $("#divorceButton").on("click", function () {
 
-            var UUIDS = ["${human.getUUID()}", "${human.getPartner().getUUID()}"];
+                var UUIDs = ["${human.getUuid()}", "${human.getPartner().getUuid()}"];
 
-            console.log(UUIDS);
-            $.ajax({
-                url: "/overview/divorce" + marryOrDivorce,
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                data: JSON.stringify(UUIDs),
-                async: false,
-                cache: false,
-                processData: false,
-                success: function (resposeJsonObject) {
-                    location.reload();
-                }
+                $.ajax({
+                    url: "/overview/divorce",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify(UUIDs),
+                    async: false,
+                    cache: false,
+                    processData: false,
+                    success: function (isDivorced) {
+                        if (!isDivorced) {
+                            return;
+                        }
+                        location.reload();
+                    }
+                });
             });
         });
     </script>
