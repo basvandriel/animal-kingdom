@@ -81,6 +81,7 @@
                     $("#propagateButton").attr("disabled", true);
                     $("#giveBirthButton").attr("disabled", true);
                     $("#deleteButton").attr("disabled", true);
+                    $("#editButton").attr("disabled", true);
                 }
 
                 //Delete animals
@@ -90,6 +91,8 @@
 
                 //If they can give birth
                 if (UUIDs.length == 1) {
+                    $("#editButton").removeAttr("disabled");
+
                     $.ajax({
                         url: "/overview/isPregnant",
                         type: "POST",
@@ -111,6 +114,8 @@
                 //When 2 animals are selected, they can propagate
                 if (UUIDs.length == 2) {
                     $("#giveBirthButton").attr("disabled", true);
+                    $("#editButton").attr("disabled", true);
+
 
                     $.ajax({
                         url: "/overview/canPropagate",
@@ -134,6 +139,7 @@
                 if (UUIDs.length > 2) {
                     $("#propagateButton").attr("disabled", true);
                     $("#giveBirthButton").attr("disabled", true);
+                    $("#editButton").attr("disabled", true);
                 }
             });
 
@@ -242,7 +248,7 @@
     </a>
 
     <button type="button" class="btn btn-outline-primary" id="deleteButton" disabled>Delete animal</button>
-    <button type="button" class="btn btn-outline-primary" disabled>Update animal</button>
+    <button type="button" class="btn btn-outline-primary" id="editButton" disabled>Edit animal</button>
 
     <br><br>
     <button type="button" class="btn btn-outline-primary" id="propagateButton" disabled>Propagate</button>
