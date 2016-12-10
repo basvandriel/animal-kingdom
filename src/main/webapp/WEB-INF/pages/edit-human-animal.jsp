@@ -120,6 +120,8 @@
             <div class="col-sm-10">
                 <input type="checkbox" class="form-control form-check-input" id="inputUsingBirthControl"
                        name="usingBirthControl" <c:if test="${animal.isUsingBirthControl() == true}">checked</c:if>>
+
+                <input type="hidden" name="usingBirthControl" value="0">
             </div>
         </div>
 

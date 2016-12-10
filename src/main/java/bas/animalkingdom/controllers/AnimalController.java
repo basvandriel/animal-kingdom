@@ -298,7 +298,7 @@ public class AnimalController {
     @RequestMapping(value = "/overview/edit", method = RequestMethod.POST, params = {
             "uuid", "gender", "bodyCovering", "name", "insertion", "lastName", "color", "weight", "maxNumberOfEggs", "usingBirthControl"
     })
-    public ModelAndView handleEditElephantAnimal(@RequestParam(value = "uuid") String uuidString,
+    public ModelAndView handleEditHumanAnimal(@RequestParam(value = "uuid") String uuidString,
                                                  @RequestParam(value = "gender") String genderString,
                                                  @RequestParam(value = "bodyCovering") String bodyCovering,
                                                  @RequestParam(value = "name") String name,
