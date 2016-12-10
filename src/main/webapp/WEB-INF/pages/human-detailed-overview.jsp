@@ -48,7 +48,9 @@
             });
 
             $("#deleteButton").on("click", function () {
-                confirm("Are you sure you want to delete this animal?");
+                if(!confirm("Are you sure you want to delete this animal?")) {
+                    return;
+                }
                 $.ajax({
                     url: "/overview/delete",
                     type: "POST",
