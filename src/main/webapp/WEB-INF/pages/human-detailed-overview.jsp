@@ -48,7 +48,7 @@
             });
 
             $("#deleteButton").on("click", function () {
-                if(!confirm("Are you sure you want to delete this animal?")) {
+                if (!confirm("Are you sure you want to delete this animal?")) {
                     return;
                 }
                 $.ajax({
@@ -82,7 +82,10 @@
 <div class="container" style="width: 85%;">
 
     <button type="button" class="btn btn-outline-primary" id="deleteButton">Delete animal</button>
-    <button type="button" class="btn btn-outline-primary" disabled>Update animal</button>
+
+    <a href="/overview/edit">
+        <button type="button" class="btn btn-outline-primary" id="editButton">Edit animal</button>
+    </a>
 
     <br><br><br>
     <button type="button" class="btn btn-outline-primary" id="divorceButton"

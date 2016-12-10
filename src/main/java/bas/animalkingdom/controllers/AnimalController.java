@@ -12,6 +12,7 @@ import bas.animalkingdom.animal.impl.mammal.Human;
 import bas.animalkingdom.animal.impl.mammal.IMammal;
 import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
 import bas.animalkingdom.animal.impl.mammal.elephant.AsianElephant;
+import bas.animalkingdom.animal.impl.mammal.elephant.Elephant;
 import bas.animalkingdom.animal.impl.mammal.mouse.GrayMouse;
 import bas.animalkingdom.animal.impl.mammal.mouse.Mouse;
 import bas.animalkingdom.animal.impl.mammal.mouse.WhiteMouse;
@@ -24,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -198,6 +200,32 @@ public class AnimalController {
         return true;
     }
 
+    @RequestMapping(value = "/overview/edit", method = RequestMethod.GET)
+    public ModelAndView handleEditOverview(ModelMap modelMap, @RequestParam(value = "uuid") String uuid) {
+        ModelAndView modelAndView = new ModelAndView("edit-animal");
+
+        Animal animal = Zoo.getInstance("ICO41A").getAnimalByUUID(UUID.fromString(uuid));
+        if (animal == null) {
+            modelAndView.setViewName("redirect:/../index");
+            return modelAndView;
+        }
+
+        //Add the animal for receiving all the current properties
+        modelMap.put("animal", animal);
+
+        //Add the available genders if you want to change
+        modelMap.put("genders", new Class[]{
+                Male.class,
+                Female.class,
+        });
+
+        if (Human.class.isAssignableFrom(animal.getClass())) {
+            modelAndView.setViewName("edit-human-animal");
+        } else if (Elephant.class.isAssignableFrom(animal.getClass())) {
+            modelAndView.setViewName("edit-elephant-animal");
+        }
+        return modelAndView;
+    }
 
     private ArrayList<String> parseHumanUUIDs(HttpServletRequest httpServletRequest) throws IOException {
         Gson gson = new Gson();
