@@ -136,6 +136,9 @@
 
                 //Maryr humans
                 if (UUIDs.length == 2) {
+                    $("#giveBirthButton").attr("disabled", true);
+
+
                     var canDivorce, buttonEnabled = false;
 
                     $.ajax({

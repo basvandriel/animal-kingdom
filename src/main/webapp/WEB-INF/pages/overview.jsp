@@ -110,6 +110,8 @@
 
                 //When 2 animals are selected, they can propagate
                 if (UUIDs.length == 2) {
+                    $("#giveBirthButton").attr("disabled", true);
+
                     $.ajax({
                         url: "/overview/canPropagate",
                         type: "POST",

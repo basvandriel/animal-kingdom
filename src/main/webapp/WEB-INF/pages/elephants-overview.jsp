@@ -64,19 +64,31 @@
 
             $('tbody tr').on('click', function () {
                 if ($(this).hasClass('selectedAnimal')) {
-                    $("#propagateButton").attr("disabled", true);
-                    $("#giveBirthButton").attr("disabled", true);
                     $(this).removeClass('selectedAnimal');
-                    return;
-                } else if ($(".selectedAnimal").length >= 2) {
-                    return;
+                } else {
+                    $(this).addClass("selectedAnimal");
                 }
-                $(this).addClass("selectedAnimal");
+                /*else if ($(".selectedAnimal").length > 2) {
+                 $("#propagateButton").attr("disabled", true);
+                 }*/
 
                 var UUIDs = $(".selectedAnimal").map(function (i, o) {
                     return $(o).attr("data-uuid");
                 }).get();
 
+                //Disable buttons when nothing is selected
+                if (UUIDs.length <= 0) {
+                    $("#propagateButton").attr("disabled", true);
+                    $("#giveBirthButton").attr("disabled", true);
+                    $("#deleteButton").attr("disabled", true);
+                }
+
+                //Delete animals
+                if (UUIDs.length >= 1) {
+                    $("#deleteButton").removeAttr("disabled");
+                }
+
+                //If they can give birth
                 if (UUIDs.length == 1) {
                     $.ajax({
                         url: "/overview/isPregnant",
@@ -96,7 +108,10 @@
                     });
                 }
 
+                //When 2 animals are selected, they can propagate
                 if (UUIDs.length == 2) {
+                    $("#giveBirthButton").attr("disabled", true);
+
                     $.ajax({
                         url: "/overview/canPropagate",
                         type: "POST",
@@ -114,7 +129,14 @@
                         }
                     });
                 }
+
+                //When there are more then 2 selected, they can't propagate or give birth
+                if (UUIDs.length > 2) {
+                    $("#propagateButton").attr("disabled", true);
+                    $("#giveBirthButton").attr("disabled", true);
+                }
             });
+
 
             $("#propagateButton").on('click', function (e) {
                 e.preventDefault();
@@ -193,7 +215,7 @@
         <button type="button" class="btn btn-outline-primary">Add animal</button>
     </a>
 
-    <button type="button" class="btn btn-outline-primary" disabled>Delete animal</button>
+    <button type="button" class="btn btn-outline-primary" id="deleteButton" disabled>Delete animal</button>
     <button type="button" class="btn btn-outline-primary" disabled>Update animal</button>
 
     <br><br>
