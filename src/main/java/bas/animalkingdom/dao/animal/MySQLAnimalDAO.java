@@ -21,22 +21,61 @@ package bas.animalkingdom.dao.animal;
 
 import bas.animalkingdom.animal.Animal;
 import com.mysql.jdbc.Connection;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
 /**
  *
  */
-public class MySQLAnimalDAO extends AnimalDao {
+@Repository("AnimalDAO")
+public class MySQLAnimalDAO implements AnimalDao {
+
+    private Connection connection;
 
     public MySQLAnimalDAO(Connection connection) {
-        super(connection);
+        this.connection = connection;
     }
 
     @Override
-    public ArrayList<Animal> readAll() {
+    public ArrayList<Animal> readAll() throws SQLException {
         ArrayList<Animal> animals = null;
+        if (this.connection == null) {
+            return null;
+        }
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("    SELECT \n" +
+                    "        animal.`UUID`,\n" +
+                    "        animalType.`name` AS 'animalType',\n" +
+                    "        gender.`name` AS 'gender',\n" +
+                    "        animalProperties.`name`,\n" +
+                    "        animalProperties.`bodyCovering`,\n" +
+                    "        animalProperties.`weight`,\n" +
+                    "        animalProperties.`maxNumberOfEggs`\n" +
+                    "        \n" +
+                    "    FROM `animal` AS animal\n" +
+                    "\t\t\n" +
+                    "\tINNER JOIN `animal-properties` AS animalProperties\n" +
+                    "\t\tON animal.`animal-properties-id` = animalProperties.`id`\n" +
+                    "        \n" +
+                    "\tINNER JOIN `animal-type` AS animalType \n" +
+                    "\t\tON animalProperties.`animal-type-id` = animalType.`id`\n" +
+                    "\t\n" +
+                    "\tINNER JOIN `gender` AS gender\n" +
+                    "\t\tON animalProperties.`gender-id` = gender.`id`;");
+
+            preparedStatement.execute();
+
+
+        } catch (SQLException exception) {
+
+        }
+
         return animals;
     }
 

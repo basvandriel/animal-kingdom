@@ -1,10 +1,12 @@
 package bas.animalkingdom.service;
 
 import bas.animalkingdom.animal.Animal;
+import bas.animalkingdom.dao.animal.AnimalDao;
 import bas.animalkingdom.repository.AnimalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 
@@ -12,17 +14,10 @@ import java.util.Collection;
 public class AnimalService {
 
     @Autowired
-    private AnimalRepository animalRepository;
+    private AnimalDao animalDao;
 
-    public Collection<Animal> getAllAnimals() {
-        return animalRepository.getAllAnimals();
-    }
-
-    public void addAnimal(Animal animal) {
-        if (animal == null) {
-            return;
-        }
-        animalRepository.getAllAnimals().add(animal);
+    public void readAnimals() throws SQLException {
+        this.animalDao.readAll();
     }
 
 }
