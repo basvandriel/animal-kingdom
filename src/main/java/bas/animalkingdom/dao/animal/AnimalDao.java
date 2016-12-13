@@ -1,32 +1,38 @@
 package bas.animalkingdom.dao.animal;
 
 import bas.animalkingdom.animal.Animal;
+import com.mysql.jdbc.Connection;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-interface AnimalDao {
+public abstract class AnimalDao {
+
+    private Connection connection;
+
+    public AnimalDao(Connection connection) {
+        this.connection = connection;
+    }
+
     /**
-     *
      * @return All the animals with all properties
      */
-    public ArrayList<Animal> readAll();
+    public abstract ArrayList<Animal> readAll();
 
     /**
      * @return The read animal with all it's properties
      */
-    public Animal read(UUID uuid);
+    public abstract Animal read(UUID uuid);
 
     /**
-     *
      * @return Edits a animal
      */
-    public Animal edit();
+    public abstract Animal edit();
 
     /**
      * Adds a animal
      *
      * @return
      */
-    public Animal add();
+    public abstract Animal add();
 }

@@ -20,6 +20,7 @@
 package bas.animalkingdom.dao.animal;
 
 import bas.animalkingdom.animal.Animal;
+import com.mysql.jdbc.Connection;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -27,7 +28,11 @@ import java.util.UUID;
 /**
  *
  */
-public class MySQLAnimalDAO implements AnimalDao {
+public class MySQLAnimalDAO extends AnimalDao {
+
+    public MySQLAnimalDAO(Connection connection) {
+        super(connection);
+    }
 
     @Override
     public ArrayList<Animal> readAll() {
