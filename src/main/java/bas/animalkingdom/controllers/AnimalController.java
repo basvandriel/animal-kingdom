@@ -24,10 +24,8 @@ import bas.animalkingdom.service.AnimalService;
 import bas.animalkingdom.zoo.Zoo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.sun.corba.se.impl.protocol.INSServerRequestDispatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,8 +36,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InvalidClassException;
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -52,7 +50,10 @@ public class AnimalController {
     private AnimalService animalService;
 
     @RequestMapping(value = "/overview", method = RequestMethod.GET)
-    public ModelAndView getAnimals(ModelMap modelMap, @RequestParam(value = "race", required = false, defaultValue = "") String race) throws ClassNotFoundException {
+    public ModelAndView getAnimals(ModelMap modelMap, @RequestParam(value = "race", required = false, defaultValue = "") String race) throws ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException {
+
+        this.animalService.readAnimals();
+
         ModelAndView modelAndView = new ModelAndView("overview");
 
         Zoo zoo = Zoo.getInstance("ICO41A");
@@ -299,15 +300,15 @@ public class AnimalController {
             "uuid", "gender", "bodyCovering", "name", "insertion", "lastName", "color", "weight", "maxNumberOfEggs", "usingBirthControl"
     })
     public ModelAndView handleEditHumanAnimal(@RequestParam(value = "uuid") String uuidString,
-                                                 @RequestParam(value = "gender") String genderString,
-                                                 @RequestParam(value = "bodyCovering") String bodyCovering,
-                                                 @RequestParam(value = "name") String name,
-                                                 @RequestParam(value = "insertion") String insertion,
-                                                 @RequestParam(value = "lastName") String lastName,
-                                                 @RequestParam(value = "color") String color,
-                                                 @RequestParam(value = "weight") int weight,
-                                                 @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs,
-                                                 @RequestParam(value = "usingBirthControl") boolean usingBirthControl
+                                              @RequestParam(value = "gender") String genderString,
+                                              @RequestParam(value = "bodyCovering") String bodyCovering,
+                                              @RequestParam(value = "name") String name,
+                                              @RequestParam(value = "insertion") String insertion,
+                                              @RequestParam(value = "lastName") String lastName,
+                                              @RequestParam(value = "color") String color,
+                                              @RequestParam(value = "weight") int weight,
+                                              @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs,
+                                              @RequestParam(value = "usingBirthControl") boolean usingBirthControl
     ) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 
         ModelAndView modelAndView = new ModelAndView("redirect:/overview");

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Repository
 public class AnimalRepository {
 
     private static ArrayList<Animal> animals;

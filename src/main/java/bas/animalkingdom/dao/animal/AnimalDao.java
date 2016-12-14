@@ -14,7 +14,7 @@ public interface AnimalDao {
     /**
      * @return All the animals with all properties
      */
-    public abstract ArrayList<Animal> readAll() throws SQLException;
+    public abstract ArrayList<Animal> readAll() throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException;
 
     /**
      * @return The read animal with all it's properties
