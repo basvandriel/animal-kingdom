@@ -19,7 +19,7 @@ public interface AnimalDao {
     /**
      * @return The read animal with all it's properties
      */
-    public abstract Animal read(UUID uuid);
+    public abstract Animal read(String uuid);
 
     /**
      * @return Edits a animal

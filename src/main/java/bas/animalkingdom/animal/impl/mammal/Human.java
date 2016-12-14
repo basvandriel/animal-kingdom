@@ -268,4 +268,18 @@ public class Human extends Mammal {
     public ArrayList<STD> getSTDs() {
         return stds;
     }
+
+    public void setExtraStdChance(double extraStdChance) {
+        this.extraStdChance = extraStdChance;
+    }
+
+    public void setExtraCaughtCheatingChance(double extraCaughtCheatingChance) {
+        this.extraCaughtCheatingChance = extraCaughtCheatingChance;
+    }
+
+    public void setStds(ArrayList<STD> stds) {
+        this.stds = stds;
+    }
+
+
 }
