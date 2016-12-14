@@ -17,8 +17,9 @@ public class AnimalService {
 
     @Autowired
     private AnimalRepository animalRepository;
-    public void readAnimals() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
+    public void readAnimals() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        this.animalRepository.getAllAnimals();
     }
 
     public void addAnimal(Animal hatch) {
