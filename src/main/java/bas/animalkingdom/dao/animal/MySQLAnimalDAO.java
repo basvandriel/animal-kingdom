@@ -180,11 +180,7 @@ public class MySQLAnimalDAO implements AnimalDao {
                 }
                 animals.add(animal);
             }
-
-
-        } catch (SQLException exception) {
-
-        } catch (IllegalAccessException | InstantiationException | ClassNotFoundException | NoSuchMethodException | InvalidClassException | InvocationTargetException e) {
+        } catch (IllegalAccessException | InstantiationException | ClassNotFoundException | NoSuchMethodException | InvalidClassException | InvocationTargetException | SQLException e) {
             e.printStackTrace();
         }
 
