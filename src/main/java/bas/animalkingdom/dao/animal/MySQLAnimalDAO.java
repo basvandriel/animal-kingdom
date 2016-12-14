@@ -134,8 +134,6 @@ public class MySQLAnimalDAO implements AnimalDao {
 
                 AnimalFactory animalFactory = new AnimalFactory(animalType, gender, bodyCovering, name, color, weight, maxNumberOfEggs);
 
-
-
                 if (Human.class.isAssignableFrom(Class.forName(animalType))) {
 
                     PreparedStatement humanPropertiesQuery = connection.prepareStatement("    SELECT \n" +
@@ -173,11 +171,10 @@ public class MySQLAnimalDAO implements AnimalDao {
                     animal = animalFactory.build();
                 }
 
-
-                animal.setUuid(UUID.fromString(uuid));
                 if (animal == null) {
                     continue;
                 }
+                animal.setUuid(UUID.fromString(uuid));
                 animals.add(animal);
             }
         } catch (IllegalAccessException | InstantiationException | ClassNotFoundException | NoSuchMethodException | InvalidClassException | InvocationTargetException | SQLException e) {
