@@ -281,5 +281,15 @@ public class Human extends Mammal {
         this.stds = stds;
     }
 
+    public double getExtraStdChance() {
+        return extraStdChance;
+    }
 
+    public double getExtraCaughtCheatingChance() {
+        return extraCaughtCheatingChance;
+    }
+
+    public ArrayList<STD> getStds() {
+        return stds;
+    }
 }

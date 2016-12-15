@@ -269,6 +269,97 @@ public class MySQLAnimalDAO implements AnimalDao {
 
     @Override
     public void update(Animal animal) {
+        try {
+            if (animal == null || this.connection == null || this.connection.isClosed()) {
+                return;
+            }
+            //Update normal properties
+            PreparedStatement updateStandardVariablesStatement = connection.prepareStatement(
+                    "UPDATE `animal` AS animal" +
+                            "" +
+                            "SET animal.`gender` = ?" +
+                            "SET animal.`bodyCovering` = ?" +
+                            "SET animal.`name` = ?" +
+                            "SET animal.`color` = ?" +
+                            "SET animal.`weight` = ?" +
+                            "SET animal.`maxNumberOfEggs` = ?" +
+                            "" +
+                            "WHERE animal.`UUID` = :uuid");
+
+
+            //Set the UUID parameter
+            updateStandardVariablesStatement.setString(7, animal.getUuid().toString());
+
+            //Set the animal gender (refactor if there are more genders)
+            updateStandardVariablesStatement.setString(1, animal.isFemale() ? "1" : "0");
+
+            //Set the animals body covering
+            updateStandardVariablesStatement.setString(2, animal.getBodyCovering());
+
+            //Set the animals name
+            updateStandardVariablesStatement.setString(3, animal.getName());
+
+            //Set the animals color
+            updateStandardVariablesStatement.setString(4, animal.getColor());
+
+            //Set the animals weight
+            updateStandardVariablesStatement.setInt(5, animal.getWeight());
+
+            //Set the animals eggs
+            updateStandardVariablesStatement.setInt(6, animal.getMaxNumberOfEggs());
+
+            if (Human.class.isAssignableFrom(animal.getClass())) {
+                //TODO Set the humans properties
+
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "UPDATE `human-animal-properties` AS humanAnimalProperties" +
+                                "" +
+                                "SET humanAnimalProperties.`insertion` = ?," +
+                                "SET humanAnimalProperties.`lastName` = ?," +
+                                "SET humanAnimalProperties.`usingBirthControl`, = ?" +
+                                "SET humanAnimalProperties.`partner_UUID` = ?," +
+                                "SET humanAnimalProperties.`extraStdChance = ?`," +
+                                "SET humanAnimalProperties.`extraCaughtCheatingChance = ?`" +
+                                "" +
+                                "WHERE humanAnimalProperties.`id` = ?"
+                );
+                preparedStatement.setInt(7 , animalPropertiesId);
+                //Set the humans insertion
+                preparedStatement.setString(1, ((Human) animal).getInsertion());
+
+                //Set the humans last name
+                preparedStatement.setString(2, ((Human) animal).getLastName());
+
+                //Set the humans insertion
+                byte isUsingBirthControl = (byte) (((Human) animal).isUsingBirthControl() ? 1 : 0);
+                preparedStatement.setByte(3, isUsingBirthControl);
+
+                //Set the humans partner
+                String partnerUUID = ((Human) animal).getPartner() == null ?
+                        "" :
+                        ((Human) animal).getPartner().getUuid().toString();
+                preparedStatement.setString(4, partnerUUID);
+
+                //Set the humans extra STD chance
+                preparedStatement.setInt(5, (int) ((Human) animal).getExtraStdChance());
+
+                //Set the humans extra chance caught of cheating chance
+                preparedStatement.setInt(6, (int) ((Human) animal).getExtraCaughtCheatingChance());
+
+                //TODO set the human stds
+                ArrayList<STD> humanSTDs = ((Human) animal).getSTDs();
+
+
+
+
+            } else if (Elephant.class.isAssignableFrom(animal.getClass())) {
+                //TODO Set the elephants properties
+            }
+            //TODO Set the humans eggs
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
