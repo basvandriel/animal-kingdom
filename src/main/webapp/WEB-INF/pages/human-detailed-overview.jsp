@@ -169,7 +169,7 @@
             </thead>
 
             <tbody>
-            <c:forEach var="humanSTD" items="${animal.getSTDs()}">
+            <c:forEach var="humanSTD" items="${human.getSTDs()}">
                 <tr>
                     <td>${humanSTD.getName()}</td>
                 </tr>

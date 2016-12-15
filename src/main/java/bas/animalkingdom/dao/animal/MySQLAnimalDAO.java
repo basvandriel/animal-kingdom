@@ -26,6 +26,7 @@ import bas.animalkingdom.animal.gender.impl.Male;
 import bas.animalkingdom.animal.impl.bird.Parrot;
 import bas.animalkingdom.animal.impl.bird.Pinguin;
 import bas.animalkingdom.animal.impl.mammal.Human;
+import bas.animalkingdom.animal.impl.mammal.STD;
 import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
 import bas.animalkingdom.animal.impl.mammal.elephant.AsianElephant;
 import bas.animalkingdom.animal.impl.mammal.elephant.Elephant;
@@ -84,6 +85,8 @@ public class MySQLAnimalDAO implements AnimalDao {
 
     @Override
     public ArrayList<Animal> readAll() throws SQLException {
+        Zoo.getInstance("ICO41A").getCages().clear();
+
         ArrayList<Animal> animals = new ArrayList<>();
         if (this.connection == null || this.connection.isClosed()) {
             return null;
@@ -132,6 +135,7 @@ public class MySQLAnimalDAO implements AnimalDao {
                 if (Human.class.isAssignableFrom(Class.forName(animalType))) {
                     //Get human properties belonging to this animal
                     PreparedStatement humanPropertiesStatement = connection.prepareStatement("SELECT \n" +
+                            "        humanAnimalProperties.`id`,\n" +
                             "        humanAnimalProperties.`insertion`,\n" +
                             "        humanAnimalProperties.`lastName`,\n" +
                             "        humanAnimalProperties.`usingBirthControl`,\n" +
@@ -149,21 +153,42 @@ public class MySQLAnimalDAO implements AnimalDao {
 
 
                     if (humanPropertiesResult != null && humanPropertiesResult.next()) {
-                        String insertion = humanPropertiesResult.getString(1);
-                        String lastName = humanPropertiesResult.getString(2);
-                        boolean isUsingBirthControl = humanPropertiesResult.getByte(3) == 1;
+                        int humanAnimalPropertiesId = humanPropertiesResult.getInt(1);
+                        String insertion = humanPropertiesResult.getString(2);
+                        String lastName = humanPropertiesResult.getString(3);
+                        boolean isUsingBirthControl = humanPropertiesResult.getByte(4) == 1;
 
                         animal = animalFactory.build(insertion, lastName, isUsingBirthControl);
                         //Set the extra STD chance
-                        ((Human) animal).setExtraStdChance(humanPropertiesResult.getInt(5));
+                        ((Human) animal).setExtraStdChance(humanPropertiesResult.getInt(6));
 
                         //Set the extra caught cheating chance
-                        ((Human) animal).setExtraCaughtCheatingChance(humanPropertiesResult.getInt(6));
+                        ((Human) animal).setExtraCaughtCheatingChance(humanPropertiesResult.getInt(7));
 
-                        PreparedStatement humanSTDsStatement = connection.prepareStatement("" +
-                                "SELECT ");
+                        PreparedStatement humanSTDsStatement = connection.prepareStatement(
+                                "SELECT\n" +
+                                        "std.`name`" +
+                                        "\n" +
+                                        "    FROM `humanstds` AS humanstds" +
+                                        "\n" +
+                                        "    INNER JOIN `std` AS std" +
+                                        "      ON humanstds.`std-id` = std.`id`" +
+                                        "\n" +
+                                        "        WHERE humanstds.`human-animal-property-id` = ?;");
 
-                        //TODO Set human STD's
+                        humanSTDsStatement.setInt(1, humanAnimalPropertiesId);
+
+                        ResultSet humanSTDs = humanSTDsStatement.executeQuery();
+
+                        ArrayList<STD> currentHumanSTDs = new ArrayList<>();
+                        while (humanSTDs.next()) {
+                            STD std = new STD(humanSTDs.getString(1));
+                            if (std == null) {
+                                continue;
+                            }
+                            currentHumanSTDs.add(std);
+                        }
+                        ((Human) animal).setStds(currentHumanSTDs);
                     }
                 } else if (Elephant.class.isAssignableFrom(Class.forName(animalType))) {
                     PreparedStatement elephantPropertiesStatement = connection.prepareStatement(
