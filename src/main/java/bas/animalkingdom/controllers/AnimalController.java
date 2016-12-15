@@ -46,13 +46,8 @@ import java.util.stream.Collectors;
 @Controller("Animal")
 public class AnimalController {
 
-    @Autowired
-    private AnimalService animalService;
-
     @RequestMapping(value = "/overview", method = RequestMethod.GET)
     public ModelAndView getAnimals(ModelMap modelMap, @RequestParam(value = "race", required = false, defaultValue = "") String race) throws ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException {
-
-        animalService.readAnimals();
         ModelAndView modelAndView = new ModelAndView("overview");
 
         Zoo zoo = Zoo.getInstance("ICO41A");

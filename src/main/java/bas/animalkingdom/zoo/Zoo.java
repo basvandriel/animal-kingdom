@@ -5,9 +5,9 @@ import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.impl.bird.Bird;
 import bas.animalkingdom.animal.impl.mammal.Mammal;
 import bas.animalkingdom.animal.impl.reptile.Reptile;
+import bas.animalkingdom.repository.AnimalRepository;
 import bas.animalkingdom.service.AnimalService;
 import bas.animalkingdom.threads.ReptileEggHatcherThread;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Modifier;
 import java.sql.SQLException;
@@ -17,9 +17,6 @@ import java.util.*;
  * A {@link Zoo}
  */
 public class Zoo {
-
-    @Autowired
-    private static AnimalService animalService;
 
     /**
      *
@@ -81,6 +78,12 @@ public class Zoo {
     public static Zoo getInstance(String zoo) {
         if (instance == null) {
             instance = new Zoo(zoo);
+            try {
+                AnimalRepository animalRepository = new AnimalRepository();
+                animalRepository.getAllAnimals();
+            } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
         return instance;
     }
@@ -93,6 +96,12 @@ public class Zoo {
     public static Zoo getInstance() {
         if (instance == null) {
             instance = new Zoo();
+            try {
+                AnimalRepository animalRepository = new AnimalRepository();
+                animalRepository.getAllAnimals();
+            } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
         return instance;
     }
