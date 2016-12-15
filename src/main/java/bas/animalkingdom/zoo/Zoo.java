@@ -5,15 +5,21 @@ import bas.animalkingdom.animal.Egg;
 import bas.animalkingdom.animal.impl.bird.Bird;
 import bas.animalkingdom.animal.impl.mammal.Mammal;
 import bas.animalkingdom.animal.impl.reptile.Reptile;
+import bas.animalkingdom.service.AnimalService;
 import bas.animalkingdom.threads.ReptileEggHatcherThread;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Modifier;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
  * A {@link Zoo}
  */
 public class Zoo {
+
+    @Autowired
+    private static AnimalService animalService;
 
     /**
      *
@@ -69,12 +75,12 @@ public class Zoo {
      * Gets the instance of a specific {@link Zoo}.
      *
      * @param zoo The {@link Zoo} name.
+     *
      * @return A specific {@link Zoo}.
      */
     public static Zoo getInstance(String zoo) {
         if (instance == null) {
             instance = new Zoo(zoo);
-//            loadAnimals();
         }
         return instance;
     }
@@ -87,7 +93,6 @@ public class Zoo {
     public static Zoo getInstance() {
         if (instance == null) {
             instance = new Zoo();
-//            loadAnimals();
         }
         return instance;
     }
@@ -96,6 +101,7 @@ public class Zoo {
      * Adds a {@link Cage} to this {@link Zoo}.
      *
      * @param cage The {@link Cage} to add to the {@link Zoo}.
+     *
      * @return If the {@link Cage} has been added to the {@link Zoo}
      */
     public boolean addCage(Cage cage) {
@@ -145,6 +151,7 @@ public class Zoo {
      * Retrieves the {@link Cage} of a specific {@link Animal}.
      *
      * @param anAnimal The {@link Animal} to retrieve the cage for.
+     *
      * @return The {@link Cage} of a specific {@link Animal}.
      */
     public Cage getCageOfAnimal(Animal anAnimal) {
@@ -155,6 +162,7 @@ public class Zoo {
      * Retrieves the {@link Cage}s of a specific {@link Animal} by its species.
      *
      * @param anAnimal The {@link Animal} to retrieve the cages for.
+     *
      * @return The {@link Cage}s of a specific {@link Animal} by its species.
      */
     public TreeSet<Cage> getCagesBySpeciesOfAnimal(Animal anAnimal) {
@@ -168,6 +176,7 @@ public class Zoo {
      * Retrieves the {@link Cage}s of specific {@link Animal} species.
      *
      * @param species The {@link Animal} species to retrieve the cages for.
+     *
      * @return The {@link Cage}s of specific {@link Animal} species
      */
     public TreeSet<Cage> getCagesBySpecies(Class<? extends Animal> species) {
@@ -200,6 +209,7 @@ public class Zoo {
      * Retrieves the {@link Cage} of specific {@link Animal} race.
      *
      * @param race The {@link Animal} race to retrieve the cage for.
+     *
      * @return The {@link Cage} of specific {@link Animal} race.
      */
     public Cage getCageByRace(Class<? extends Animal> race) {
@@ -218,6 +228,7 @@ public class Zoo {
      * Retrieves the {@link Animal}s of a specific {@link Animal} race.
      *
      * @param race The {@link Animal} race to retrieve the {@link Animal}s for.
+     *
      * @return The {@link Animal}s of a specific {@link Animal} race.
      */
     public ArrayList<Animal> getAllAnimalsByRace(Class<? extends Animal> race) {
@@ -232,6 +243,7 @@ public class Zoo {
      * Retrieves the {@link Animal}s of a specific {@link Animal} species.
      *
      * @param species The {@link Animal} species to retrieve the {@link Animal}s for.
+     *
      * @return The {@link Animal}s of a specific {@link Animal} species.
      */
     public ArrayList<Animal> getAllAnimalsBySpecies(Class<? extends Animal> species) {

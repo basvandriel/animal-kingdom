@@ -36,7 +36,6 @@ import bas.animalkingdom.animal.impl.reptile.Crocodile;
 import bas.animalkingdom.animal.impl.reptile.Snake;
 import bas.animalkingdom.animal.impl.special.Platypus;
 import bas.animalkingdom.zoo.Zoo;
-import com.sun.org.apache.bcel.internal.generic.Select;
 
 import java.io.InvalidClassException;
 import java.lang.reflect.InvocationTargetException;
@@ -89,31 +88,9 @@ public class MySQLAnimalDAO implements AnimalDao {
         if (this.connection == null || this.connection.isClosed()) {
             return null;
         }
-        PreparedStatement getAllAnimalsStatement = connection.prepareStatement("SELECT \n" +
-                "animal.`UUID`" +
-                "" +
-                "FROM `animal` AS animal");
-
-        ResultSet allAnimals = getAllAnimalsStatement.executeQuery();
-        while (allAnimals.next()) {
-            Animal animal = this.read(allAnimals.getString(1));
-            if (animal == null) {
-                continue;
-            }
-            animals.add(animal);
-        }
-        return animals;
-    }
-
-
-    @Override
-    public Animal read(String uuid) {
-        Animal animal = null;
         try {
-            if (uuid == null || this.connection == null || this.connection.isClosed()) {
-                return null;
-            }
             PreparedStatement preparedStatement = connection.prepareStatement("    SELECT \n" +
+                    "        animal.`UUID`,\n" +
                     "        animalType.`name` AS 'animalType',\n" +
                     "        gender.`name` AS 'gender',\n" +
                     "        animalProperties.`name`,\n" +
@@ -132,27 +109,25 @@ public class MySQLAnimalDAO implements AnimalDao {
                     "\t\tON animalProperties.`animal-type-id` = animalType.`id`\n" +
                     "\t\n" +
                     "\tINNER JOIN `gender` AS gender\n" +
-                    "\t\tON animalProperties.`gender-id` = gender.`id`" +
-                    "" +
-                    "WHERE animal.`UUID` = ?;");
-            preparedStatement.setString(1, uuid);
+                    "\t\tON animalProperties.`gender-id` = gender.`id`;");
 
             ResultSet animalResult = preparedStatement.executeQuery();
-            if (animalResult.next()) {
-                String animalType = className.get(animalResult.getString(1));
+            while (animalResult.next()) {
+                String animalType = className.get(animalResult.getString(2));
                 if (animalType == null || animalType.equals("")) {
                     return null;
                 }
-                String gender = genderClasses.get(animalResult.getString(2));
+                String uuid = animalResult.getString(1);
+                String gender = genderClasses.get(animalResult.getString(3));
+                String bodyCovering = animalResult.getString(6);
+                String name = animalResult.getString(4);
+                String color = animalResult.getString(5);
+                int weight = animalResult.getInt(7);
+                int maxNumberOfEggs = animalResult.getInt(8);
 
-                String bodyCovering = animalResult.getString(5);
-                String name = animalResult.getString(3);
-                String color = animalResult.getString(4);
-                int weight = animalResult.getInt(6);
-                int maxNumberOfEggs = animalResult.getInt(7);
+                int animalPropertiesId = animalResult.getInt(9);
 
-                int animalPropertiesId = animalResult.getInt(8);
-
+                Animal animal = null;
                 AnimalFactory animalFactory = new AnimalFactory(animalType, gender, bodyCovering, name, color, weight, maxNumberOfEggs);
                 if (Human.class.isAssignableFrom(Class.forName(animalType))) {
                     //Get human properties belonging to this animal
@@ -179,43 +154,94 @@ public class MySQLAnimalDAO implements AnimalDao {
                         boolean isUsingBirthControl = humanPropertiesResult.getByte(3) == 1;
 
                         animal = animalFactory.build(insertion, lastName, isUsingBirthControl);
-                        animal.setUuid(UUID.fromString(uuid));
-
-                        String partnerUUIDstring = humanPropertiesResult.getString(4);
-                        if (partnerUUIDstring != null && partnerUUIDstring.isEmpty()) {
-                            Human partner = (Human) Zoo.getInstance("ICO41A").getAnimalByUUID(UUID.fromString(partnerUUIDstring));
-                            if (partner == null) {
-                                partner = (Human) this.read(partnerUUIDstring);
-                            }
-
-                            //If the partner is null or not an instance of human
-                            if (partner != null && Human.class.isAssignableFrom(partner.getClass())) {
-                                ((Human) animal).mary(partner);
-                            }
-                        }
                         //Set the extra STD chance
                         ((Human) animal).setExtraStdChance(humanPropertiesResult.getInt(5));
 
                         //Set the extra caught cheating chance
                         ((Human) animal).setExtraCaughtCheatingChance(humanPropertiesResult.getInt(6));
 
+                        PreparedStatement humanSTDsStatement = connection.prepareStatement("" +
+                                "SELECT ");
+
                         //TODO Set human STD's
-                        //TODO Set human eggs
                     }
-                } else if (Elephant.class.isAssignableFrom(Class.forName(animalType).getClass())) {
-                    animal = animalFactory.build();
+                } else if (Elephant.class.isAssignableFrom(Class.forName(animalType))) {
+                    PreparedStatement elephantPropertiesStatement = connection.prepareStatement(
+                            "SELECT \n" +
+                                    "        elephantAnimalProperties.`earSize`" +
+                                    "\n" +
+                                    "    FROM `elephant-animal-properties` AS elephantAnimalProperties\n" +
+                                    "" +
+                                    "WHERE elephantAnimalProperties.`animal-properties-id` = ?");
+
+                    elephantPropertiesStatement.setInt(1, animalPropertiesId);
+
+                    ResultSet elephantPropertiesResult = elephantPropertiesStatement.executeQuery();
+
+                    int earSize = 0;
+                    if (elephantPropertiesResult.next()) {
+                        earSize = elephantPropertiesResult.getInt(1);
+                    }
+                    animal = animalFactory.build(earSize);
                 } else {
                     animal = animalFactory.build();
                 }
+                //TODO Set animal eggs
 
                 if (animal == null) {
                     return null;
                 }
+                animal.setUuid(UUID.fromString(uuid));
+                animals.add(animal);
             }
         } catch (SQLException | ClassNotFoundException | InvocationTargetException | IllegalAccessException | NoSuchMethodException | InstantiationException | InvalidClassException e) {
             e.printStackTrace();
+        } finally {
+            PreparedStatement getMarriedHumansStatement = connection.prepareStatement(
+                    "SELECT \n" +
+                            "animal.`UUID`,\n" +
+                            "humanAnimalProperties.`partner_UUID`,\n" +
+                            "partnerHumanAnimalProperties.`partner_UUID` AS partner_partner_UUID\n" +
+                            "\n" +
+                            "FROM `animal` AS animal\n" +
+                            "\t\n" +
+                            "INNER JOIN `animal-properties` AS animalProperties\n" +
+                            "\tON animal.`animal-properties-id` = animalProperties.`id`\n" +
+                            "\n" +
+                            "INNER JOIN `human-animal-properties` AS humanAnimalProperties\n" +
+                            "\tON animalProperties.`id` = humanAnimalProperties.`animal-properties-id`\n" +
+                            "    \n" +
+                            "INNER JOIN `animal` as partnerAnimal\n" +
+                            "\tON humanAnimalProperties.`partner_UUID` = partnerAnimal.`UUID`\n" +
+                            "    \n" +
+                            "INNER JOIN `animal-properties` AS partnerAnimalProperties\n" +
+                            "\tON partnerAnimal.`animal-properties-id` = partnerAnimalProperties.`id`\n" +
+                            "    \n" +
+                            "INNER JOIN `human-animal-properties` AS partnerHumanAnimalProperties\n" +
+                            "\tON partnerAnimalProperties.`id`  = partnerHumanAnimalProperties.`animal-properties-id`");
+
+            ResultSet marriedHumanData = getMarriedHumansStatement.executeQuery();
+            while (marriedHumanData.next()) {
+                String currentAnimalUUID = marriedHumanData.getString(1);
+                String currentAnimalsPartnerUUID = marriedHumanData.getString(2);
+                String currentAnimalsPartnersPartnersUUID = marriedHumanData.getString(3);
+
+                Human currentAnimal = (Human) Zoo.getInstance("ICO41A").getAnimalByUUID(UUID.fromString(currentAnimalUUID));
+                Human currentAnimalsPartner = (Human) Zoo.getInstance("ICO41A").getAnimalByUUID(UUID.fromString(currentAnimalsPartnerUUID));
+
+                if (currentAnimal == null || currentAnimalsPartner == null || !currentAnimalUUID.equals(currentAnimalsPartnersPartnersUUID)) {
+                    continue;
+                }
+                currentAnimal.setPartner(currentAnimalsPartner);
+            }
         }
-        return animal;
+        return animals;
+    }
+
+
+    @Override
+    public Animal read(String uuid) {
+        return null;
     }
 
     @Override

@@ -52,8 +52,7 @@ public class AnimalController {
     @RequestMapping(value = "/overview", method = RequestMethod.GET)
     public ModelAndView getAnimals(ModelMap modelMap, @RequestParam(value = "race", required = false, defaultValue = "") String race) throws ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException {
 
-        this.animalService.readAnimals();
-
+        animalService.readAnimals();
         ModelAndView modelAndView = new ModelAndView("overview");
 
         Zoo zoo = Zoo.getInstance("ICO41A");
@@ -466,7 +465,7 @@ public class AnimalController {
         }
 
         for (Egg egg : eggs) {
-            this.animalService.addAnimal(egg.hatch());
+            //this.animalService.addAnimal(egg.hatch());
         }
         return true;
     }
@@ -511,7 +510,7 @@ public class AnimalController {
             return false;
         }
         for (IMammal mammal : babies) {
-            this.animalService.addAnimal((Animal) mammal);
+           // this.animalService.addAnimal((Animal) mammal);
         }
         return true;
     }

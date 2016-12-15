@@ -21,7 +21,4 @@ public class AnimalService {
     public void readAnimals() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         this.animalRepository.getAllAnimals();
     }
-
-    public void addAnimal(Animal hatch) {
-    }
 }
