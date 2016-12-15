@@ -1,14 +1,9 @@
 package bas.animalkingdom.dao.animal;
 
 import bas.animalkingdom.animal.Animal;
-import com.mysql.jdbc.Connection;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.UUID;
 
 public interface AnimalDao {
     /**
@@ -24,7 +19,7 @@ public interface AnimalDao {
     /**
      * @return Edits a animal
      */
-    public abstract Animal edit();
+    public abstract void update(Animal animals);
 
     /**
      * Adds a animal

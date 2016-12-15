@@ -85,8 +85,6 @@ public class MySQLAnimalDAO implements AnimalDao {
 
     @Override
     public ArrayList<Animal> readAll() throws SQLException {
-        Zoo.getInstance("ICO41A").getCages().clear();
-
         ArrayList<Animal> animals = new ArrayList<>();
         if (this.connection == null || this.connection.isClosed()) {
             return null;
@@ -270,8 +268,8 @@ public class MySQLAnimalDAO implements AnimalDao {
     }
 
     @Override
-    public Animal edit() {
-        return null;
+    public void update(Animal animal) {
+
     }
 
     @Override
