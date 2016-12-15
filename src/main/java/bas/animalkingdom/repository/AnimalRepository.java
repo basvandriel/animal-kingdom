@@ -24,6 +24,7 @@ public class AnimalRepository {
     private ArrayList<Animal> animals;
 
     public Collection<Animal> getAllAnimals() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        //Get the driver
         Class.forName("com.mysql.jdbc.Driver");
 
         Connection connection =
