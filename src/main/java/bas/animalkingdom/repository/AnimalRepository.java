@@ -28,7 +28,7 @@ public class AnimalRepository {
         Class.forName("com.mysql.jdbc.Driver");
 
         Connection connection =
-                DriverManager.getConnection("jdbc:mysql://localhost/animal-kingdom", "root", "");
+                DriverManager.getConnection("jdbc:mysql://localhost/animal-kingdom", "root", "password");
 
         AnimalDao animalDao = new MySQLAnimalDAO(connection);
         return animalDao.readAll();

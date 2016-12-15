@@ -15,10 +15,5 @@ import java.sql.SQLException;
 @Service
 public class AnimalService {
 
-    @Autowired
-    private AnimalRepository animalRepository;
 
-    public void readAnimals() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
-        this.animalRepository.getAllAnimals();
-    }
 }

@@ -37,6 +37,7 @@ import bas.animalkingdom.animal.impl.reptile.Crocodile;
 import bas.animalkingdom.animal.impl.reptile.Snake;
 import bas.animalkingdom.animal.impl.special.Platypus;
 import bas.animalkingdom.zoo.Zoo;
+import sun.dc.pr.PRError;
 
 import java.io.InvalidClassException;
 import java.lang.reflect.InvocationTargetException;
@@ -234,7 +235,7 @@ public class MySQLAnimalDAO implements AnimalDao {
                             "INNER JOIN `human-animal-properties` AS humanAnimalProperties\n" +
                             "\tON animalProperties.`id` = humanAnimalProperties.`animal-properties-id`\n" +
                             "    \n" +
-                            "INNER JOIN `animal` as partnerAnimal\n" +
+                            "INNER JOIN `animal` AS partnerAnimal\n" +
                             "\tON humanAnimalProperties.`partner_UUID` = partnerAnimal.`UUID`\n" +
                             "    \n" +
                             "INNER JOIN `animal-properties` AS partnerAnimalProperties\n" +
@@ -249,10 +250,15 @@ public class MySQLAnimalDAO implements AnimalDao {
                 String currentAnimalsPartnerUUID = marriedHumanData.getString(2);
                 String currentAnimalsPartnersPartnersUUID = marriedHumanData.getString(3);
 
+                //If partner is itself or partner is not the partners partner then continue
+                if (currentAnimalUUID.equals(currentAnimalsPartnerUUID) || !currentAnimalUUID.equals(currentAnimalsPartnersPartnersUUID)) {
+                    continue;
+                }
+
                 Human currentAnimal = (Human) Zoo.getInstance("ICO41A").getAnimalByUUID(UUID.fromString(currentAnimalUUID));
                 Human currentAnimalsPartner = (Human) Zoo.getInstance("ICO41A").getAnimalByUUID(UUID.fromString(currentAnimalsPartnerUUID));
 
-                if (currentAnimal == null || currentAnimalsPartner == null || !currentAnimalUUID.equals(currentAnimalsPartnersPartnersUUID)) {
+                if (currentAnimal == null || currentAnimalsPartner == null) {
                     continue;
                 }
                 currentAnimal.setPartner(currentAnimalsPartner);
@@ -273,18 +279,32 @@ public class MySQLAnimalDAO implements AnimalDao {
             if (animal == null || this.connection == null || this.connection.isClosed()) {
                 return;
             }
+            PreparedStatement getAnimalPropertiesIdStatement = connection.prepareStatement(
+                    "SELECT" +
+                            " animal.`animal-properties-id`" +
+                            "" +
+                            "FROM `animal` AS animal");
+            ResultSet getAnimalPropertiesIdResult = getAnimalPropertiesIdStatement.executeQuery();
+            if (!getAnimalPropertiesIdResult.next()) {
+                return;
+            }
+            int animalPropertiesId = getAnimalPropertiesIdResult.getInt(1);
+
             //Update normal properties
             PreparedStatement updateStandardVariablesStatement = connection.prepareStatement(
-                    "UPDATE `animal` AS animal" +
+                    "UPDATE `animal` AS animal " +
+                            "INNER JOIN `animal-properties` AS animalProperties" +
+                            "   ON animal.`animal-properties-id` = animalProperties.`id`" +
                             "" +
-                            "SET animal.`gender` = ?" +
-                            "SET animal.`bodyCovering` = ?" +
-                            "SET animal.`name` = ?" +
-                            "SET animal.`color` = ?" +
-                            "SET animal.`weight` = ?" +
-                            "SET animal.`maxNumberOfEggs` = ?" +
+                            "SET animalProperties.`gender-id` = ?," +
+                            "    animalProperties.`bodyCovering` = ?," +
+                            "    animalProperties.`name` = ?," +
+                            "    animalProperties.`color` = ?," +
+                            "    animalProperties.`weight` = ?," +
+                            "    animalProperties.`maxNumberOfEggs` = ?" +
                             "" +
-                            "WHERE animal.`UUID` = :uuid");
+                            "WHERE animal.`UUID` = ?;"
+            );
 
 
             //Set the UUID parameter
@@ -312,18 +332,18 @@ public class MySQLAnimalDAO implements AnimalDao {
                 //TODO Set the humans properties
 
                 PreparedStatement preparedStatement = connection.prepareStatement(
-                        "UPDATE `human-animal-properties` AS humanAnimalProperties" +
-                                "" +
-                                "SET humanAnimalProperties.`insertion` = ?," +
-                                "SET humanAnimalProperties.`lastName` = ?," +
-                                "SET humanAnimalProperties.`usingBirthControl`, = ?" +
-                                "SET humanAnimalProperties.`partner_UUID` = ?," +
-                                "SET humanAnimalProperties.`extraStdChance = ?`," +
-                                "SET humanAnimalProperties.`extraCaughtCheatingChance = ?`" +
-                                "" +
-                                "WHERE humanAnimalProperties.`id` = ?"
+                        "UPDATE `human-animal-properties` AS humanAnimalProperties\n" +
+                                "  SET\n" +
+                                "      humanAnimalProperties.`insertion` = ?,\n" +
+                                "      humanAnimalProperties.`lastName` = ?,\n" +
+                                "      humanAnimalProperties.`usingBirthControl` = ?,\n" +
+                                "      humanAnimalProperties.`partner_UUID` = ?,\n" +
+                                "      humanAnimalProperties.`extraStdChance` = ?,\n" +
+                                "      humanAnimalProperties.`extraCaughtCheatingChance` = ?\n" +
+                                "\n" +
+                                "  WHERE humanAnimalProperties.`id` = ?"
                 );
-                preparedStatement.setInt(7 , animalPropertiesId);
+                //preparedStatement.setInt(7 , animalPropertiesId);
                 //Set the humans insertion
                 preparedStatement.setString(1, ((Human) animal).getInsertion());
 
@@ -346,11 +366,16 @@ public class MySQLAnimalDAO implements AnimalDao {
                 //Set the humans extra chance caught of cheating chance
                 preparedStatement.setInt(6, (int) ((Human) animal).getExtraCaughtCheatingChance());
 
+                //Set the human animal properties id
+                preparedStatement.setInt(7, animalPropertiesId);
+
                 //TODO set the human stds
                 ArrayList<STD> humanSTDs = ((Human) animal).getSTDs();
 
-
-
+                PreparedStatement deleteHumanSTDsStatement = connection.prepareStatement(
+                        "DELETE FROM `humanstds` AS humanSTDs\n" +
+                                "  WHERE `humanSTDs`.`human-animal-property-id` = ?;"
+                );
 
             } else if (Elephant.class.isAssignableFrom(animal.getClass())) {
                 //TODO Set the elephants properties
