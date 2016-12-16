@@ -368,10 +368,12 @@ public class AnimalController {
         if (humans == null) {
             return false;
         }
-        boolean hasMarried = ((Human) humans.get(0)).mary((Human) humans.get(1));
+        ((Human) humans.get(0)).mary((Human) humans.get(1));
+
+        //Update the database
         AnimalRepository animalRepository = new AnimalRepository();
-        animalRepository.updateAnimal((Human) humans.get(1));
-        animalRepository.updateAnimal((Human) humans.get(0));
+        animalRepository.updateAnimal(humans.get(0));
+        animalRepository.updateAnimal(humans.get(1));
         return true;
     }
 
@@ -425,9 +427,11 @@ public class AnimalController {
             return false;
         }
         ((Human) humans.get(0)).divorce();
+
+        //Update the database
         AnimalRepository animalRepository = new AnimalRepository();
-        animalRepository.updateAnimal((Human) humans.get(0));
-        animalRepository.updateAnimal((Human) humans.get(1));
+        animalRepository.updateAnimal(humans.get(0));
+        animalRepository.updateAnimal(humans.get(1));
         return true;
     }
 
@@ -484,21 +488,25 @@ public class AnimalController {
     @RequestMapping(value = "/overview/makeLove", method = RequestMethod.POST)
     public
     @ResponseBody
-    boolean makeLove(HttpServletRequest httpServletRequest) throws IOException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+    boolean makeLove(HttpServletRequest httpServletRequest) throws IOException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, SQLException, ClassNotFoundException {
         ArrayList<Animal> nonHumanAnimals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
         if (nonHumanAnimals == null) {
             return false;
         }
 
+        AnimalRepository animalRepository = new AnimalRepository();
         //Self love
         if (nonHumanAnimals.size() == 1) {
             ((Human) nonHumanAnimals.get(0)).makeLove((Human) nonHumanAnimals.get(0));
+            animalRepository.updateAnimal(nonHumanAnimals.get(0));
             return true;
         }
 
         //Make love to partner or cheating
         if (nonHumanAnimals.size() == 2) {
             ((Human) nonHumanAnimals.get(0)).makeLove((Human) nonHumanAnimals.get(1));
+            animalRepository.updateAnimal(nonHumanAnimals.get(0));
+            animalRepository.updateAnimal(nonHumanAnimals.get(1));
             return true;
         }
         return false;
@@ -507,7 +515,7 @@ public class AnimalController {
     @RequestMapping(value = "/overview/giveLifeBirth", method = RequestMethod.POST)
     public
     @ResponseBody
-    boolean giveLifeBirth(HttpServletRequest httpServletRequest) throws IOException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+    boolean giveLifeBirth(HttpServletRequest httpServletRequest) throws IOException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, SQLException, ClassNotFoundException {
         ArrayList<Animal> nonHumanAnimals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
         if (nonHumanAnimals == null) {
             return false;
@@ -515,6 +523,9 @@ public class AnimalController {
 
         Human human = (Human) nonHumanAnimals.get(0);
         human.giveLifeBirth();
+
+        AnimalRepository animalRepository = new AnimalRepository();
+        animalRepository.updateAnimal(human);
 
         ArrayList<IMammal> babies = human.getBabies();
         if (babies == null || babies.size() <= 0) {
