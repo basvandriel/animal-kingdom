@@ -20,11 +20,10 @@ import bas.animalkingdom.animal.impl.mammal.mouse.WhiteMouse;
 import bas.animalkingdom.animal.impl.reptile.Crocodile;
 import bas.animalkingdom.animal.impl.reptile.Snake;
 import bas.animalkingdom.animal.impl.special.Platypus;
-import bas.animalkingdom.service.AnimalService;
+import bas.animalkingdom.repository.AnimalRepository;
 import bas.animalkingdom.zoo.Zoo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -357,9 +356,16 @@ public class AnimalController {
     @RequestMapping(value = "/overview/marry", method = RequestMethod.POST)
     public
     @ResponseBody
-    boolean handleMarry(HttpServletRequest httpServletRequest) throws IOException {
+    boolean handleMarry(HttpServletRequest httpServletRequest) throws IOException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         ArrayList<Animal> humans = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
-        return humans != null && ((Human) humans.get(0)).mary((Human) humans.get(1));
+        if (humans == null) {
+            return false;
+        }
+        boolean hasMarried = ((Human) humans.get(0)).mary((Human) humans.get(1));
+        AnimalRepository animalRepository = new AnimalRepository();
+        animalRepository.updateAnimal((Human) humans.get(1));
+        animalRepository.updateAnimal((Human) humans.get(0));
+        return true;
     }
 
     @RequestMapping(value = "/overview/canMarry", method = RequestMethod.POST)
@@ -405,13 +411,16 @@ public class AnimalController {
     @RequestMapping(value = "/overview/divorce", method = RequestMethod.POST)
     public
     @ResponseBody
-    boolean divorce(HttpServletRequest httpServletRequest) throws IOException {
+    boolean divorce(HttpServletRequest httpServletRequest) throws IOException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         ArrayList<Animal> humans = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
         if (humans == null || ((Human) humans.get(0)).getPartner() == null
                 || ((Human) humans.get(1)).getPartner() == null || ((Human) humans.get(0)).getPartner() != ((Human) humans.get(1))) {
             return false;
         }
         ((Human) humans.get(0)).divorce();
+        AnimalRepository animalRepository = new AnimalRepository();
+        animalRepository.updateAnimal((Human) humans.get(0));
+        animalRepository.updateAnimal((Human) humans.get(1));
         return true;
     }
 
@@ -505,7 +514,7 @@ public class AnimalController {
             return false;
         }
         for (IMammal mammal : babies) {
-           // this.animalService.addAnimal((Animal) mammal);
+            // this.animalService.addAnimal((Animal) mammal);
         }
         return true;
     }

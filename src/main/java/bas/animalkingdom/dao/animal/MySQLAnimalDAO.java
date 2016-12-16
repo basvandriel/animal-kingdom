@@ -40,10 +40,7 @@ import bas.animalkingdom.zoo.Zoo;
 
 import java.io.InvalidClassException;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -279,11 +276,13 @@ public class MySQLAnimalDAO implements AnimalDao {
                 return;
             }
             PreparedStatement getAnimalPropertiesIdStatement = connection.prepareStatement(
-                    "SELECT" +
-                            " animal.`animal-properties-id`" +
-                            "" +
-                            "FROM `animal` AS animal");
+                    "SELECT animal.`animal-properties-id`\n" +
+                            "  FROM `animal` AS animal\n" +
+                            "\n" +
+                            "  WHERE animal.`UUID` = ?;");
+            getAnimalPropertiesIdStatement.setString(1, animal.getUuid().toString());
             ResultSet getAnimalPropertiesIdResult = getAnimalPropertiesIdStatement.executeQuery();
+
             if (!getAnimalPropertiesIdResult.next()) {
                 return;
             }
@@ -291,26 +290,22 @@ public class MySQLAnimalDAO implements AnimalDao {
 
             //Update normal properties
             PreparedStatement updateStandardVariablesStatement = connection.prepareStatement(
-                    "UPDATE `animal` AS animal " +
-                            "INNER JOIN `animal-properties` AS animalProperties" +
-                            "   ON animal.`animal-properties-id` = animalProperties.`id`" +
-                            "" +
-                            "SET animalProperties.`gender-id` = ?," +
-                            "    animalProperties.`bodyCovering` = ?," +
-                            "    animalProperties.`name` = ?," +
-                            "    animalProperties.`color` = ?," +
-                            "    animalProperties.`weight` = ?," +
-                            "    animalProperties.`maxNumberOfEggs` = ?" +
-                            "" +
-                            "WHERE animal.`UUID` = ?;"
+                    "UPDATE `animal` AS animal\n" +
+                            "  INNER JOIN `animal-properties` AS animalProperties\n" +
+                            "    ON animal.`animal-properties-id` = animalProperties.`id`\n" +
+                            "\n" +
+                            "  SET animalProperties.`gender-id` = ?,\n" +
+                            "      animalProperties.`bodyCovering` = ?,\n" +
+                            "      animalProperties.`name` = ?,\n" +
+                            "      animalProperties.`color` = ?, \n" +
+                            "      animalProperties.`weight` = ?, \n" +
+                            "      animalProperties.`maxNumberOfEggs` = ?\n" +
+                            "\n" +
+                            "  WHERE animal.`UUID` = ?;"
             );
 
-
-            //Set the UUID parameter
-            updateStandardVariablesStatement.setString(7, animal.getUuid().toString());
-
             //Set the animal gender (refactor if there are more genders)
-            updateStandardVariablesStatement.setString(1, animal.isFemale() ? "1" : "0");
+            updateStandardVariablesStatement.setInt(1, animal.isFemale() ? 2 : 1);
 
             //Set the animals body covering
             updateStandardVariablesStatement.setString(2, animal.getBodyCovering());
@@ -327,18 +322,25 @@ public class MySQLAnimalDAO implements AnimalDao {
             //Set the animals eggs
             updateStandardVariablesStatement.setInt(6, animal.getMaxNumberOfEggs());
 
+            //Set the UUID parameter
+            updateStandardVariablesStatement.setString(7, animal.getUuid().toString());
+
+            //Execute the update
+            updateStandardVariablesStatement.executeUpdate();
+
+            //If the animal is a human
             if (Human.class.isAssignableFrom(animal.getClass())) {
                 PreparedStatement updateHumanVariablesStatement = connection.prepareStatement(
-                        "UPDATE `human-animal-properties` AS humanAnimalProperties\n" +
+                        "UPDATE `human-animal-properties`\n" +
                                 "  SET\n" +
-                                "      humanAnimalProperties.`insertion` = ?,\n" +
-                                "      humanAnimalProperties.`lastName` = ?,\n" +
-                                "      humanAnimalProperties.`usingBirthControl` = ?,\n" +
-                                "      humanAnimalProperties.`partner_UUID` = ?,\n" +
-                                "      humanAnimalProperties.`extraStdChance` = ?,\n" +
-                                "      humanAnimalProperties.`extraCaughtCheatingChance` = ?\n" +
+                                "      `insertion` = ?,\n" +
+                                "      `lastName` = ?,\n" +
+                                "      `usingBirthControl` = ?,\n" +
+                                "      `partner_UUID` = ?,\n" +
+                                "      `extraStdChance` = ?,\n" +
+                                "      `extraCaughtCheatingChance` = ?\n" +
                                 "\n" +
-                                "  WHERE humanAnimalProperties.`id` = ?"
+                                "  WHERE `animal-properties-id` = ?;"
                 );
 
                 //Set the humans insertion
@@ -352,10 +354,10 @@ public class MySQLAnimalDAO implements AnimalDao {
                 updateHumanVariablesStatement.setByte(3, isUsingBirthControl);
 
                 //Set the humans partner
-                String partnerUUID = ((Human) animal).getPartner() == null ?
-                        "" :
-                        ((Human) animal).getPartner().getUuid().toString();
-                updateHumanVariablesStatement.setString(4, partnerUUID);
+                updateHumanVariablesStatement.setNull(4, Types.VARCHAR);
+                if (((Human) animal).getPartner() != null) {
+                    updateHumanVariablesStatement.setString(4, ((Human) animal).getPartner().getUuid().toString());
+                }
 
                 //Set the humans extra STD chance
                 updateHumanVariablesStatement.setInt(5, (int) ((Human) animal).getExtraStdChance());
@@ -366,54 +368,73 @@ public class MySQLAnimalDAO implements AnimalDao {
                 //Set the human animal properties id
                 updateHumanVariablesStatement.setInt(7, animalPropertiesId);
 
-                //Set the human stds
-                ArrayList<STD> humanSTDs = ((Human) animal).getSTDs();
+                updateHumanVariablesStatement.executeUpdate();
 
-                PreparedStatement deleteHumanSTDsStatement = connection.prepareStatement(
-                        "DELETE FROM `humanstds` AS humanSTDs\n" +
-                                "  WHERE `humanSTDs`.`human-animal-property-id` = ?;"
+                //Get human animal property id
+                PreparedStatement getHumanAnimalPropertyIDStatement = connection.prepareStatement(
+                        "SELECT humanAnimalProperties.`id`\n" +
+                                "\n" +
+                                "  FROM `human-animal-properties` AS humanAnimalProperties\n" +
+                                "\n" +
+                                "  WHERE humanAnimalProperties.`animal-properties-id` = ?\n" +
+                                "\n" +
+                                "  LIMIT 1;"
                 );
+                getHumanAnimalPropertyIDStatement.setInt(1, animalPropertiesId);
+                ResultSet getHumanAnimalPropertiesIdResult = getHumanAnimalPropertyIDStatement.executeQuery();
 
-                deleteHumanSTDsStatement.executeQuery();
+                if (getHumanAnimalPropertiesIdResult.next()) {
+                    int humanAnimalPropertyID = getHumanAnimalPropertiesIdResult.getInt(0);
+                    //Set the human stds
+                    ArrayList<STD> humanSTDs = ((Human) animal).getSTDs();
 
-                for (STD std : humanSTDs) {
-                    PreparedStatement getSTDidByNameStatement = connection.prepareStatement(
-                            "SELECT \n" +
-                                    "  std.`id`\n" +
-                                    "  \n" +
-                                    "  FROM `std` AS std   \n" +
-                                    "  \n" +
-                                    "  WHERE std.name = ?\n" +
-                                    "\n" +
-                                    "  LIMIT 1;"
+
+                    PreparedStatement deleteHumanSTDsStatement = connection.prepareStatement(
+                            "DELETE FROM `humanstds` AS humanSTDs\n" +
+                                    "  WHERE `humanSTDs`.`human-animal-property-id` = ?;"
                     );
-                    getSTDidByNameStatement.setString(1, std.getName());
-                    ResultSet getSTDidByName = getSTDidByNameStatement.executeQuery();
+                    deleteHumanSTDsStatement.setInt(1, humanAnimalPropertyID);
+                    deleteHumanSTDsStatement.executeUpdate();
 
-                    if(!getSTDidByName.next()) {
-                        PreparedStatement insertSTDStatement = connection.prepareStatement(
-                                "INSERT INTO `std` AS std\n" +
-                                        "(`id`, `name`)\n" +
+                    for (STD std : humanSTDs) {
+                        PreparedStatement getSTDidByNameStatement = connection.prepareStatement(
+                                "SELECT \n" +
+                                        "  std.`id`\n" +
+                                        "  \n" +
+                                        "  FROM `std` AS std   \n" +
+                                        "  \n" +
+                                        "  WHERE std.name = ?\n" +
                                         "\n" +
-                                        "VALUES (null, ?);"
+                                        "  LIMIT 1;"
                         );
-                        insertSTDStatement.setString(1, std.getName());
-                        insertSTDStatement.executeQuery();
+                        getSTDidByNameStatement.setString(1, std.getName());
+                        ResultSet getSTDidByName = getSTDidByNameStatement.executeQuery();
+
+                        if (!getSTDidByName.next()) {
+                            PreparedStatement insertSTDStatement = connection.prepareStatement(
+                                    "INSERT INTO `std`\n" +
+                                            "(`id`, `name`)\n" +
+                                            "\n" +
+                                            "VALUES (NULL, ?);"
+                            );
+                            insertSTDStatement.setString(1, std.getName());
+                            insertSTDStatement.executeQuery();
+                        }
+                        getSTDidByName = getSTDidByNameStatement.executeQuery();
+                        int stdId = getSTDidByName.getInt(1);
+
+                        PreparedStatement insertHumanSTDStatement = connection.prepareStatement(
+                                "INSERT INTO `humanstds`\n" +
+                                        "(`id`, `human-animal-property-id`, `std-id`)\n" +
+                                        "\n" +
+                                        "\n" +
+                                        "VALUES (NULL, ?, ?);"
+                        );
+                        insertHumanSTDStatement.setInt(1, animalPropertiesId);
+                        insertHumanSTDStatement.setInt(2, stdId);
+
+                        insertHumanSTDStatement.executeQuery();
                     }
-                    getSTDidByName = getSTDidByNameStatement.executeQuery();
-                    int stdId = getSTDidByName.getInt(1);
-
-                    PreparedStatement insertHumanSTDStatement = connection.prepareStatement(
-                            "INSERT INTO `humanstds`\n" +
-                                    "(`id`, `human-animal-property-id`, `std-id`)\n" +
-                                    "\n" +
-                                    "\n" +
-                                    "VALUES (NULL, ?, ?);"
-                    );
-                    insertHumanSTDStatement.setInt(1, animalPropertiesId);
-                    insertHumanSTDStatement.setInt(2, stdId);
-
-                    insertHumanSTDStatement.executeQuery();
                 }
 
             } else if (Elephant.class.isAssignableFrom(animal.getClass())) {

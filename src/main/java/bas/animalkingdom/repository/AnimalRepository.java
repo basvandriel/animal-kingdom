@@ -1,13 +1,6 @@
 package bas.animalkingdom.repository;
 
 import bas.animalkingdom.animal.Animal;
-import bas.animalkingdom.animal.gender.impl.Female;
-import bas.animalkingdom.animal.gender.impl.Male;
-import bas.animalkingdom.animal.impl.mammal.Human;
-import bas.animalkingdom.animal.impl.mammal.elephant.AfricanElephant;
-import bas.animalkingdom.animal.impl.mammal.elephant.AsianElephant;
-import bas.animalkingdom.animal.impl.mammal.mouse.Mouse;
-import bas.animalkingdom.animal.impl.mammal.mouse.WhiteMouse;
 import bas.animalkingdom.dao.animal.AnimalDao;
 import bas.animalkingdom.dao.animal.MySQLAnimalDAO;
 import org.springframework.stereotype.Repository;
@@ -28,9 +21,23 @@ public class AnimalRepository {
         Class.forName("com.mysql.jdbc.Driver");
 
         Connection connection =
-                DriverManager.getConnection("jdbc:mysql://localhost/animal-kingdom", "root", "password");
+                DriverManager.getConnection("jdbc:mysql://localhost/animal-kingdom", "root", "");
 
         AnimalDao animalDao = new MySQLAnimalDAO(connection);
         return animalDao.readAll();
+    }
+
+    public void updateAnimal(Animal animal) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        if (animal == null) {
+            return;
+        }
+        //Get the driver
+        Class.forName("com.mysql.jdbc.Driver");
+
+        Connection connection =
+                DriverManager.getConnection("jdbc:mysql://localhost/animal-kingdom", "root", "");
+
+        AnimalDao animalDao = new MySQLAnimalDAO(connection);
+        animalDao.update(animal);
     }
 }
