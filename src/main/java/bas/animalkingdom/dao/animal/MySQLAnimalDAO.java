@@ -456,7 +456,17 @@ public class MySQLAnimalDAO implements AnimalDao {
     }
 
     @Override
-    public Animal add() {
-        return null;
+    public void add(Animal animal) {
+        try {
+            if(animal == null || this.connection == null || this.connection.isClosed()) {
+                return;
+            }
+            PreparedStatement insertGenericAnimalProperties = connection.prepareStatement(
+                    ""
+            );
+
+        } catch (SQLException e) {
+
+        }
     }
 }

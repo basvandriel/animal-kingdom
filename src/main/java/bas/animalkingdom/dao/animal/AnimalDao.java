@@ -26,5 +26,5 @@ public interface AnimalDao {
      *
      * @return
      */
-    public abstract Animal add();
+    public abstract void add(Animal animal);
 }
