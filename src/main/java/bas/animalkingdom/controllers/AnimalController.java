@@ -235,7 +235,7 @@ public class AnimalController {
                                          @RequestParam(value = "weight") int weight,
                                          @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs)
 
-            throws ClassNotFoundException, IllegalAccessException, InstantiationException
+            throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException
 
     {
         ModelAndView modelAndView = new ModelAndView("redirect:/overview");
@@ -253,6 +253,8 @@ public class AnimalController {
         animal.setWeight(weight);
         animal.setMaxNumberOfEggs(maxNumberOfEggs);
 
+        AnimalRepository animalRepository = new AnimalRepository();
+        animalRepository.updateAnimal(animal);
         return modelAndView;
     }
 
@@ -267,7 +269,7 @@ public class AnimalController {
                                                  @RequestParam(value = "weight") int weight,
                                                  @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs,
                                                  @RequestParam(value = "earSize") int earSize
-    ) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    ) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
 
 
         ModelAndView modelAndView = new ModelAndView("redirect:/overview");
@@ -286,6 +288,9 @@ public class AnimalController {
         animal.setMaxNumberOfEggs(maxNumberOfEggs);
         animal.setEarSize(earSize);
 
+        AnimalRepository animalRepository = new AnimalRepository();
+        animalRepository.updateAnimal(animal);
+
         return modelAndView;
     }
 
@@ -302,7 +307,7 @@ public class AnimalController {
                                               @RequestParam(value = "weight") int weight,
                                               @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs,
                                               @RequestParam(value = "usingBirthControl") boolean usingBirthControl
-    ) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    ) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
 
         ModelAndView modelAndView = new ModelAndView("redirect:/overview");
 
@@ -322,6 +327,8 @@ public class AnimalController {
         animal.setMaxNumberOfEggs(maxNumberOfEggs);
         animal.setUsesBirthControl(usingBirthControl);
 
+        AnimalRepository animalRepository = new AnimalRepository();
+        animalRepository.updateAnimal(animal);
         return modelAndView;
     }
 
