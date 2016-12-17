@@ -24,6 +24,7 @@ import bas.animalkingdom.repository.AnimalRepository;
 import bas.animalkingdom.zoo.Zoo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -187,7 +188,7 @@ public class AnimalController {
     @RequestMapping(value = "/overview/delete", method = RequestMethod.POST)
     public
     @ResponseBody
-    boolean handleDeleteAnimal(HttpServletRequest httpServletRequest) throws IOException, SQLException, ClassNotFoundException {
+    boolean handleDeleteAnimal(HttpServletRequest httpServletRequest) throws IOException, SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException {
         ArrayList<Animal> animals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
         //Might delete more animals
 
@@ -198,6 +199,13 @@ public class AnimalController {
         }
         AnimalRepository animalRepository = new AnimalRepository();
         for (Animal animal : animals) {
+            if (Human.class.isAssignableFrom(animal.getClass()) && ((Human) animal).isMarried()) {
+                Human partner = ((Human) animal).getPartner();
+                ((Human) animal).divorce();
+
+                animalRepository.updateAnimal(partner);
+                animalRepository.updateAnimal(animal);
+            }
             zoo.deleteAnimal(animal);
             animalRepository.deleteAnimal(animal);
         }

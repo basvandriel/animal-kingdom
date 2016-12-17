@@ -43,10 +43,7 @@ import javax.xml.transform.Result;
 import java.io.InvalidClassException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  *
@@ -573,7 +570,94 @@ public class MySQLAnimalDAO implements AnimalDao {
             insertAnimalStatement.setInt(2, animalPropertiesID);
             insertAnimalStatement.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public void delete(Animal animal) {
+        try {
+            if (animal == null || this.connection == null || this.connection.isClosed()) {
+                return;
+            }
+
+            //Get the animal id
+            PreparedStatement getAnimalTypeIDStatement = connection.prepareStatement(
+                    "SELECT \n" +
+                            "  animal.`animal-properties-id` \n" +
+                            "\n" +
+                            "  FROM `animal` AS animal\n" +
+                            "  \n" +
+                            "  WHERE animal.`UUID` = ?\n" +
+                            "\n" +
+                            "  LIMIT 1;"
+            );
+
+            getAnimalTypeIDStatement.setString(1, animal.getUuid().toString());
+            ResultSet getAnimalTypeIDResult = getAnimalTypeIDStatement.executeQuery();
+            if (!getAnimalTypeIDResult.next()) {
+                return;
+            }
+            int animalPropertiesID = getAnimalTypeIDResult.getInt(1);
+
+            //Delete animal itself
+            PreparedStatement deleteAnimalStatement = connection.prepareStatement(
+                    "DELETE FROM `animal`\n" +
+                            "  WHERE `animal-properties-id` = ?;"
+            );
+            deleteAnimalStatement.setInt(1, animalPropertiesID);
+            deleteAnimalStatement.executeUpdate();
+
+            if (Human.class.isAssignableFrom(animal.getClass())) {
+                //Get the human animal properties id
+                PreparedStatement getHumanAnimalPropertiesIdStatement = connection.prepareStatement(
+                        "SELECT humanAnimalProperties.`id`\n" +
+                                "\n" +
+                                "  FROM `human-animal-properties` AS humanAnimalProperties\n" +
+                                "\n" +
+                                "  WHERE humanAnimalProperties.`animal-properties-id` = ?;"
+                );
+                getHumanAnimalPropertiesIdStatement.setInt(1, animalPropertiesID);
+                ResultSet getHumanAnimalPropertiesIdStatementResult = getHumanAnimalPropertiesIdStatement.executeQuery();
+
+                if (getHumanAnimalPropertiesIdStatementResult.next()) {
+                    int humanAnimalPropertiesID = getHumanAnimalPropertiesIdStatementResult.getInt(1);
+
+                    //Delete the human STDs
+                    PreparedStatement deleteHumanSTDsStatement = connection.prepareStatement(
+                            "DELETE FROM `humanstds`\n" +
+                                    "\n" +
+                                    "  WHERE `human-animal-property-id` = ?;"
+                    );
+                    deleteHumanSTDsStatement.setInt(1, humanAnimalPropertiesID);
+                    deleteHumanSTDsStatement.executeUpdate();
+                }
+
+                //Delete human animal properties
+                PreparedStatement deleteHumanAnimalPropertiesStatement = connection.prepareStatement(
+                        "DELETE FROM `human-animal-properties`\n" +
+                                "  WHERE `animal-properties-id` = ?;"
+                );
+                deleteHumanAnimalPropertiesStatement.setInt(1, animalPropertiesID);
+                deleteHumanAnimalPropertiesStatement.executeUpdate();
+            } else if (Elephant.class.isAssignableFrom(animal.getClass())) {
+                //Delete elephant animal properties
+                PreparedStatement deleteElephantAnimalProperties = connection.prepareStatement(
+                        "DELETE FROM `elephant-animal-properties`\n" +
+                                "  WHERE `animal-properties-id` = ?;"
+                );
+                deleteElephantAnimalProperties.setInt(1, animalPropertiesID);
+                deleteElephantAnimalProperties.executeUpdate();
+            }
+            //Delete generic animal properties
+            PreparedStatement deleteAnimalPropertiesStatement = connection.prepareStatement(
+                    "DELETE FROM `animal-properties`\n" +
+                            "  WHERE `animal-properties`.`id` = ?;"
+            );
+            deleteAnimalPropertiesStatement.setInt(1, animalPropertiesID);
+            deleteAnimalPropertiesStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
