@@ -21,7 +21,7 @@ public class AnimalRepository {
         Class.forName("com.mysql.jdbc.Driver");
 
         Connection connection =
-                DriverManager.getConnection("jdbc:mysql://localhost/animal-kingdom", "root", "");
+                DriverManager.getConnection("jdbc:mysql://localhost/animal-kingdom", "root", "password");
 
         AnimalDao animalDao = new MySQLAnimalDAO(connection);
         return animalDao.readAll();
@@ -35,9 +35,23 @@ public class AnimalRepository {
         Class.forName("com.mysql.jdbc.Driver");
 
         Connection connection =
-                DriverManager.getConnection("jdbc:mysql://localhost/animal-kingdom", "root", "");
+                DriverManager.getConnection("jdbc:mysql://localhost/animal-kingdom", "root", "password");
 
         AnimalDao animalDao = new MySQLAnimalDAO(connection);
         animalDao.update(animal);
+    }
+
+    public void addAnimal(Animal animal) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        if (animal == null) {
+            return;
+        }
+        //Get the driver
+        Class.forName("com.mysql.jdbc.Driver");
+
+        Connection connection =
+                DriverManager.getConnection("jdbc:mysql://localhost/animal-kingdom", "root", "password");
+
+        AnimalDao animalDao = new MySQLAnimalDAO(connection);
+        animalDao.add(animal);
     }
 }

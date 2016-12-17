@@ -37,7 +37,9 @@ import bas.animalkingdom.animal.impl.reptile.Crocodile;
 import bas.animalkingdom.animal.impl.reptile.Snake;
 import bas.animalkingdom.animal.impl.special.Platypus;
 import bas.animalkingdom.zoo.Zoo;
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLBoundOperation;
 
+import javax.xml.transform.Result;
 import java.io.InvalidClassException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
@@ -384,14 +386,14 @@ public class MySQLAnimalDAO implements AnimalDao {
                 ResultSet getHumanAnimalPropertiesIdResult = getHumanAnimalPropertyIDStatement.executeQuery();
 
                 if (getHumanAnimalPropertiesIdResult.next()) {
-                    int humanAnimalPropertyID = getHumanAnimalPropertiesIdResult.getInt(0);
+                    int humanAnimalPropertyID = getHumanAnimalPropertiesIdResult.getInt(1);
                     //Set the human stds
                     ArrayList<STD> humanSTDs = ((Human) animal).getSTDs();
 
 
                     PreparedStatement deleteHumanSTDsStatement = connection.prepareStatement(
-                            "DELETE FROM `humanstds` AS humanSTDs\n" +
-                                    "  WHERE `humanSTDs`.`human-animal-property-id` = ?;"
+                            "DELETE FROM `humanstds`\n" +
+                                    "  WHERE `human-animal-property-id` = ?;"
                     );
                     deleteHumanSTDsStatement.setInt(1, humanAnimalPropertyID);
                     deleteHumanSTDsStatement.executeUpdate();
@@ -458,13 +460,118 @@ public class MySQLAnimalDAO implements AnimalDao {
     @Override
     public void add(Animal animal) {
         try {
-            if(animal == null || this.connection == null || this.connection.isClosed()) {
+            if (animal == null || this.connection == null || this.connection.isClosed()) {
                 return;
             }
-            PreparedStatement insertGenericAnimalProperties = connection.prepareStatement(
-                    ""
+
+            //Get the animal type id
+            PreparedStatement getAnimalTypeIDStatement = connection.prepareStatement(
+                    "SELECT \n" +
+                            "  animalType.`id` \n" +
+                            "\n" +
+                            "  FROM `animal-type` AS animalType\n" +
+                            "  \n" +
+                            "  WHERE animalType.name = ?\n" +
+                            "\n" +
+                            "  LIMIT 1;"
             );
 
+            getAnimalTypeIDStatement.setString(1, animal.getClass().getSimpleName());
+            ResultSet getAnimalTypeIDResult = getAnimalTypeIDStatement.executeQuery();
+            if (!getAnimalTypeIDResult.next()) {
+                return;
+            }
+            int animalTypeID = getAnimalTypeIDResult.getInt(1);
+
+            //Insert the generic animal properties
+            PreparedStatement insertGenericAnimalPropertiesStatement = connection.prepareStatement(
+                    "INSERT INTO `animal-properties`\n" +
+                            "(`id`, `animal-type-id`, `gender-id`, `name`, `bodyCovering`, `color`,  `weight`, `maxNumberOfEggs`)\n" +
+                            "    \n" +
+                            "    VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);"
+            );
+
+            insertGenericAnimalPropertiesStatement.setInt(1, animalTypeID);
+
+            //Set the gender ID
+            insertGenericAnimalPropertiesStatement.setInt(2, animal.isFemale() ? 2 : 1);
+
+            //Set the animal name
+            insertGenericAnimalPropertiesStatement.setString(3, animal.getName());
+
+            //Set the animals body covering
+            insertGenericAnimalPropertiesStatement.setString(4, animal.getBodyCovering());
+
+            //Set the animals color
+            insertGenericAnimalPropertiesStatement.setString(5, animal.getColor());
+
+            //Set the animals weight
+            insertGenericAnimalPropertiesStatement.setInt(6, animal.getWeight());
+
+            //Set the animals max number of eggs
+            insertGenericAnimalPropertiesStatement.setInt(7, animal.getMaxNumberOfEggs());
+
+            //Execute the query
+            insertGenericAnimalPropertiesStatement.executeUpdate();
+
+            //Get the animal properties id
+            ResultSet insertGenericAnimalPropertiesStatementKeys = insertGenericAnimalPropertiesStatement.getGeneratedKeys();
+            if (!insertGenericAnimalPropertiesStatementKeys.next()) {
+                return;
+            }
+            int animalPropertiesID = insertGenericAnimalPropertiesStatementKeys.getInt(1);
+
+            //If the animal is a type of human
+            if (Human.class.isAssignableFrom(animal.getClass())) {
+                //Insert the standard human animal properties
+                PreparedStatement insertHumanPropertiesStatement = connection.prepareStatement(
+                        "INSERT INTO `human-animal-properties`\n" +
+                                "    (`id`, `animal-properties-id`, `insertion`, `lastName`, `usingBirthControl`, `partner_UUID`, `extraStdChance`, `extraCaughtCheatingChance`)\n" +
+                                "    \n" +
+                                "    VALUES(NULL, ?, ?, ?, ?, NULL, 0, 0);"
+                );
+                //Set the human animal properties id
+                insertHumanPropertiesStatement.setInt(1, animalPropertiesID);
+
+                //Set the human animal insertion
+                insertHumanPropertiesStatement.setString(2, ((Human) animal).getInsertion());
+
+                //Set the human animals last name
+                insertHumanPropertiesStatement.setString(3, ((Human) animal).getLastName());
+
+                //Set if the human animal is using birth control
+                insertHumanPropertiesStatement.setInt(4, ((Human) animal).isUsingBirthControl() ? 1 : 0);
+
+                //Execute the query
+                insertHumanPropertiesStatement.executeUpdate();
+            } else if (Elephant.class.isAssignableFrom(animal.getClass())) {
+                //Insert the elephant animal properties
+                PreparedStatement insertElephantropertiesStatement = connection.prepareStatement(
+                        "INSERT INTO `elephant-animal-properties`\n" +
+                                "    (`id`, `animal-properties-id`, `earsize`)\n" +
+                                "    \n" +
+                                "    VALUES(NULL, ?, ?);"
+                );
+                //Set the human animal properties id
+                insertElephantropertiesStatement.setInt(1, animalPropertiesID);
+
+                //Set the human animal insertion
+                insertElephantropertiesStatement.setInt(2, ((Elephant) animal).getEarSize());
+
+                //Execute the query
+                insertElephantropertiesStatement.executeUpdate();
+            }
+
+            //Insert the animal itself
+            PreparedStatement insertAnimalStatement = connection.prepareStatement(
+                    "INSERT INTO `animal`\n" +
+                            "  (UUID, `animal-properties-id`)\n" +
+                            "    \n" +
+                            "  VALUES (?, ?);"
+            );
+            insertAnimalStatement.setString(1, animal.getUuid().toString());
+            insertAnimalStatement.setInt(2, animalPropertiesID);
+            insertAnimalStatement.executeUpdate();
         } catch (SQLException e) {
 
         }

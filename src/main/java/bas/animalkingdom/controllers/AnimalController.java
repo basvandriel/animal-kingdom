@@ -115,7 +115,7 @@ public class AnimalController {
                                         @RequestParam(value = "weight") int weight,
                                         @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs)
 
-            throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
+            throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException, SQLException {
 
         ModelAndView modelAndView = new ModelAndView("redirect:/overview");
         Animal animal = new AnimalFactory(race, gender, bodyCovering, name, color, weight, maxNumberOfEggs).build();
@@ -123,6 +123,8 @@ public class AnimalController {
             modelAndView.setViewName("redirect:/../../index");
             return modelAndView;
         }
+        AnimalRepository animalRepository = new AnimalRepository();
+        animalRepository.addAnimal(animal);
         return modelAndView;
     }
 
@@ -141,7 +143,7 @@ public class AnimalController {
                                                 //Elephant properties
                                                 @RequestParam(value = "earSize") int earSize)
 
-            throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
+            throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException, SQLException {
 
 
         ModelAndView modelAndView = new ModelAndView("redirect:/overview");
@@ -150,6 +152,8 @@ public class AnimalController {
             modelAndView.setViewName("redirect:/../../index");
             return modelAndView;
         }
+        AnimalRepository animalRepository = new AnimalRepository();
+        animalRepository.addAnimal(animal);
         return modelAndView;
     }
 
@@ -167,7 +171,7 @@ public class AnimalController {
                                              @RequestParam(value = "maxNumberOfEggs") int maxNumberOfEggs,
                                              @RequestParam(value = "usingBirthControl") boolean usesBirthControl)
 
-            throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException {
+            throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvalidClassException, NoSuchMethodException, InvocationTargetException, SQLException {
 
         ModelAndView modelAndView = new ModelAndView("redirect:/overview");
         Animal animal = new AnimalFactory(race, gender, bodyCovering, name, color, weight, maxNumberOfEggs).build(insertion, lastName, usesBirthControl);
@@ -175,6 +179,8 @@ public class AnimalController {
             modelAndView.setViewName("redirect:/../../index");
             return modelAndView;
         }
+        AnimalRepository animalRepository = new AnimalRepository();
+        animalRepository.addAnimal(animal);
         return modelAndView;
     }
 
