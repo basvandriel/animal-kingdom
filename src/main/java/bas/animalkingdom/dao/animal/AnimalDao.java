@@ -9,22 +9,24 @@ public interface AnimalDao {
     /**
      * @return All the animals with all properties
      */
-    public abstract ArrayList<Animal> readAll() throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException;
+    public ArrayList<Animal> readAll() throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException;
 
     /**
      * @return The read animal with all it's properties
      */
-    public abstract Animal read(String uuid);
+    public Animal read(String uuid);
 
     /**
      * @return Edits a animal
      */
-    public abstract void update(Animal animals);
+    public void update(Animal animals);
 
     /**
      * Adds a animal
      *
      * @return
      */
-    public abstract void add(Animal animal);
+    public void add(Animal animal);
+
+    public void delete(Animal animal);
 }

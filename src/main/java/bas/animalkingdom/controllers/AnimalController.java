@@ -187,7 +187,7 @@ public class AnimalController {
     @RequestMapping(value = "/overview/delete", method = RequestMethod.POST)
     public
     @ResponseBody
-    boolean handleDeleteAnimal(HttpServletRequest httpServletRequest) throws IOException {
+    boolean handleDeleteAnimal(HttpServletRequest httpServletRequest) throws IOException, SQLException, ClassNotFoundException {
         ArrayList<Animal> animals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
         //Might delete more animals
 
@@ -196,8 +196,10 @@ public class AnimalController {
         if (animals == null || animals.size() <= 0) {
             return false;
         }
+        AnimalRepository animalRepository = new AnimalRepository();
         for (Animal animal : animals) {
             zoo.deleteAnimal(animal);
+            animalRepository.deleteAnimal(animal);
         }
         return true;
     }

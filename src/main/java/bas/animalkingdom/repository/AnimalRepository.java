@@ -54,4 +54,19 @@ public class AnimalRepository {
         AnimalDao animalDao = new MySQLAnimalDAO(connection);
         animalDao.add(animal);
     }
+
+    public void deleteAnimal(Animal animal) throws ClassNotFoundException, SQLException {
+
+        if (animal == null) {
+            return;
+        }
+        //Get the driver
+        Class.forName("com.mysql.jdbc.Driver");
+
+        Connection connection =
+                DriverManager.getConnection("jdbc:mysql://localhost/animal-kingdom", "root", "password");
+
+        AnimalDao animalDao = new MySQLAnimalDAO(connection);
+        animalDao.delete(animal);
+    }
 }
