@@ -420,7 +420,7 @@ public class MySQLAnimalDAO implements AnimalDao {
                                             "VALUES (NULL, ?);"
                             );
                             insertSTDStatement.setString(1, std.getName());
-                            insertSTDStatement.executeQuery();
+                            insertSTDStatement.executeUpdate();
                         }
                         getSTDidByName = getSTDidByNameStatement.executeQuery();
                         int stdId = getSTDidByName.getInt(1);
@@ -435,7 +435,7 @@ public class MySQLAnimalDAO implements AnimalDao {
                         insertHumanSTDStatement.setInt(1, animalPropertiesId);
                         insertHumanSTDStatement.setInt(2, stdId);
 
-                        insertHumanSTDStatement.executeQuery();
+                        insertHumanSTDStatement.executeUpdate();
                     }
                 }
 
@@ -447,7 +447,7 @@ public class MySQLAnimalDAO implements AnimalDao {
                                 "\n" +
                                 "  WHERE elephantAnimalProperties.`animal-properties-id` = ?;"
                 );
-                updateElephantVariablesStatement.executeQuery();
+                updateElephantVariablesStatement.executeUpdate();
             }
             //TODO Set the animal eggs
 

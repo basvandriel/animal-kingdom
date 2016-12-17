@@ -474,7 +474,7 @@ public class AnimalController {
     @RequestMapping(value = "/overview/giveBirth", method = RequestMethod.POST)
     public
     @ResponseBody
-    boolean giveBirth(HttpServletRequest httpServletRequest) throws IOException, IllegalAccessException, InstantiationException, InvocationTargetException {
+    boolean giveBirth(HttpServletRequest httpServletRequest) throws IOException, IllegalAccessException, InstantiationException, InvocationTargetException, SQLException, ClassNotFoundException {
         ArrayList<Animal> nonHumanAnimals = this.getAnimalsByUUIDs(this.parseHumanUUIDs(httpServletRequest));
         if (nonHumanAnimals == null) {
             return false;
@@ -485,8 +485,9 @@ public class AnimalController {
             return false;
         }
 
+        AnimalRepository animalRepository = new AnimalRepository();
         for (Egg egg : eggs) {
-            //this.animalService.addAnimal(egg.hatch());
+            animalRepository.addAnimal(egg.hatch());
         }
         return true;
     }
@@ -537,8 +538,9 @@ public class AnimalController {
         if (babies == null || babies.size() <= 0) {
             return false;
         }
+
         for (IMammal mammal : babies) {
-            // this.animalService.addAnimal((Animal) mammal);
+            animalRepository.addAnimal((Animal) mammal);
         }
         return true;
     }
