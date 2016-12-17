@@ -57,6 +57,8 @@ public class Female extends Gender {
         if (this.isPregnant()) {
             System.out.println("Cant ovuluate because pregnant");
             return;
+        } else if (this.getGenderOwner() == null) {
+            return;
         }
         int maxNumbersOfEgs = this.getGenderOwner().getMaxNumberOfEggs();
 
