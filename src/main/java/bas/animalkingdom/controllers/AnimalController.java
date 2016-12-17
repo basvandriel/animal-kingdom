@@ -199,15 +199,18 @@ public class AnimalController {
         }
         AnimalRepository animalRepository = new AnimalRepository();
         for (Animal animal : animals) {
-            if (Human.class.isAssignableFrom(animal.getClass()) && ((Human) animal).isMarried()) {
-                Human partner = ((Human) animal).getPartner();
-                ((Human) animal).divorce();
+            Animal toBeDeletedAnimal = animal;
+            Animal possibleToBeDeletedPartner = null;
 
-                animalRepository.updateAnimal(partner);
-                animalRepository.updateAnimal(animal);
+            if (Human.class.isAssignableFrom(toBeDeletedAnimal.getClass()) && ((Human) toBeDeletedAnimal).isMarried()) {
+                possibleToBeDeletedPartner = ((Human) toBeDeletedAnimal).getPartner();
             }
-            zoo.deleteAnimal(animal);
-            animalRepository.deleteAnimal(animal);
+            zoo.deleteAnimal(toBeDeletedAnimal);
+
+            animalRepository.updateAnimal(possibleToBeDeletedPartner);
+            animalRepository.updateAnimal(toBeDeletedAnimal);
+
+            animalRepository.deleteAnimal(toBeDeletedAnimal);
         }
         return true;
     }
