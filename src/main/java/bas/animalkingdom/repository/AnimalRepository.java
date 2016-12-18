@@ -56,7 +56,6 @@ public class AnimalRepository {
     }
 
     public void deleteAnimal(Animal animal) throws ClassNotFoundException, SQLException {
-
         if (animal == null) {
             return;
         }
