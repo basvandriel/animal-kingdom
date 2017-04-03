@@ -1,2 +1,2 @@
 # Animal Kingdom
-A project for learning the OOP fundamentals of the Java programming language.
+A create, read, update and delete application build in Java for learning more about object-oriented programming. Edit
